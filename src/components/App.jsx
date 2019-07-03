@@ -1,5 +1,6 @@
-import React from 'react';
+import React, {component} from 'react';
 import { Link } from 'react-router-dom';
+import './App.css';
 
 export default class AppWrapper extends React.Component {
   render() {

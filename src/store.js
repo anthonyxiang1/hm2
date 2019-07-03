@@ -31,7 +31,9 @@ const store = createStore(
   middleware,
 );
 
+
+
 // initialize app state
-store.dispatch(fetchItems(config.endpoint + 'items'));
+//store.dispatch(fetchItems(config.endpoint + 'items'));
 
 export { store, history };

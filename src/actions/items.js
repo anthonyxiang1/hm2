@@ -24,12 +24,21 @@ export function fetchItems(query) {
   return function(dispatch) {
     dispatch(requestItems(query))
     dispatch(incrementSearches())
-    return fetch(query)
+    return fetch(query,{
+      method: 'POST',
+      headers: {
+            'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({"data":"hello"})
+    })
       .then(response => response.json()
-        .then(json => ({
+        .then(json => console.log(json)
+          /* renders an action with status as defined above
+          ({
           status: response.status,
           json
-        })))
+          })*/
+        ))
       .then(({ status, json }) => {
         if (status >= 400) dispatch(itemRequestFailed())
         else dispatch(receiveItems(json))

@@ -1,8 +1,9 @@
+// configure url for flask api here
 let config = {
   api: {
     protocol: 'http',
     host: 'localhost',
-    port: 7082,
+    port: 5000,
     prefix: 'api'
   },
 };
