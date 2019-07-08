@@ -1,9 +1,9 @@
 import datetime
 from flask import Blueprint
 from flask import render_template, url_for, request, jsonify, flash, redirect
-from flaskblog import app, db, socketio
+from module import app, db, socketio
 from flask_login import current_user
-from flaskblog.models import User, Conversation, Message
+from module.models import User, Conversation, Message
 from bson.json_util import dumps
 from flask_socketio import send, emit, Namespace, join_room, leave_room
 

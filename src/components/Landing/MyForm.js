@@ -18,14 +18,14 @@ class MyForm extends React.Component {
   render() {
     const { email, password } = this.state;
     return (
-      <Form inline onSubmit={this.handleSubmit.bind(this)}>
+      <Form inline onSubmit={this.handleLoginSubmit.bind(this)}>
         <Form.Group>
             <FormControl
             name="email"
             type="text"
             placeholder="Email"
             value={email}
-            onChange={this.handleChange}
+            onChange={this.handleLoginChange}
             />
         </Form.Group>
         <Form.Group>
@@ -34,7 +34,7 @@ class MyForm extends React.Component {
             type="password"
             placeholder="Password"
             value={password}
-            onChange={this.handleChange}
+            onChange={this.handleLoginChange}
             />
         </Form.Group>
         <Button type="submit">Login</Button>
@@ -42,25 +42,19 @@ class MyForm extends React.Component {
     );
   }
 
-  handleChange(event){
+  handleLoginChange(event){
     this.setState({
       [event.target.name]: event.target.value
     });
   };
 
-
-  handleSubmit(event){
+  handleLoginSubmit(event){
     event.preventDefault();
-
-    console.log(config.endpoint + 'items');
-    store.dispatch(fetchItems(config.endpoint + 'items'));
-
-    console.log("Submitting");
-    console.log(this.state);
-    if (this.state.email === 'q@q') {
-      this.props.history.push("/home");
-    }
+    var url = config.endpoint + 'login';
+    var data = JSON.stringify({"email":"abc@gmail.com", "password": "qwer"});
+    store.dispatch(fetchItems(url, data, "POST"));
   };
+
 }
 
 export default withRouter(MyForm);

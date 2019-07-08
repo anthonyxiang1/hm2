@@ -2,6 +2,11 @@ import React from "react";
 import {Form, Button, Col, FormControl} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
+import { store } from '../../store.js'
+import config from '../../config/client';
+import { fetchItems } from '../../actions/items';
+
+
 class SignupForm extends React.Component {
     constructor(props) {
       super(props);
@@ -85,12 +90,14 @@ class SignupForm extends React.Component {
        // if (event.target.value.length === 3)
        //   alert('hi');
       };
-    
-      handleSubmit(event){
-        event.preventDefault();
-        console.log("Submitting");
-        console.log(this.state);
-        this.props.history.push("/register");
-      };
+  
+    handleSubmit(event){
+      event.preventDefault();
+      var url = config.endpoint + 'register';
+      var data = JSON.stringify({"name": "kenny GOng", "email":"abc@gmail.com", "password": "qwer"});
+      store.dispatch(fetchItems(url, data, "POST"));
+    };
+
+
 }
 export default withRouter(SignupForm)

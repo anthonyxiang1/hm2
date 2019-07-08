@@ -35,5 +35,8 @@ const store = createStore(
 
 // initialize app state
 //store.dispatch(fetchItems(config.endpoint + 'items'));
+//var url = config.endpoint+'account';
+//store.dispatch(fetchItems(url, null,  "GET"));
+
 
 export { store, history };

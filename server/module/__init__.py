@@ -26,9 +26,9 @@ mail = Mail(app)
 socketio = SocketIO(app)
 
 # import routes
-from server.users.routes import users
-from server.chats.routes import chats
-from server.hackathons.routes import hackathons
+from module.users.routes import users
+from module.chats.routes import chats
+from module.hackathons.routes import hackathons
 app.register_blueprint(users)
 app.register_blueprint(chats)
 app.register_blueprint(hackathons)

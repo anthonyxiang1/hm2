@@ -1,7 +1,7 @@
 from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session
-from flaskblog import app
-from flaskblog.models import User, Hackathon
+from module import app
+from module.models import User, Hackathon
 from flask_login import current_user
 
 hackathons = Blueprint('hackathons', __name__)

@@ -2,18 +2,21 @@ import datetime
 import json
 from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session
-from server import bcrypt, db, mail
-from server.models import User
+from module import bcrypt, db, mail
+from module.models import User
 from flask_login import login_user, current_user, logout_user, login_required
-from flaskblog.server.utils import save_picture, send_reset_email
+from module.users.utils import save_picture, send_reset_email
+
+import logging, coloredlogs
+coloredlogs.install()
 
 users = Blueprint('users', __name__)
 
-@users.route("/login", methods=['POST'])
+@users.route("/api/login", methods=['POST'])
 def login():
     if current_user.is_authenticated:
         return None
-    if request.method == 'POST':
+    if request.method == "POST":
         data = json.loads(request.data)
         email = data['email']
         pw = data['password']
@@ -21,37 +24,38 @@ def login():
         for query in User.objects(email=email): 
             user = query
         if user:
-            if bcrypt.check_password_hash(user.password, password):
-                login_user(user, remember=form.remember.data)
-                next_page = request.args.get("next")    # gets next param in url link
-                return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-            else:
-                return json.dumps({'success':False}), 400, {'ContentType':'application/json'}     
+            login_user(user, remember=True)
+            print(current_user)
+            return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+            # todo: handle error
+            # if bcrypt.check_password_hash(user.password, pw):
+            #     login_user(user, remember=True)
+            #     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+            # else:
+            #     return json.dumps({'success':False}), 400, {'ContentType':'application/json'}     
         else:
             return json.dumps({'success':False}), 400, {'ContentType':'application/json'} 
-    
     return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
 
-@users.route("/register", methods=['GET', 'POST'])
+@users.route("/api/register", methods=['GET', 'POST'])
 def register():
-    if current_user.is_authenticated:
-        return None
+    #if current_user.is_authenticated:
+    #    return None
     if request.method == 'POST':
         data = json.loads(request.data)
         email = data['email']
-        user = None
-        for query in User.objects(email=email): user = query
+        # user = None
+        for query in User.objects(email=email): 
+            user = query
+        #print(user)
         if user:
             # todo: email exists
             return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
         hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-        user = User(username=data['username'], email=data['email'],password=hashed_password).save()
+        user = User(username=str(data['name']), email=str(data['email']),password=str(hashed_password)).save()
+        login_user(user, remember=False)
         return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-    
     return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
-
-
-
 
 @users.route("/logout")
 def logout():
@@ -60,14 +64,23 @@ def logout():
 
 
 
-@users.route("/account", methods=['GET','POST'])
-@login_required
+
+@users.route("/api/account", methods=['GET','POST'])
+#@login_required
 def account():
-    if request.method == 'GET':
-        # parse current user to json
-        return current_user
+    print('in account')
+    logging.info('in account')
+    # if request.method == 'GET':
+    #     # parse current user to json
+    #     print('in account')
+    #     print(current_user)
+    #     return json.dumps({'data': jsonify(current_user)}), 200, {'ContentType':'application/json'} 
+        # if current_user.is_authenticated:
+        #     return current_user
+        # else:
+        #     return 
     if request.method == 'POST':
-        pass
+        print("yayyyyyyyyy===========")
     # if form.validate_on_submit():
     #     #check if there's picture data
     #     if form.picture.data:

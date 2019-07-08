@@ -1,10 +1,8 @@
 import datetime
 from mongoengine import *
-from bson.objectid import ObjectId
-from flaskblog import login_manager, app
+from module import login_manager, app
 from flask_login import UserMixin
 from bson.json_util import loads, dumps
-from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from mongoengine import StringField, EmailField, DateTimeField, ListField, ObjectIdField, URLField
 
 @login_manager.user_loader
@@ -34,7 +32,6 @@ class User(Document, UserMixin):
         except:
             return None
         for query in User.objects(id=user_id):
-            print("models.py 35", query)
             return query
 
     def __str__(self):
