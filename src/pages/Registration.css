@@ -1,0 +1,13 @@
+body {
+    text-align: center;
+    background-color: white;
+  }
+
+.box {
+    background-color: white;
+    flex: 0 0 33.33333%;
+    max-width: 33.33333%;
+    position: absolute;
+    top: 30%;
+    left: 40%;
+}
