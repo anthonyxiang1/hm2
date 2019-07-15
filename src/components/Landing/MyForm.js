@@ -5,6 +5,8 @@ import { withRouter } from 'react-router-dom';
 import { store } from '../../store.js'
 import config from '../../config/client';
 import { fetchItems } from '../../actions/items';
+import decode from 'jwt-decode';
+import axios from 'axios';
 
 class MyForm extends React.Component {
   constructor(props) {
@@ -42,6 +44,10 @@ class MyForm extends React.Component {
     );
   }
 
+  token(){
+    console.log(localStorage.getItem('auth_token'));
+  };
+
   handleLoginChange(event){
     this.setState({
       [event.target.name]: event.target.value
@@ -50,9 +56,20 @@ class MyForm extends React.Component {
 
   handleLoginSubmit(event){
     event.preventDefault();
-    var url = config.endpoint + 'login';
-    var data = JSON.stringify({"email":"abc@gmail.com", "password": "qwer"});
-    store.dispatch(fetchItems(url, data, "POST"));
+    axios.post(`http://127.0.0.1:5000/auth/login`, 
+      {
+        "email":"test@test.com",
+        "password":"test"
+      }).then(res => {
+        console.log(res);
+        console.log(res.data);
+        console.log(res.data['auth_token']);
+        localStorage.setItem('auth_token', res.data['auth_token']);
+      })
+    
+    // var url = config.endpoint + 'login';
+    // var data = JSON.stringify({"email":"abc@gmail.com", "password": "qwer"});
+    // store.dispatch(fetchItems(url, data, "POST"));
   };
 
 }

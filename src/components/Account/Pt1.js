@@ -5,24 +5,21 @@ import { withRouter } from 'react-router-dom';
 import { store } from '../../store.js'
 import config from '../../config/client';
 import { fetchItems } from '../../actions/items';
+import decode from 'jwt-decode';
+import axios from 'axios';
 
 class Pt1 extends React.Component {
   componentDidMount() {
-    var url='http://localhost:5000/api/account';
-    fetch(url, {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        firstParam: 'yourValue',
-        secondParam: 'yourOtherValue',
-      }),
-    });
-     /*ApiCall().then((data) => {
-         this.setState({data, loading: false})
-     })*/
+    if(localStorage.auth_token){
+      var config = {
+        headers: {'Authorization': 'Bearer ' + localStorage.auth_token.toString()}
+      };
+      axios.get(`http://127.0.0.1:5000/auth/account`, config)
+        .then(res => {
+          console.log(res);
+          console.log(res.data);
+        })
+    }
   }
   render() { 
     return (
