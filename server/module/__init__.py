@@ -1,4 +1,5 @@
-'''server/app.py - main api app declaration'''
+import os
+
 from flask import Flask
 app = Flask(__name__, static_folder='../build')
 from flask_cors import CORS
@@ -7,11 +8,15 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from flask_mail import Mail
 from flask_socketio import SocketIO
-from .config import Config
+#from .config import Config
 
-'''Main wrapper for app creation'''
-app.config['SECRET_KEY'] = '5791628bb0b13ce0c676dfde280ba245'
 CORS(app)
+app_settings = os.getenv(
+	'APP_SETTINGS',
+	'module.config.DevelopmentConfig'
+)
+app.config.from_object(app_settings)
+
 connect(db='testflask', 
     username='jenny_xu',
     password='qwerty123',
@@ -19,7 +24,8 @@ connect(db='testflask',
 
 db = get_db()
 bcrypt = Bcrypt(app)
-login_manager = LoginManager(app)
+login_manager = LoginManager()
+login_manager.init_app(app)
 login_manager.login_view = 'users.login'		# tells manager where login route is located after @login_required is invoked
 login_manager.login_message_category = 'info'	# sets categegory for login message
 mail = Mail(app)

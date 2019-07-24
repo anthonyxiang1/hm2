@@ -1,19 +1,23 @@
 import React from "react";
 import {Form, Button, FormControl} from 'react-bootstrap';
-import { withRouter } from 'react-router-dom';
-import fetch from 'isomorphic-fetch';
+import { withRouter, Redirect } from 'react-router-dom';
+
 import { store } from '../../store.js'
 import config from '../../config/client';
 import { fetchItems } from '../../actions/items';
+import decode from 'jwt-decode';
+import axios from 'axios';
+
 
 class MyForm extends React.Component {
   constructor(props) {
     super(props);
     this.handleLoginChange = this.handleLoginChange.bind(this);
+    this.handleLoginSubmit = this.handleLoginSubmit.bind(this);
     this.state = {
       email: "",
       password: "",
-      errMsg: "errMsg"
+      errMsg: "Email or password is incorrect."
     };
   }
 
@@ -41,8 +45,9 @@ class MyForm extends React.Component {
             value={password}
             onChange={this.handleLoginChange}
             />
+            <Button type="submit">Login</Button>
         </Form.Group>
-        <Button type="submit">Login</Button>
+        
       </Form>
     );
   }
@@ -53,37 +58,30 @@ class MyForm extends React.Component {
     });
   };
 
+  token(){
+    console.log(localStorage.getItem('auth_token'));
+  };
+
   handleLoginSubmit(event){
     event.preventDefault();
-    var url = config.endpoint + 'login';
-    var data = JSON.stringify({"email": this.state.email, "password": this.state.password});
-  //  store.dispatch(fetchItems(url, data, "POST"));
-    //     fetch(url,data,"POST").then(function(response) {
-    //     if (response.status >= 400) {
-    //         throw new Error("Bad response from server");
-    //     }
-    //     console.log("success");
-    // })
-    console.log(url);
-    fetch(url, {
-      method: 'POST',
-      headers: {
-          // Check what headers the API needs. A couple of usuals right below
-          'Accept': 'application/json',
-          'Content-Type': 'application/json'
-      },
-      data: JSON.stringify({"email": this.state.email, "password": this.state.password})
-  }).then(function (response) {
-      if (response.status != 200) {
-          console.log("qwerqwer")
-      }
-      return response.json();
-  }).then(function (json) {
-    console.log("then2")
-  }).catch(function(err){
-      console.log(err);
-  });
+    axios.post(`http://127.0.0.1:5000/auth/login`, 
+      {
+        "email":"test@test.com",
+        "password":"test"
+      }).then(res => {
+        console.log(res);
+        console.log(res.data);
+        console.log(res.data['auth_token']);
+        localStorage.setItem('auth_token', res.data['auth_token']);
+        
+      }).then(res => {this.props.history.push("/home");})
+      
+    
+    // var url = config.endpoint + 'login';
+    // var data = JSON.stringify({"email":"abc@gmail.com", "password": "qwer"});
+    // store.dispatch(fetchItems(url, data, "POST"));
   };
+
 
 }
 

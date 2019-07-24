@@ -1,14 +1,16 @@
+import jwt
 import datetime
 from mongoengine import *
-from module import login_manager, app
+from module import login_manager, app, bcrypt
 from flask_login import UserMixin
 from bson.json_util import loads, dumps
 from mongoengine import StringField, EmailField, DateTimeField, ListField, ObjectIdField, URLField
 
-@login_manager.user_loader
-def load_user(user_id):
-    for query in User.objects(id=user_id): 
-        return query
+# @login_manager.user_loader
+# def load_user(user_id):
+#     for query in User.objects(id=user_id):
+#         print('models.py 11', query, user_id) 
+#         return query
 
 
 class User(Document, UserMixin):
@@ -17,6 +19,60 @@ class User(Document, UserMixin):
     password = StringField(max_length=70)
     image_file = StringField(default="default.jpg")
     preferences = ListField(default=None)
+
+    # def __init__(self, email, password, username):
+    #     self.password = bcrypt.generate_password_hash(password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
+    #     self.email = email
+    #     self.username = username
+    #     # self.registered_on = datetime.datetime.now()
+
+    def encode_auth_token(self, user_id):
+        """
+        Validates the auth token
+        :param auth_token:
+        :return: integer|string <- auth token that client stores & sends it along with all subsequent requests to API
+        given a user id, this method creates and returns a token from the payload and the secret key set in the config.py file. 
+        The payload is where we add metadata about the token and information about the user. 
+        """
+        try:
+            payload = {
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7, seconds=0),  # expiration time of token
+                'iat': datetime.datetime.utcnow(),                                          # time the token is generated
+                'sub': user_id                                                              # subject of the token (user whom it identifies)
+            }
+            return jwt.encode(
+                payload,
+                app.config.get('SECRET_KEY'),
+                algorithm='HS256'
+            )
+        except Exception as e:
+            return e
+
+    @staticmethod
+    def decode_auth_token(auth_token):
+        """
+        Decodes the auth token
+        :param auth_token:
+        :return: integer|string
+        We need to decode the auth token with every API request and verify its signature to be sure of the user’s authenticity. 
+        To verify the auth_token, we used the same SECRET_KEY used to encode a token.
+        If the auth_token is valid, we get the user id from the sub index of the payload.
+        If invalid, there could be two exceptions:
+            1. Expired Signature: When the token is used after it’s expired, it throws a ExpiredSignatureError exception. This means the time specified in the payload’s exp field has expired.
+            2. Invalid Token: When the token supplied is not correct or malformed, then an InvalidTokenError exception is raised.
+        """
+        try:
+            payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
+            return payload['sub']   # subject of the token
+        except jwt.ExpiredSignatureError as err:
+            err.message='Signature expired. Please log in again.'
+            raise
+            # return 'Signature expired. Please log in again.'
+        except jwt.InvalidTokenError as err:
+            err.message='Invalid token. Please log in again.'
+            raise
+            # return 'Invalid token. Please log in again.'
+
 
     def get_reset_token(self, expires_sec=1800):
         #s = Serializer(app.config['SECRET_KEY'], expires_sec)

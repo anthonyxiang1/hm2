@@ -31,12 +31,12 @@ class Header extends React.Component {
                 <Nav.Link href="/chat">
                   <img
                   alt=""
-                  src={require("./Landing/assets/favicon.png")}
-                  width="30"
+                  src={require("./Landing/assets/chatImage.png")}
+                  width="40"
                   height="30"
                   className="d-inline-block align-top"
                 />
-                chatImage
+                Messages
                   </Nav.Link>
               </Navbar.Collapse>
             </Navbar>
