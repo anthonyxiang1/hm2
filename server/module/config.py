@@ -1,6 +1,10 @@
 import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+database_name = 'testflask'
+database_username="jenny_xu"
+database_password="qwerty123"
+database_host='mongodb://hackersmatcher:HackersMatcherInc@cluster0-shard-00-00-n7gco.mongodb.net:27017,cluster0-shard-00-01-n7gco.mongodb.net:27017,cluster0-shard-00-02-n7gco.mongodb.net:27017/testflask?ssl=true&replicaSet=Cluster0-shard-0&authSource=admin&retryWrites=true'
 
 
 class BaseConfig:

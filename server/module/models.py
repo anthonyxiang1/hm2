@@ -36,7 +36,7 @@ class User(Document, UserMixin):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=7, seconds=0),  # expiration time of token
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),  # expiration time of token
                 'iat': datetime.datetime.utcnow(),                                          # time the token is generated
                 'sub': user_id                                                              # subject of the token (user whom it identifies)
             }
@@ -90,11 +90,28 @@ class User(Document, UserMixin):
         for query in User.objects(id=user_id):
             return query
 
+    def get_minified_user(self):
+        user = {
+            'username': self.username,
+            'email' : self.email
+        }
+
     def __str__(self):
         return f"User('{self.username}','{self.email}','{self.password}')"
 
+class BlacklistToken(Document):
+    token = StringField(unique=True, nullable=False) 
+    blacklisted_on = DateTimeField(default=datetime.datetime.now())
+
+    def __init__(self, token):
+        self.token = token
+        self.blacklisted_on = datetime.datetime.now()
+
+    def __repr__(self):
+        return '<id: token: {}'.format(self.token)
+
 class Hackathon(Document):
-    name = StringField(required=True, max_length=60)
+    name = StringField(required=True, max_length=60, unique=True)
     start_date = DateTimeField(required=True)
     end_date = DateTimeField(required=True)
     state = StringField(required=True)
@@ -105,6 +122,10 @@ class Hackathon(Document):
     logo = StringField()
     school = StringField()
     hackers = ListField()
+
+    def __str__(self):
+        return f"Hackathon('{self.name}','{self.start_date}')"
+
 '''
     # todo: get hackathon season based on start_date: f2017
     def get_season(self):
@@ -118,6 +139,10 @@ class Hackathon(Document):
         season, year = get_season(self)
         return self.name+season+year
 '''
+    
+
+
+
 class Conversation(Document):
     participants = ListField(StringField())
     last_active_date = DateTimeField(default=datetime.datetime.now())

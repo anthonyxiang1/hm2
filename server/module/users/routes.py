@@ -1,6 +1,6 @@
 import datetime
 import json
-from module.models import User
+from module.models import User, BlacklistToken
 from module import bcrypt, db, mail, app # todo: remove app on production
 from module.users.utils import save_picture, send_reset_email
 from flask import render_template, flash, request, session, Blueprint, redirect, make_response, jsonify
@@ -24,7 +24,7 @@ def testconnection():
 @users.route("/auth/login", methods=['POST'])
 def login():
 	post_data = json.loads(request.data)
-	app.logger.info(post_data['email'])
+	# app.logger.info(post_data['email']) <- this is how to log well in flask
 	try:
 		user = None
 		for query in User.objects(email=post_data['email']): user = query
@@ -44,43 +44,26 @@ def login():
 			}
 			return make_response(jsonify(responseObject)), 404
 	except Exception as e:
-		app.logger.error(e)
+		# app.logger.error(e)
 		responseObject = {
 			'status': 'fail',
 			'message': 'Try again'
 		}
 		return make_response(jsonify(responseObject)), 500
-	# if current_user.is_authenticated:
-	#     return None
-	# if request.method == "POST":
-	#     data = json.loads(request.data)
-	#     email = data['email']
-	#     pw = data['password']
-	#     user = None
-	#     for query in User.objects(email=email): 
-	#         user = query
-	#     if user:
-	#         login_user(user, remember=True)
-	#         print(current_user)
-	#         print(current_user.is_authenticated)
-	#         return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-	#         # todo: handle error
-	#         # if bcrypt.check_password_hash(user.password, pw):
-	#         #     login_user(user, remember=True)
-	#         #     return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-	#         # else:
-	#         #     return json.dumps({'success':False}), 400, {'ContentType':'application/json'}     
-	#     else:
-	#         return json.dumps({'success':False}), 400, {'ContentType':'application/json'} 
-	# return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
+
+'''
+todo: do this function that saves profile pic to gcloud
+'''
+def save_profile_pic():
+	pass
+
 
 @users.route("/auth/signup", methods=['POST'])
 def signup():
 	if request.method == 'POST':
 		post_data = json.loads(request.data)
 		user = None
-		for query in User.objects(email=post_data['email']): 
-			user = query
+		for query in User.objects(email=post_data['email']): user = query
 		if not user:
 			try:
 				hashed_password = bcrypt.generate_password_hash(post_data['password']).decode('utf-8')
@@ -100,7 +83,7 @@ def signup():
 				}
 				return make_response(jsonify(responseObject)), 201
 			except Exception as e:
-				app.logger.error(e)
+				# app.logger.error(e)
 				responseObject = {
 					'status': 'fail',
 					'message': 'Some error occurred. Please try again.'
@@ -113,47 +96,82 @@ def signup():
 			}
 			return make_response(jsonify(responseObject)), 202
 
-	'''
-		data = json.loads(request.data)
-		email = data['email']
-		# user = None
-		for query in User.objects(email=email): 
-			user = query
-		#print(user)
-		if user:
-			# todo: email exists
-			return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
-		hashed_password = bcrypt.generate_password_hash(data['password']).decode('utf-8')
-		user = User(username=str(data['name']), email=str(data['email']),password=str(hashed_password)).save()
-		login_user(user, remember=False)
-		return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
-	return json.dumps({'success':False}), 400, {'ContentType':'application/json'}
-	'''
-
+'''
+TODO: 
+convert JSON -> Mongodb instance & save it.
+write a generic function for User JSON -> mongodb instance and test it
+'''
 @users.route("/auth/register", methods=['POST'])
 def register():
 	print('in register!')
-	return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+	responseObject = {
+		'status': 'success'
+	}
+	return make_response(jsonify(responseObject)), 201
 
-
-@users.route("/logout")
+'''
+todo: do proper auth for logout (blacklisttoken and stuff)
+'''
+@users.route("/auth/logout", methods=['POST'])
 def logout():
-	logout_user()
-	return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
+	if request.method == 'POST':
+		auth_header = request.headers.get('Authorization')
+		if auth_header:
+			auth_token = auth_header.split(" ")[1]
+		else:
+			auth_token = ''
+		if auth_token:
+			resp = User.decode_auth_token(auth_token)
+			if isinstance(resp, str):
+				# app.logger.info(auth_token)
+				# todo: mark the token as blacklisted
+				# blacklist_token = BlacklistToken(token=auth_token)
+				try:
+					# todo: insert the token to blacklist session
+					responseObject = {
+						'status': 'success',
+						'message': 'Successfully logged out.'
+					}
+					return make_response(jsonify(responseObject)), 200
+				except Exception as e:
+					# app.logger.error(e)
+					responseObject = {
+						'status': 'fail',
+						'message': e
+					}
+					return make_response(jsonify(responseObject)), 200
+			else:
+				responseObject = {
+					'status': 'fail',
+					'message': resp
+				}
+				return make_response(jsonify(responseObject)), 401
+		else:
+			responseObject = {
+				'status': 'fail',
+				'message': 'Provide a valid auth token.'
+			}
+			return make_response(jsonify(responseObject)), 403
 
+	# logout_user()
+	# return json.dumps({'success':True}), 200, {'ContentType':'application/json'} 
 
+'''
+TODO:
+POST request: basically same thing as registration
+'''
 @users.route("/auth/account", methods=['GET','POST'])
 #a@login_required
 def account():
 	if request.method == 'GET':
-		app.logger.info('in routes.py account get request')
+		# app.logger.info('in routes.py account get request')
 		auth_header = str(request.headers.get('Authorization'))
-		app.logger.info(auth_header)
+		# app.logger.info(auth_header)
 		if auth_header:
 			try:
 				auth_token = auth_header.split(" ")[1]
 			except IndexError as e:
-				app.logger.error(e)
+				# app.logger.error(e)
 				responseObject = {
 					'status': 'fail',
 					'message': 'Bearer token malformed.'
@@ -162,13 +180,13 @@ def account():
 		else:
 			auth_token = ''
 		if auth_token:
-			app.logger.info(auth_token)
+			# app.logger.info(auth_token)
 			resp = User.decode_auth_token(auth_token)
-			app.logger.info(resp)
+			# app.logger.info(resp)
 			try:
 				user = None
 				for query in User.objects(id=resp): user = query
-				app.logger.info(user)
+				# app.logger.info(user)
 				if user:
 					responseObject = {
 						'status': 'success',
@@ -178,7 +196,7 @@ def account():
 					}
 					return make_response(jsonify(responseObject)), 200
 			except Exception as e:
-				app.logger.error(e)
+				# app.logger.error(e)
 				responseObject = {
 					'status': 'fail',
 					'message': e.message
@@ -192,27 +210,11 @@ def account():
 			return make_response(jsonify(responseObject)), 401
 	if request.method == 'POST':
 		pass
-	# if form.validate_on_submit():
-	#     #check if there's picture data
-	#     if form.picture.data:
-	#         picture_file = save_picture(form.picture.data)
-	#         current_user.image_file = picture_file
-	#         User.objects(email=current_user.email).update_one(image_file=picture_file)
-	#     current_user.username = form.username.data
-	#     current_user.email = form.email.data
-	#     User.objects(email=current_user.email).update_one(
-	#         username=form.username.data,
-	#         email=form.email.data
-	#         )
-	#     flash('account updated', 'success')
-	#     return redirect(url_for('users.account'))
-	# elif request.method == 'GET':
-	#     # populate form fields 
-	#     form.username.data = current_user.username
-	#     form.email.data = current_user.email
-	# image_file = url_for('static', filename="profile_pics/"+current_user.image_file)
-	# return render_template('account.html', title='Account', image_file=image_file, form=form)
 
+'''
+TODO:
+do the same thing as GET for account, dont worry about test case
+'''
 @users.route("/profile/<string:user_id>", methods=['GET'])
 def profile(user_id):
 	if current_user.id == user_id:
@@ -222,6 +224,9 @@ def profile(user_id):
 		image_file = url_for('static', filename="profile_pics/"+user.image_file)
 		return render_template('profile.html', title='Profile', image_file=image_file, user=user)
 
+'''
+=====================don't worry========================
+'''
 @users.route("/reset_password", methods=['GET', 'POST'])
 def reset_request():
 	if current_user.is_authenticated:
