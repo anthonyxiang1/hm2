@@ -1,29 +1,51 @@
 .account {
     padding-top: 50px;
     text-align: center;
+    background: rgb(227, 235, 245);
   }
+
+  .center {
+    margin: auto;
+}
 
   .info {
     padding: 40px;
     min-height: 330px;
     margin-top: 30px;
-    border-radius: 20px;
+}
+
+.avatar { 
+    margin: 0 auto;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.right{
+    text-align:right;
+}
+
+.left{
+    float:left;
 }
 
 .about {
-    background: rgb(236, 216, 216);
+    background: rgb(226, 228, 253);
     color: #332c2c;
+    margin: auto;
+    border: 3px solid rgb(172, 172, 172);
     border-radius: 20px;
     box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.08);
     min-height: 330px;
-    margin-top: 30px;
-    margin-right: 10px;
+    margin-top: 40px;
+    
     margin-bottom: 10px;
 }
 
   .preferences {
-    background: rgb(179, 211, 221);
+    background: rgb(155, 184, 247);
     color: #332c2c;
+    border: 3px solid rgb(172, 172, 172);
     border-radius: 20px;
     box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.08);
     padding: 40px;
@@ -37,6 +59,14 @@
     margin-top: 30px;
     margin-bottom: 30px;
 }
+
+.custom-file-label {
+    text-align: left;
+}
+
+.form-control:focus {
+    background-color: #e3fff9;
+  }
 
 .cards {
     color: #332c2c;
@@ -57,4 +87,6 @@
 .bottom {
     height: 100px;
 }
+
+
 
