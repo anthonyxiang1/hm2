@@ -1,5 +1,5 @@
 import React from "react";
-import {Form, Button, FormControl} from 'react-bootstrap';
+import {Form, Button, Col, Row, Container, ProgressBar} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
 import { store } from '../../store.js'
@@ -11,12 +11,12 @@ class RegPt1 extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      //gender: "",
-      // school: "",
-      // major: "",
-      // grad: "",
-      // education: "",
-      // hackCount: ""
+      gender: "",
+      school: "",
+      major: "",
+      year: "",
+      education: "",
+      hackCount: ""
     };
   }
 
@@ -43,16 +43,76 @@ class RegPt1 extends React.Component {
   }
 
   render() {
-    //const { gender, school, major, grad, education, hackCount } = this.state;
-  return (
-      <div className="registration">
-        <div>REG1</div>
-        <Form inline onSubmit={this.handleSubmit.bind(this)}>
-          <Button type="submit">Register</Button>
-        </Form>
-      </div>
-      
-  );
+    return (
+        <div className="registration">
+          <Container>      
+          <ProgressBar variant="success" animated now={33} label={`${33}%`}/>
+          <br/>
+          <h1>Register</h1>
+            <Col > 
+              <Row >
+              <Form className="reg">
+                <Form.Row>
+                  <Form.Label>Gender:  </Form.Label>
+                {['radio'].map(type => (
+                  <div key={`inline-${type}`} className="mb-3">
+                    <Form.Check inline label="Male" type={type} id={`inline-${type}-1`} />
+                    <Form.Check inline label="Female" type={type} id={`inline-${type}-2`} />
+                    <Form.Check inline label="Other" type={type} id={`inline-${type}-3`} />
+                  </div>
+                ))}
+                </Form.Row>
+
+                <Form.Group controlId="formGridAddress1">
+                  <Form.Label>School</Form.Label>
+                  <Form.Control placeholder="1234 Main St" />
+                </Form.Group>
+
+                <Form.Group as={Col} controlId="formGridState">
+                    <Form.Label>Major</Form.Label>
+                    <Form.Control as="select">
+                      <option>Choose...</option>
+                      <option>...</option>
+                    </Form.Control>
+                  </Form.Group>
+
+                <Form.Row>
+                <Form.Group as={Col} controlId="formGridState">
+                    <Form.Label>Grad Year</Form.Label>
+                    <Form.Control as="select">
+                      <option>Choose...</option>
+                      <option>...</option>
+                    </Form.Control>
+                  </Form.Group>
+
+                  <Form.Group as={Col} controlId="formGridState">
+                    <Form.Label>Education Level</Form.Label>
+                    <Form.Control as="select">
+                      <option>Choose...</option>
+                      <option>...</option>
+                    </Form.Control>
+                  </Form.Group>
+
+                  <Form.Group as={Col} controlId="formGridState">
+                    <Form.Label>Hackathons</Form.Label>
+                    <Form.Control as="select">
+                      <option>Choose...</option>
+                      <option>...</option>
+                    </Form.Control>
+                  </Form.Group>
+                </Form.Row>
+
+                <Button variant="primary" type="submit">
+                  Next
+                </Button>
+              </Form> 
+            </Row>
+                
+            </Col>
+          </Container>
+        </div>
+        
+    );
   }
 
   handleSubmit(event){

@@ -1,13 +1,19 @@
 body {
-    text-align: center;
-    background-color: white;
-  }
+  text-align: center;
+}
 
-.box {
-    background-color: white;
-    flex: 0 0 33.33333%;
-    max-width: 33.33333%;
-    position: absolute;
-    top: 30%;
-    left: 40%;
+.registration {
+
+padding-top: 100px;
+border: 3px solid blue;
+}
+
+.reg {
+
+  text-align: left;
+  margin: 0 auto;
+  background: rgb(226, 228, 253);
+  border: 3px solid rgb(172, 172, 172);
+  min-height: 330px;
+  padding: 10px;
 }
