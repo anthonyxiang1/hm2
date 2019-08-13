@@ -30,11 +30,10 @@
 }
 
 .about {
-    background: #e2e4fd;
+    background: #f7f7ff;
     color: #332c2c;
-    border: 3px solid rgb(172, 172, 172);
+    
     margin: auto;
-    box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.08);
     min-height: 330px;
     margin-top: 40px;
     margin-right: 10px;
@@ -42,11 +41,10 @@
 }
 
 .preferences {
-    background: #e2e4fd;
+    background: #f7f7ff;
     color: #332c2c;
-    border: 3px solid rgb(172, 172, 172);
+
     
-    box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.08);
     padding: 40px;
     min-height: 330px;
     max-height: 700px;

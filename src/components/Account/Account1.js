@@ -1,5 +1,5 @@
 import React from "react";
-import {Container, Row, Col, Form, Button, Card, Modal, ProgressBar} from 'react-bootstrap';
+import {Container, Row, Col, Form, Button, Card, Adder, ProgressBar} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 import UpdatePassword from './UpdatePassword';
 import DeleteAccount from './DeleteAccount';
@@ -10,36 +10,50 @@ class Account1 extends React.Component {
     constructor(props) {
         super(props);
         this.handleClick = this.handleClick.bind(this);
-        this.handleTechModal = this.handleTechModal.bind(this);
-        this.handleLangModal = this.handleLangModal.bind(this);
-        this.handleFieldModal = this.handleFieldModal.bind(this);
-        this.handleHack = this.handleHack.bind(this);
+        this.handleTechAdder = this.handleTechAdder.bind(this);
+        this.handleLangAdder = this.handleLangAdder.bind(this);
+        this.handleFieldAdder = this.handleFieldAdder.bind(this);
+        this.handleInterestAdder = this.handleInterestAdder.bind(this);
+
         this.handleSocial = this.handleSocial.bind(this);
-        this.handleInterestModal = this.handleInterestModal.bind(this);
+        this.handleProfileChange = this.handleProfileChange.bind(this);
+        this.handleLANGChange = this.handleLANGChange.bind(this);
+        this.handleLANG2Change = this.handleLANG2Change.bind(this);
+        this.handleINTChange = this.handleINTChange.bind(this);
+        this.handleTECHChange = this.handleTECHChange.bind(this);
+        this.handleTECH2Change = this.handleTECH2Change.bind(this);
+        this.handleURLChange = this.handleURLChange.bind(this);
+        this.handleFIELDChange = this.handleFIELDChange.bind(this);
+        this.handleProfileSubmit = this.handleProfileSubmit.bind(this);
+        this.handleRemoveURLForm = this.handleRemoveURLForm.bind(this);
+        this.handleRemoveLANGForm = this.handleRemoveLANGForm.bind(this);
+        this.handleRemoveFIELDForm = this.handleRemoveFIELDForm.bind(this);
+        this.handleRemoveTECHForm = this.handleRemoveTECHForm.bind(this);
+        this.handleRemoveINTERESTForm = this.handleRemoveINTERESTForm.bind(this);
+        this.handleProfileCancel = this.handleProfileCancel.bind(this);
+        
         this.state = {
           page: true,
-          techModal: false,
-          langModal: false,
-          fieldModal: false,
-          hackModal: false,
-          interestModal: false,
           username: "Anthony Xiang",
-          url: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
           educationLvl: "college",
           year: "2022",
           major: "art",
           school: "sbu",
           about: "about me goes here, any projects, what your goal is (looking to win)",
-          languages: {"java": 6, 'python': 8},
-          tech: "AWS",
-          fields: {'ML': 8, 'IDK': 6},
-          interests: "ML",
-          hackathons: ["CEWIT", 'SBUHACKS'],
+          url: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
+          languages: [{name: "java", skill: 8}, {name: "python", skill: 3}],
+          tech: [{name: "ML", skill: 8}, {name: "aws", skill: 3}],
+          fields: ["health", "edu"],
+          interests: ["ML", "else"],
+          hackathons: 2,
           password: "",
           confirmPass: "", 
           langList: ["a", "b", "c", "d", "java"],
-          langNot: []
+          techList: ['tech1', 'tech2'],
+          langNot: [],
+          selectedTeam: ""
         };
+        this.baseState = this.state;
       }
 
       componentDidMount() {
@@ -56,9 +70,135 @@ class Account1 extends React.Component {
 
       } 
       
+      handleClick(event){
+        this.setState({
+          page: !this.state.page
+        });
+      };
 
+    /// ********************** ADDERS
+    handleLangAdder(event){
+        if (this.state.languages.length < 5) {
+            this.setState({ languages: this.state.languages.concat([{name: "C", skill: 1}]) });
+            }
+    };
+
+    handleTechAdder(event){
+        if (this.state.tech.length < 5) {
+            this.setState({ tech: this.state.tech.concat([{name: "tester", skill: 1}]) });
+            }
+        };
+        
+    handleFieldAdder(event){
+        if (this.state.fields.length < 5) {
+            this.setState({ fields: this.state.fields.concat(["select field"]) });
+            }
+        };
+
+    handleInterestAdder(event){
+
+        if (this.state.interests.length < 5) {
+        this.setState({ interests: this.state.interests.concat(["select interest"]) });
+        }
+    };
+
+    handleSocial(event){
+        this.setState({ url: this.state.url.concat([""]) });
+    };
+    /// ********************** ADDERS
+
+    // *****************REMOVE
+    handleRemoveURLForm(index){
+        let url = this.state.url.slice();  
+        url.splice(index, 1);
+        this.setState({url});  
+         };
+
+    handleRemoveLANGForm(index){
+        let languages = this.state.languages.slice();  
+         languages.splice(index, 1);
+         this.setState({languages}); 
+        };
+
+    handleRemoveTECHForm(index){
+        let tech = this.state.tech.slice();  
+        tech.splice(index, 1);
+         this.setState({tech}); 
+        };
+     
+    handleRemoveFIELDForm(index){
+        let fields = this.state.fields.slice();  
+        fields.splice(index, 1);
+         this.setState({fields}); 
+    };
+
+    handleRemoveINTERESTForm(index){
+        let interests = this.state.interests.slice();  
+        interests.splice(index, 1);
+         this.setState({interests}); 
+    };
+
+    // *****************REMOVE
+
+
+
+    handleLANGChange(e, index) {
+        this.state.languages[index].name = e.target.value;
+        this.setState({ languages: this.state.languages})
+    }
+
+    handleLANG2Change(e, index) {
+        this.state.languages[index].skill = e.target.value;
+        this.setState({ languages: this.state.languages})
+    }
+
+    handleINTChange(e, index) {
+        this.state.interests[index] = e.target.value;
+        this.setState({ interests: this.state.interests})
+    }
+
+    handleTECHChange(e, index) {
+        this.state.tech[index].name = e.target.value;
+        this.setState({ tech: this.state.tech})
+    }
+
+    handleTECH2Change(e, index) {
+        this.state.tech[index].skill = e.target.value;
+        this.setState({ tech: this.state.tech})
+    }
+
+    handleURLChange(e, index) {
+        this.state.url[index] = e.target.value;
+        this.setState({ url: this.state.url})
+    }
+
+    handleFIELDChange(e, index) {
+        this.state.fields[index] = e.target.value;
+        this.setState({ fields: this.state.fields})
+    }
+
+    handleProfileChange(event){
+    this.setState({
+      [event.target.name]: event.target.value
+    });
+    };
+
+    handleProfileSubmit(event){
+        event.preventDefault();
+        console.log(this.state)
+    }
+
+    handleProfileCancel(event){
+        event.preventDefault();
+        this.setState({
+            page: !this.state.page
+          });
+        console.log(this.baseState)
+    }
+    
   render() {
     const {page} = this.state;
+
 
     const ColoredLine = ({ color }) => (
         <hr
@@ -70,6 +210,8 @@ class Account1 extends React.Component {
         />
     );
 
+    // MAPPINGS - In Edit: Form - url and hackathons, Keys - edit with 1-10 dropdown,  Adders
+    // In View - Lists - view, Mapping - progress bar
     const SocialMedia = ({vals}) => (
         <div>
             {
@@ -77,36 +219,31 @@ class Account1 extends React.Component {
         <SocialIcon url={item} style={{ height: 35, width: 35}}/>
             ))
             }
-            
         </div>
     );
 
-    const MappingForm = ({vals}) => (
+    const MappingFormURL = ({vals}) => (
         <div>
         {
             vals.map((item) => ( 
-                <Form.Control placeholder={item} />
+                <div>
+                <Form.Control placeholder={item} type="text" as="input"
+                name={item}
+                value={item}
+                onChange={this.handleProfileChange} />
+                <Button variant="danger" onClick={() => this.handleRemoveURLForm(item)}>-</Button>
+                </div>           
             ))
         }
         </div>
     )
+
 
     const MappingList = ({vals}) => (
         <div>
         {
-            vals.map((item) => ( 
-            <p> {item}</p> 
-            ))
-        }
-        </div>
-    )
-
-    const MappingModal = ({vals}) => (
-        <div>
-        {
-            vals.map((item) => ( 
-                <Form.Check label={item} />
-                
+            vals.map((item, index) => ( 
+            <p>{index+1}. {item}</p> 
             ))
         }
         </div>
@@ -115,22 +252,34 @@ class Account1 extends React.Component {
     const Mapping = ({vals}) => (
             <div>
             {
-                Object.keys(vals).map((key, index) => ( 
-                <p key={index}> {index+1}.  {key} <ProgressBar now={vals[key]} label={`${vals[key]}/10`} max={10}/></p>
+
+            vals.map((item, index) => ( 
+                <p key={index}> {index+1}. {item.name} <ProgressBar now={item.skill} label={`${item.skill}/10`} max={10}/></p> 
                 ))
             }
             </div>
     )
 
-    const MappingKeys = ({vals}) => (
+    const MappingKeysLANG = ({vals}) => (
+        
         <div className="right">
         {
-            Object.keys(vals).map((key, index) => ( 
+            vals.map((item, index) => ( 
             <p key={index}> 
                 <Form.Group className="form-inline">
-                <Form.Label>{index+1}.  {key}   </Form.Label>
+                <Form.Label>{index+1}. </Form.Label>
+                {/* <Form.Control as="select" name={`languages-${index}`} id={`languages-${index}`} data-id={index}
+                            value={vals[index].name} onChange={this.handleLANGChange} className="name">
+                    <option>{item.name}</option>
+                    <option>other</option>
+                    <option>another</option>
+                </Form.Control> */}
+                
+                <input type="text" name={`languages-${index}`} id={`languages-${index}`} data-id={index}
+                            value={vals[index].name} onChange={this.handleLANGChange.bind(this,index)} className="name"></input>
+                
                 <Form.Control as="select" >
-                    <option>{vals[key]}</option>
+                    <option>{item.skill}</option>
                     <option>1</option>
                     <option>2</option>
                     <option>3</option>
@@ -142,6 +291,7 @@ class Account1 extends React.Component {
                     <option>9</option>
                     <option>10</option>
                 </Form.Control>
+                <Button variant="danger" onClick={() => this.handleRemoveLANGForm(index)}>-</Button>
                 </Form.Group>
             </p>
             
@@ -150,12 +300,91 @@ class Account1 extends React.Component {
         </div>
     )
 
+    const MappingKeysTECH = ({vals}) => (
+        
+        <div className="right">
+        {
+            vals.map((item, index) => ( 
+            <p key={index}> 
+                <Form.Group className="form-inline">
+                <Form.Label>{index+1}.</Form.Label>
+                <Form.Control as="select" >
+                    <option>{item.name}</option>
+                    <option>other</option>
+                    <option>another</option>
+                </Form.Control>
+                <Form.Control as="select" >
+                    <option>{item.skill}</option>
+                    <option>1</option>
+                    <option>2</option>
+                    <option>3</option>
+                    <option>4</option>
+                    <option>5</option>
+                    <option>6</option>
+                    <option>7</option>
+                    <option>8</option>
+                    <option>9</option>
+                    <option>10</option>
+                </Form.Control>
+                <Button variant="danger" onClick={() => this.handleRemoveTECHForm(index)}>-</Button>
+                </Form.Group>
+            </p>
+            
+            ))
+        }
+        </div>
+    )
+
+    // const MappingKeysINTEREST = ({vals}) => (
+        
+    //     <div className="right">
+    //     {
+    //                     this.state.interests.map((interests, index)=> {
+    //                         return (
+    //                         <div key={index}>
+    //                             <Form.Control
+    //                             type="text"
+    //                             onChange= {(e) => this.handleINTChange(e, index)}
+    //                             id={interests}
+    //                             value={interests} 
+    //                             className="name"
+    //                             />
+    //                         </div>
+    //                         )
+    //                     })
+    //     }
+    //     </div>
+    // )
+
+    // const MappingKeysFIELD = ({vals}) => (
+        
+    //     <div className="right">
+    //     {
+    //         vals.map((item, index) => ( 
+    //         <p key={index}> 
+    //             <Form.Group className="form-inline">
+    //             <Form.Label>{index+1}.</Form.Label>
+    //             <Form.Control as="select" >
+    //                 <option>{item}</option>
+    //                 <option>other</option>
+    //                 <option>another</option>
+    //             </Form.Control>
+    //             <Button variant="danger" onClick={() => this.handleRemoveFIELDForm(index)}>-</Button>
+    //             </Form.Group>
+    //         </p>
+            
+    //         ))
+    //     }
+    //     </div>
+    // )
+
     // This is default
     if (page === true) {
 
         return (
+            
         <div className="account">
-                
+              {console.log(this.state) } 
         <Container className="boxes">      
             <Row >
                 <Col className="info" sm={4}>
@@ -167,7 +396,6 @@ class Account1 extends React.Component {
                     />
                     <h1 >{this.state.username}</h1>
                     <SocialMedia vals={this.state.url}/>
-                    
                     <Button variant="primary" onClick = {this.handleClick}>Edit Profile</Button>
                     
                 </Col>
@@ -198,10 +426,10 @@ class Account1 extends React.Component {
                     </Card>
                     <br></br>
                     <Card className="center w-75">
-                    <Card.Header><strong>Fields</strong></Card.Header>
+                    <Card.Header><strong>Technologies</strong></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                <Mapping vals={this.state.fields}/>
+                                <Mapping vals={this.state.tech}/>
                             </Card.Text>
                         </Card.Body>
                     </Card>
@@ -210,18 +438,18 @@ class Account1 extends React.Component {
                     <Card.Header><strong>Hackathons</strong></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                <MappingList vals={this.state.hackathons}/>
+                                {this.state.hackathons}
                             </Card.Text>
                         </Card.Body>
                     </Card>
                 </Col>
                 <Col className="preferences">
                 <div className="accent">Interests</div>
-                    1. {this.state.interests}
+                    <MappingList vals={this.state.interests}/>
                 </Col>
                 <Col className="preferences">
-                <div className="accent">Technologies</div>
-                    1. {this.state.tech}
+                <div className="accent">Fields</div>
+                <MappingList vals={this.state.fields}/>
                     
                 </Col>
             </Row>
@@ -236,8 +464,8 @@ class Account1 extends React.Component {
         // EDIT PROFILE 
         // ***************************
     else if (page === false) {  // this is edit profile
-
         return (
+            
             <div className="account">
                 <Container className="boxes">      
                     <Row >
@@ -264,9 +492,6 @@ class Account1 extends React.Component {
                                     </form>
                                 </div>
                             </div>
-                            <br></br>
-                            <Button variant="primary">Change Profile Picture</Button>
-                            
                         </Col>
 
                             <Col className ="about">
@@ -274,7 +499,7 @@ class Account1 extends React.Component {
                                 <Form.Row>
                                     <Form.Group as={Col} className="form-inline">
                                     <Form.Label>Education Level: </Form.Label>
-                                    <Form.Control as="select">
+                                    <Form.Control as="select" name="educationLvl" value={this.state.educationLvl} onChange={this.handleProfileChange}>
                                         <option>{this.state.educationLvl}</option>
                                         <option>High School</option>
                                     </Form.Control>
@@ -282,9 +507,9 @@ class Account1 extends React.Component {
 
                                     <Form.Group as={Col} className="form-inline">
                                     <Form.Label>Graduation Year: </Form.Label>
-                                    <Form.Control as="select">
+                                    <Form.Control as="select" name="year" value={this.state.year} onChange={this.handleProfileChange}>
                                         <option>{this.state.year}</option>
-                                        <option>2022</option>
+                                        <option>2012</option>
                                     </Form.Control>
                                     </Form.Group>
                                 </Form.Row>
@@ -292,7 +517,7 @@ class Account1 extends React.Component {
                                 <Form.Row>
                                     <Form.Group as={Col} className="form-inline">
                                     <Form.Label>Major: </Form.Label>
-                                    <Form.Control as="select">
+                                    <Form.Control as="select" name="major" value={this.state.major} onChange={this.handleProfileChange}>
                                         <option>{this.state.major}</option>
                                         <option>Business</option>
                                     </Form.Control>
@@ -300,13 +525,22 @@ class Account1 extends React.Component {
 
                                     <Form.Group as={Col}  className="form-inline">
                                         <Form.Label >School:</Form.Label>
-                                        <Form.Control placeholder={this.state.school}/>
+                                            <Form.Control placeholder={this.state.school} 
+                                            type="text"
+                                            name="school"
+                                            value={this.state.school} 
+                                            onChange={this.handleProfileChange}/>
                                     </Form.Group>
                                 </Form.Row>
                                 <ColoredLine color="black"/>
                                 
                                     <Form.Label >About: </Form.Label>
-                                    <textarea className="form-control" rows="5">{this.state.about}</textarea>
+                                    <textarea className="form-control" rows="5"
+                                    type="text"
+                                    name="about"
+                                    value={this.state.about} 
+                                    onChange={this.handleProfileChange}
+                                    >{this.state.about}</textarea>
                                 
                              </div>
                 
@@ -315,15 +549,39 @@ class Account1 extends React.Component {
                         </Row>
             
             <Row>
-                {/****************** LANGUAGES FIELDS AND HACKATHONS */}
+                {/****************** SOCIAL MEDIA LANGUAGES FIELDS AND HACKATHONS */}
                 
                 <Col sm={4}>
                     <Card className="center w-75">
                     <Card.Header><strong>Social Media</strong></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                <MappingForm vals={this.state.url}/>
+                                
+                                    {
+                                    this.state.url.map((url, index)=> {
+                                        return (
+                                        <div key={index}>
+                                            <Form.Group className="form-inline">
+                                            <Form.Label>{index+1}.</Form.Label>
+                                            <Form.Control
+                                            type="text"
+                                            placeholder="Linkedin, Github, etc."
+                                            onChange= {(e) => this.handleURLChange(e, index)}
+                                            id={url}
+                                            value={url} 
+                                            className="name"
+                                            />
+                                            
+                                            <Button variant="danger" onClick={() => this.handleRemoveURLForm(index)}>-</Button>
+                                            </Form.Group>
+                                        </div>
+                                        )
+                                    })
+                                    }
+
+
                                 <br></br>
+                            
                             <Button variant="outline-primary" onClick={this.handleSocial}>Add Link</Button>
                             </Card.Text>
                         </Card.Body>
@@ -331,122 +589,191 @@ class Account1 extends React.Component {
                     <br></br>
 
                     <Card className="center w-75">
-                    <Card.Header><strong>Languages</strong></Card.Header>
+                    <Card.Header><strong>Languages</strong> <span>(max 5)</span></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                <MappingKeys vals={this.state.languages}/>
-                            <Button variant="outline-primary" onClick={this.handleLangModal}>Add Languages</Button>
+                                {
+                                    this.state.languages.map((languages, index)=> {
+                                        return (
+                                        <div key={index}>
+                                            <Form.Group className="form-inline">
+                                            <Form.Label>{index+1}.</Form.Label>
+                                            <Form.Control
+                                            as="select"
+                                            type="text"
+                                            onChange= {(e) => this.handleLANGChange(e, index)}
+                                            id={languages.name}
+                                            value={languages.name} 
+                                            className="name"
+                                            >
+                                                <option>{languages.name}</option>
+                                                <option>other</option>
+                                                <option>another</option>
+                                            </Form.Control>
+                                            <Form.Control
+                                            as="select"
+                                            type="text"
+                                            onChange= {(e) => this.handleLANG2Change(e, index)}
+                                            id={languages.skill}
+                                            value={languages.skill} 
+                                            className="name"
+                                            >
+                                                <option>{languages.skill}</option>
+                                                <option>2</option>
+                                                <option>3</option>
+                                            </Form.Control>
+                                            
+                                            <Button variant="danger" onClick={() => this.handleRemoveLANGForm(index)}>-</Button>
+                                            </Form.Group>
+                                        </div>
+                                        )
+                                    })
+                                    }
+                            <Button variant="outline-primary" onClick={this.handleLangAdder}>Add Languages</Button>
                             </Card.Text>
                         </Card.Body>
                     </Card>
-
-                    <Modal show={this.state.langModal} onHide={this.handleLangModal}>
-                        <Modal.Header closeButton>
-                        <Modal.Title>Languages</Modal.Title>
-                        </Modal.Header> 
-                        <Modal.Body>
-                            <MappingModal vals={this.state.langList}/>
-                        </Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleLangModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.handleLangModal}>
-                            Save Changes
-                        </Button>
-                        </Modal.Footer>
-                    </Modal>
 
                     <br></br>
                     <Card className="center w-75">
-                    <Card.Header><strong>Fields</strong></Card.Header>
+                    <Card.Header><strong>Technologies</strong> <span>(max 5)</span></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                            <MappingKeys vals={this.state.fields}/>
+                            {
+                                this.state.tech.map((tech, index)=> {
+                                    return (
+                                    <div key={index}>
+                                        <Form.Group className="form-inline">
+                                        <Form.Label>{index+1}.</Form.Label>
+                                        <Form.Control
+                                        as="select"
+                                        type="text"
+                                        onChange= {(e) => this.handleTECHChange(e, index)}
+                                        id={tech.name}
+                                        value={tech.name} 
+                                        className="name"
+                                        >
+                                            <option>{tech.name}</option>
+                                            <option>other</option>
+                                            <option>another</option>
+                                        </Form.Control>
+                                        <Form.Control
+                                        as="select"
+                                        type="text"
+                                        onChange= {(e) => this.handleTECH2Change(e, index)}
+                                        id={tech.skill}
+                                        value={tech.skill} 
+                                        className="name"
+                                        >
+                                            <option>{tech.skill}</option>
+                                            <option>2</option>
+                                            <option>3</option>
+                                        </Form.Control>
+                                        
+                                        <Button variant="danger" onClick={() => this.handleRemoveTECHForm(index)}>-</Button>
+                                        </Form.Group>
+                                    </div>
+                                    )
+                                })
+                                }
                         
-                            <Button variant="outline-primary" onClick={this.handleFieldModal}>Add Fields</Button>
+                            <Button variant="outline-primary" onClick={this.handleTechAdder}>Add Technologies</Button>
                             </Card.Text>
                         </Card.Body>
                     </Card>
-
-                    <Modal show={this.state.fieldModal} onHide={this.handleFieldModal}>
-                        <Modal.Header closeButton>
-                        <Modal.Title>Fields</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>put fields here</Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleFieldModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.handleFieldModal}>
-                            Save Changes
-                        </Button>
-                        </Modal.Footer>
-                    </Modal>
 
                     <br></br>
                     <Card className="center w-75">
                     <Card.Header><strong>Hackathons</strong></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                            <MappingForm vals={this.state.hackathons}/>
+                                    <Form.Group as={Col} className="form-inline">
+                                    <Form.Control as="select" name="hackathons" value={this.state.hackathons} onChange={this.handleProfileChange}>
+                                        <option>{this.state.hackathons}</option>
+                                        <option>1</option>
+                                        <option>3</option>
+                                        <option>5</option>
+                                    </Form.Control>
+                                    </Form.Group>
                             <br></br>
-                            <Button variant="outline-primary" onClick={this.handleHack}>Add Hackathons</Button>
                             </Card.Text>
                         </Card.Body>
                     </Card>
+                    
                 </Col>
 
                 <Col className="preferences">
-                <div className="accent">Interests</div>
-                    {this.state.interests}
-                    <br/>
-                    <Button variant="outline-primary" onClick={this.handleInterestModal}>Add Interest</Button>
+                <div className="accent">Interests <span>(max 5)</span></div>
+                    {
+                        this.state.interests.map((interests, index)=> {
+                            return (
+                            <div key={index}>
+                                <Form.Group className="form-inline">
+                                <Form.Label>{index+1}.</Form.Label>
+                                <Form.Control
+                                as="select"
+                                type="text"
+                                onChange= {(e) => this.handleINTChange(e, index)}
+                                id={interests}
+                                value={interests} 
+                                className="name"
+                                >
+                                    <option>{interests}</option>
+                                    <option>other</option>
+                                    <option>another</option>
+                                </Form.Control>
+                                
+                                <Button variant="danger" onClick={() => this.handleRemoveINTERESTForm(index)}>-</Button>
+                                </Form.Group>
+                            </div>
+                            )
+                        })
+                        }
 
-                    <Modal show={this.state.interestModal} onHide={this.handleInterestModal}>
-                        <Modal.Header closeButton>
-                        <Modal.Title>Interests</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>put interests here</Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleInterestModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.handleInterestModal}>
-                            Save Changes
-                        </Button>
-                        </Modal.Footer>
-                    </Modal>
+                    <br/>
+                    <Button variant="outline-primary" onClick={this.handleInterestAdder}>Add Interest</Button>
                 </Col>
 
                 <Col className="preferences">
-                <div className="accent">Technologies</div>
-                    {this.state.tech}
-                    <br/>
-                    <Button variant="outline-primary" onClick={this.handleTechModal}>Add Technologies</Button>
+                <div className="accent">Fields <span>(max 5)</span></div>  
+                    {
+                        this.state.fields.map((fields, index)=> {
+                            return (
+                            <div key={index}>
+                                <Form.Group className="form-inline">
+                                <Form.Label>{index+1}.</Form.Label>
+                                <Form.Control
+                                as="select"
+                                type="text"
+                                onChange= {(e) => this.handleFIELDChange(e, index)}
+                                id={fields}
+                                value={fields} 
+                                className="name"
+                                >
+                                    <option>{fields}</option>
+                                    <option>other</option>
+                                    <option>another</option>
+                                </Form.Control>
+                                
+                                <Button variant="danger" onClick={() => this.handleRemoveFIELDForm(index)}>-</Button>
+                                </Form.Group>
+                            </div>
+                            )
+                        })
+                        }
 
-                    <Modal show={this.state.techModal} onHide={this.handleTechModal}>
-                        <Modal.Header closeButton>
-                        <Modal.Title>Technologies</Modal.Title>
-                        </Modal.Header>
-                        <Modal.Body>put tech here</Modal.Body>
-                        <Modal.Footer>
-                        <Button variant="secondary" onClick={this.handleTechModal}>
-                            Close
-                        </Button>
-                        <Button variant="primary" onClick={this.handleTechModal}>
-                            Save Changes
-                        </Button>
-                        </Modal.Footer>
-                    </Modal>
+
+                    <br/>
+                    <Button variant="outline-primary" onClick={this.handleFieldAdder}>Add Fields</Button>
+
                 </Col>
             </Row>
 
             <Row>
                 <Col >
                     <br/>
-                    <Button variant="failure" onClick = {this.handleClick}>Cancel</Button>
-                    <Button variant="success" onClick = {this.handleClick}>Update Profile</Button>
+                    <Button variant="failure" onClick = {this.handleProfileCancel}>Cancel</Button>
+                    <Button variant="success" onClick = {this.handleProfileSubmit}>Update Profile</Button>
                 </Col>
             </Row>
 
@@ -481,48 +808,6 @@ class Account1 extends React.Component {
     );
     }
     }
-
-    handleClick(event){
-        this.setState({
-          page: !this.state.page
-        });
-      };
-
-    handleLangModal(event){
-    this.setState({
-        langModal: !this.state.langModal
-    });
-    };
-
-    handleTechModal(event){
-        this.setState({
-            techModal: !this.state.techModal
-        });
-        };
-        
-    handleFieldModal(event){
-        this.setState({
-            fieldModal: !this.state.fieldModal
-        });
-        };
-
-    handleHack(event){
-            this.state.hackathons.push("Hackathon Name");
-        };
-
-    handleSocial(event){
-            this.state.url.push("Link");
-        };
-
-
-    handleInterestModal(event){
-        this.setState({
-            interestModal: !this.state.interestModal
-        });
-        };
-
-    
-
 }
 
 export default withRouter(Account1);
