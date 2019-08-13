@@ -24,7 +24,6 @@ def testconnection():
 @users.route("/auth/login", methods=['POST'])
 def login():
 	post_data = json.loads(request.data)
-	# app.logger.info(post_data['email']) <- this is how to log well in flask
 	try:
 		user = None
 		for query in User.objects(email=post_data['email']): user = query
@@ -51,13 +50,6 @@ def login():
 		}
 		return make_response(jsonify(responseObject)), 500
 
-'''
-todo: do this function that saves profile pic to gcloud
-'''
-def save_profile_pic():
-	pass
-
-
 @users.route("/auth/signup", methods=['POST'])
 def signup():
 	if request.method == 'POST':
@@ -69,7 +61,8 @@ def signup():
 				hashed_password = bcrypt.generate_password_hash(post_data['password']).decode('utf-8')
 				# app.logger.info(hashed_password)
 				user = User(
-					username=post_data['username'],
+					firstname=post_data['firstname'],
+					lastname=post_data['lastname'],
 					email=post_data['email'],
 					password=hashed_password
 				).save()
@@ -96,6 +89,41 @@ def signup():
 			}
 			return make_response(jsonify(responseObject)), 202
 
+
+def modify_user(json, id):
+	user = None
+	for query in User.objects(id=id): user = query
+	if user == None:
+		raise ValueError('invalid auth_token')
+	modify_profile = {
+		'gender': json['profile']['gender'] or user['profile']['gender'],
+		'school': json['profile']['school'] or user['profile']['school'],
+		'major': json['profile']['major'] or user['profile']['major'],
+		'gradYear': json['profile']['gradYear'] or user['profile']['gradYear'],
+		'numOfHackathons': json['profile']['numOfHackathons'] or user['profile']['numOfHackathons']
+	}
+	modify_preferences = {
+		'interests': json['preferences']['interests'] or user['preferences']['interests'],
+		'languages': json['preferences']['languages'] or user['preferences']['languages'],
+		'technologies': json['preferences']['technologies'] or user['preferences']['technologies'],
+		'fields': json['preferences']['fields'] or user['preferences']['fields'],
+		'goals': json['preferences']['goals'] or user['preferences']['goals']
+	}
+	modify_social = {
+		'profile_pic': user['social']['profile_pic'],
+		'website': json['social']['website'] or user['social']['website'],
+		'devpost': json['social']['devpost'] or user['social']['devpost'],
+		'linkedin': json['social']['linkedin'] or user['social']['linkedin'],
+		'github': json['social']['github'] or user['social']['github'],
+		'slack': json['social']['slack'] or user['social']['slack'],
+		'facebook': json['social']['facebook'] or user['social']['facebook'],
+		'instagram': json['social']['instagram'] or user['social']['instagram']
+	}
+	User.objects(id=id).update_one(
+		profile=modify_profile,
+		preferences=modify_preferences,
+		social=modify_social
+	)
 '''
 TODO: 
 convert JSON -> Mongodb instance & save it.
@@ -103,11 +131,39 @@ write a generic function for User JSON -> mongodb instance and test it
 '''
 @users.route("/auth/register", methods=['POST'])
 def register():
-	print('in register!')
-	responseObject = {
-		'status': 'success'
-	}
-	return make_response(jsonify(responseObject)), 201
+	auth_header = str(request.headers.get('Authorization'))
+	if auth_header:
+		try:
+			auth_token = auth_header.split(" ")[1]
+		except IndexError as e:
+			responseObject = {
+				'status': 'fail',
+				'message': 'Bearer token malformed.'
+			}
+			return make_response(jsonify(responseObject)), 401
+	else:
+		auth_token = ''
+	if auth_token:
+		resp = User.decode_auth_token(auth_token)
+		if request.method == 'POST':
+			data = json.loads(request.data)
+			try:
+				modify_user(data, resp)
+				responseObject = {
+					'status': 'success'
+				}
+				return make_response(jsonify(responseObject)), 200
+			except:
+				responseObject = {
+					'status': 'fail'
+				}
+				return make_response(jsonify(responseObject)), 400
+	else:
+		responseObject = {
+			'status': 'fail',
+			'message': 'Provide a valid auth token.'
+		}
+		return make_response(jsonify(responseObject)), 401
 
 '''
 todo: do proper auth for logout (blacklisttoken and stuff)
@@ -163,30 +219,24 @@ POST request: basically same thing as registration
 @users.route("/auth/account", methods=['GET','POST'])
 #a@login_required
 def account():
-	if request.method == 'GET':
-		# app.logger.info('in routes.py account get request')
-		auth_header = str(request.headers.get('Authorization'))
-		# app.logger.info(auth_header)
-		if auth_header:
-			try:
-				auth_token = auth_header.split(" ")[1]
-			except IndexError as e:
-				# app.logger.error(e)
-				responseObject = {
-					'status': 'fail',
-					'message': 'Bearer token malformed.'
-				}
-				return make_response(jsonify(responseObject)), 401
-		else:
-			auth_token = ''
-		if auth_token:
-			# app.logger.info(auth_token)
-			resp = User.decode_auth_token(auth_token)
-			# app.logger.info(resp)
+	auth_header = str(request.headers.get('Authorization'))
+	if auth_header:
+		try:
+			auth_token = auth_header.split(" ")[1]
+		except IndexError as e:
+			responseObject = {
+				'status': 'fail',
+				'message': 'Bearer token malformed.'
+			}
+			return make_response(jsonify(responseObject)), 401
+	else:
+		auth_token = ''
+	if auth_token:
+		resp = User.decode_auth_token(auth_token)
+		if request.method == 'GET':
 			try:
 				user = None
 				for query in User.objects(id=resp): user = query
-				# app.logger.info(user)
 				if user:
 					responseObject = {
 						'status': 'success',
@@ -202,14 +252,26 @@ def account():
 					'message': e.message
 				}
 				return make_response(jsonify(responseObject)), 401
-		else:
-			responseObject = {
-				'status': 'fail',
-				'message': 'Provide a valid auth token.'
-			}
-			return make_response(jsonify(responseObject)), 401
-	if request.method == 'POST':
-		pass
+		elif request.method == 'POST':
+			data = json.loads(request.data)
+			try:
+				modify_user(data, resp)
+				responseObject = {
+					'status': 'success'
+				}
+				return make_response(jsonify(responseObject)), 200
+			except:
+				responseObject = {
+					'status': 'fail'
+				}
+				return make_response(jsonify(responseObject)), 400
+	else:
+		responseObject = {
+			'status': 'fail',
+			'message': 'Provide a valid auth token.'
+		}
+		return make_response(jsonify(responseObject)), 401
+		
 
 '''
 TODO:
@@ -217,12 +279,16 @@ do the same thing as GET for account, dont worry about test case
 '''
 @users.route("/profile/<string:user_id>", methods=['GET'])
 def profile(user_id):
-	if current_user.id == user_id:
-		return redirect(url_for('users.account'))
 	if request.method == 'GET':
+		user = None
 		for query in User.objects(id=user_id): user = query
-		image_file = url_for('static', filename="profile_pics/"+user.image_file)
-		return render_template('profile.html', title='Profile', image_file=image_file, user=user)
+		data = jsonify(user)
+		responseObject = {
+			'staus:' 'success'
+			'data': data
+		}
+		#image_file = url_for('static', filename="profile_pics/"+user.image_file)
+		return make_response(jsonify(responseObject))
 
 '''
 =====================don't worry========================

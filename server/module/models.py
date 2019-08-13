@@ -4,7 +4,7 @@ from mongoengine import *
 from module import login_manager, app, bcrypt
 from flask_login import UserMixin
 from bson.json_util import loads, dumps
-from mongoengine import StringField, EmailField, DateTimeField, ListField, ObjectIdField, URLField
+from mongoengine import StringField, IntField, EmailField, DateTimeField, ListField, ObjectIdField, URLField, DictField
 
 # @login_manager.user_loader
 # def load_user(user_id):
@@ -14,11 +14,36 @@ from mongoengine import StringField, EmailField, DateTimeField, ListField, Objec
 
 
 class User(Document, UserMixin):
-    username = StringField(max_length=60, required=True, unique=True)
+    firstname = StringField(max_length=60, required=True)
+    lastname = StringField(max_length=60, required=True)
     email = EmailField(required=True,unique=True)
     password = StringField(max_length=70)
-    image_file = StringField(default="default.jpg")
-    preferences = ListField(default=None)
+    profile = DictField(default={
+        "gender": None,
+        "school": None,
+        "major": None,
+        "gradYear": None,
+        "numOfHackathons": None
+    })
+    preferences = DictField(default={
+        'interests': None,
+        'language': None,
+        'technologies': None,
+        'fields': None,
+        "goals": None
+    })
+    social = DictField(default={
+        "profile_pic": '',
+        "website": '',
+        'devpost': '',
+        'linkedin': '',
+        'github': '',
+        'slack': '',
+        'facebook': '',
+        'instagram': ''
+    })
+    teams = ListField(default=[])
+    hackathons = ListField(default=[])
 
     # def __init__(self, email, password, username):
     #     self.password = bcrypt.generate_password_hash(password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
@@ -97,7 +122,7 @@ class User(Document, UserMixin):
         }
 
     def __str__(self):
-        return f"User('{self.username}','{self.email}','{self.password}')"
+        return f"User('{self.firstname}','{self.email}')"
 
 class BlacklistToken(Document):
     token = StringField(unique=True, nullable=False) 
@@ -118,13 +143,22 @@ class Hackathon(Document):
     city = StringField(required=True)
     address = StringField(required=True)
     url = URLField()
-    about = StringField()
+    about = StringField(default='')
     logo = StringField()
     school = StringField()
-    hackers = ListField()
+    hackers = ListField()   #todo: remove
+    teams = ListField()     #todo: remove
 
     def __str__(self):
         return f"Hackathon('{self.name}','{self.start_date}')"
+
+
+    def contain_hacker(self, user):
+        if user.id:
+            if user.id in self.hackers: return True
+            else: return False
+        else:
+            raise ValueError('invalid user')
 
 '''
     # todo: get hackathon season based on start_date: f2017
@@ -140,8 +174,23 @@ class Hackathon(Document):
         return self.name+season+year
 '''
     
+class Team(Document):
+    name = StringField()
+    members = ListField(required=True)
+    capacity = IntField(default=4)
+    idea = StringField()
+    details = DictField(default={
+        'interests': None,
+        'technologies': None,
+        'fields': None,
+        'languages': None,
+        'goals': None
+    })
 
-
+    def is_empty(self):
+        return len(members) == 0
+    def is_full(self):
+        return len(members) == capacity
 
 class Conversation(Document):
     participants = ListField(StringField())

@@ -1,8 +1,9 @@
-from flask import Blueprint
-from flask import render_template, url_for, flash, redirect, request, session
-from module import app
+import json
 from module.models import User, Hackathon
-from flask_login import current_user
+from module import app # todo: remove app on production
+from flask import Blueprint
+from flask import render_template, url_for, flash, redirect, request, session, make_response, jsonify
+from flask.views import MethodView
 
 hackathons = Blueprint('hackathons', __name__)
 
@@ -12,13 +13,16 @@ TODO:
 2) Accurate handle exceptions
      For instance, how do you print out the exception messages in the bigger method that calls it? also need to wrap that message in a response object
 '''
-
 def get_hackathon(name):
 	hackathon = None
-	for query in Hackathon.object(name=name): hackathon = query
+	for query in Hackathon.objects(name=name): hackathon = query
 	if hackathon == None: raise Exception('the url is invalid')
 	else: return hackathon
 
+
+'''
+	gets full user based on auth_token
+'''
 def get_user(auth_header):
 	if auth_header:
 		try:
@@ -39,16 +43,47 @@ def get_user(auth_header):
 	else:
 		raise IndexError('Provide a valid auth token')
 
+def get_minified_user(user):
+	hacker = {
+		'id': user.id,
+		'firstname': user['firstname'],
+		'lastname': user['lastname'],
+		'email': user['email'],
+		'profile': {
+			"school": user['profile']['school'],
+        	"major": user['profile']['major'],
+        	"gradYear": user['profile']['gradYear'],
+        	"numOfHackathons": user['profile']['numOfHackathons']
+		},
+		'preferences': {
+	        'interests': user['preferences']['interests'],
+	        'languages': user['preferences']['languages'],
+	        'technologies': user['preferences']['technologies'],
+	        'fields': user['preferences']['fields'],
+	        "goals": user['preferences']['goals']
+	    },
+	    'social': {
+	    	"profile_pic": user['social']['profile_pic']
+	    }
+	}
+	return hacker
+
+'''
+	gets all users in hackathon
+	@param: hackathon.hackers (array of user ids registered for this hackathon)
+	@return: list of minified users corresponding to user_ids
+'''
 def get_hackathon_users(hackers_ids):
 	if len(hackers_ids) == 0:
 		return None
 	hackers = []
 	for hacker_id in hackers_ids:
 		hacker = None
-		for query in User.objects(id=hacker): hacker = query
+		for query in User.objects(id=str(hacker_id)): hacker = query
 		if hacker == None: continue
-		else: hackers.append(hacker)
+		else: hackers.append(get_minified_user(hacker))
 	return hackers
+
 
 '''
 	returns minified_matches
@@ -57,8 +92,49 @@ def get_matches(user, hackers):
 	return hackers
 
 '''
+	add current user to hackathon in url
+	returns
+'''
+@hackathons.route('/hackathons/<string:hackathon_name>/add', methods=['POST'])
+def add_hacker(hackathon_name):
+	try:
+		hackathon = get_hackathon(hackathon_name)
+		auth_header = str(request.headers.get('Authorization'))
+		user = get_user(auth_header)
+		if user.id in hackathon.hackers:
+			responseObject = {
+				'status': 'fail',
+				'message': 'You are already registered!'
+			}
+			return make_response(jsonify(responseObject)), 400
+		updated_hackers = hackathon.hackers
+		updated_hackers.append(user.id)
+		hackathon.update(hackers=updated_hackers)
+		responseObject = {
+			'status': 'success',
+			'message': 'You have been added to the hackathon!'
+		}
+		return make_response(jsonify(responseObject)), 200
+	except IndexError:
+		# current user is not authenticated, cannot match users
+		responseObject = {
+			'status': 'invalid user',
+			'message': 'please log in to view matched hackers'
+		}
+		return make_response(jsonify(responseObject)), 401
+	except Exception as error:
+		app.logger.error(error.message)
+		responseObject = {
+			'status': 'fail',
+			'message': error.message
+		}
+		return make_response(jsonify(responseObject)), 402
+
+
+
+
+'''
 	TODO: finish this function according to the documentation
-   gethackathon
    gets the hackathon based on name, computes matches, return the hackathon itself and its matches
    @returns: hackathon object, matching users
    @exceptions
@@ -82,9 +158,17 @@ def hackathon(hackathon_name):
 			'hackathon': {
 				'name': hackathon.name,
 				'start_date': hackathon.start_date,
-				'end_date': hackathon.end_date
+				'end_date': hackathon.end_date,
+				'state': hackathon.state,
+			    'city': hackathon.city,
+			    'address': hackathon.address,
+			    'url': hackathon.url,
+			    'about': hackathon.about,
+			    'logo': hackathon.logo,
+			    'school': hackathon.school
 			},
-			'matches': matches
+			'matches': matches,
+			'teams': hackathon.teams
 		}
 		return make_response(jsonify(responseObject)), 200
 	except IndexError:
