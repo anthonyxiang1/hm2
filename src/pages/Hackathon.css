@@ -7,7 +7,7 @@
 
 .addtxt{
     position: relative;
-    top:-50px;
+    top:-125px;
 }
 
 img.hackathonImg{
@@ -94,30 +94,21 @@ img.hackathonImg{
 
 
 .matchedUsers{
-    position:relative;
-    top:1157px;
-    right:25%;
+    position: relative;
+    top:1300px;
     margin-bottom:500px;
 }
 
-.umatch1{
-    position:relative;
-    background-color:rgb(236, 236, 238);
-    border-radius:10px;
-    border:3px solid gray;
-    text-align:left;
-    margin: 0 0 0 0;
-    left:500px;
-}
-.availableTeams{
-    position:relative;
-    top:525px;
-    left:25%;
-    margin-bottom:500px;
-}
+
 
 .profilepic{
     width: 200px;
+}
+
+
+.addedtxt{
+    position:relative;
+    top:600px;
 }
 @keyframes move{
     from{

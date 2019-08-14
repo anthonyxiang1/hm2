@@ -55,42 +55,63 @@ class Sec1 extends React.Component {
                 </ButtonToolbar>
 
 
+                <center className="addedtxt" id="addedtxt" style={{ display: "none" }}>
+                    <h1>You Have Been Added!</h1>
+                </center>
+
+
                 <Container id="matchedUsers" className="matchedUsers" style={{ display: "none" }}>
                     <Row>
                         <Col>
                             <h2>Top Matched Users</h2>
+                        </Col>
+                        <Col >
+                            <h2>Available Teams</h2>
                         </Col>
                     </Row>
                     <Row>
                         <Col>
                             <UserCard/>
                         </Col>
+                        
+                        <Col>
+                            <UserCard/>
+                        </Col>
+                        
                     </Row>
 
                     <Row >
                         <Col>
-                            <div className="umatch2" ></div>
+                         <UserCard/>
                         </Col>
-                    </Row>
-                </Container>
-
-                <Container id="availableTeams" className="availableTeams" style={{ display: "none" }}>
-                    <Row>
+                        
                         <Col>
-                            <h2>Available Teams</h2>
+                            <UserCard/>
                         </Col>
+                    
                     </Row>
                     <Row>
                         <Col>
-                            <div className="tmatch1" ></div>
+                            <UserCard/>
                         </Col>
-                    </Row>
-
-                    <Row >
+                        
                         <Col>
-                            <div className="tmatch2" ></div>
+                            <UserCard/>
                         </Col>
+                    
                     </Row>
+                    <Row>
+                        {/* This is here to show how to move cards to a side */}
+                        <Col>
+                        </Col>
+                        <Col>
+                            <UserCard/>
+                        </Col>
+                        
+                        
+                    </Row>
+                
+                    
                 </Container>
 
             </div>
@@ -104,11 +125,14 @@ class Sec1 extends React.Component {
         //document.getElementById("alreadymatched").style.visibility = "visible";
     }
     showAvailable(){
+        $("#addedtxt").fadeIn()
+        setTimeout(function(){
         $("#matchedUsers").fadeIn("slow")
-        $("#availableTeams").fadeIn("slow")
+        
         $('html, body').animate({
             scrollTop: $("#matchedUsers").offset().top
-        }, 1000);
+        }, 2000);
+        },1250);
     }
 }
 
