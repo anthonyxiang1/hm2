@@ -100,11 +100,12 @@ img.hackathonImg{
 }
 
 
-
+.usercard{
+    margin-bottom:8px;
+}
 .profilepic{
     width: 200px;
 }
-
 
 .addedtxt{
     position:relative;

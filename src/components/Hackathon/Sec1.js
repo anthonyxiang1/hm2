@@ -1,6 +1,7 @@
 import React from 'react';
 import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
 import UserCard from './UserCard'
+import TeamCard from './TeamCard'
 class Sec1 extends React.Component {
 
     render() {
@@ -60,7 +61,7 @@ class Sec1 extends React.Component {
                 </center>
 
 
-                <Container id="matchedUsers" className="matchedUsers" style={{ display: "none" }}>
+                <Container fluid={true} id="matchedUsers" className="matchedUsers" style={{ display: "none" }}>
                     <Row>
                         <Col>
                             <h2>Top Matched Users</h2>
@@ -75,7 +76,7 @@ class Sec1 extends React.Component {
                         </Col>
                         
                         <Col>
-                            <UserCard/>
+                            <TeamCard/>
                         </Col>
                         
                     </Row>
@@ -86,7 +87,7 @@ class Sec1 extends React.Component {
                         </Col>
                         
                         <Col>
-                            <UserCard/>
+                            <TeamCard/>
                         </Col>
                     
                     </Row>
@@ -96,7 +97,7 @@ class Sec1 extends React.Component {
                         </Col>
                         
                         <Col>
-                            <UserCard/>
+                            <TeamCard/>
                         </Col>
                     
                     </Row>
@@ -105,7 +106,7 @@ class Sec1 extends React.Component {
                         <Col>
                         </Col>
                         <Col>
-                            <UserCard/>
+                            <TeamCard/>
                         </Col>
                         
                         
