@@ -3,17 +3,32 @@ body {
 }
 
 .registration {
-
 padding-top: 100px;
-border: 3px solid blue;
+/*border: 3px solid blue;*/
 }
 
 .reg {
-
   text-align: left;
   margin: 0 auto;
-  background: rgb(226, 228, 253);
+  background: #f8f8ff;
   border: 3px solid rgb(172, 172, 172);
   min-height: 330px;
   padding: 10px;
+  border-radius: 5px;
 }
+
+.mb-3 input[type="radio"]{
+  cursor: pointer;
+}
+
+.mb-3{
+  margin-left:1.1em;
+}
+
+.reg button{
+  width:100%;
+}
+/*
+html{
+  background-image: linear-gradient(to bottom left, blue , red);
+}*/

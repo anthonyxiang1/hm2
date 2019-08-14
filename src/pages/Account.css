@@ -30,9 +30,10 @@
 }
 
 .about {
-    background: #e2e4fd;
+    background: #f8f8ff;
     color: #332c2c;
     border: 3px solid rgb(172, 172, 172);
+    border-radius: 5px;
     margin: auto;
     box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.08);
     min-height: 330px;
@@ -42,10 +43,10 @@
 }
 
 .preferences {
-    background: #e2e4fd;
+    background: #f8f8ff;
     color: #332c2c;
     border: 3px solid rgb(172, 172, 172);
-    
+    border-radius: 5px;
     box-shadow: 5px 5px 5px rgba(50, 50, 50, 0.08);
     padding: 40px;
     min-height: 330px;
@@ -100,5 +101,11 @@ input::-webkit-input-placeholder, textarea::-webkit-input-placeholder{
     height: 100px;
 }
 
+.boxes button{
+    margin-top: 1.5em;
+}
 
+a.social-icon{
+    margin-left:0.2em;
+}
 

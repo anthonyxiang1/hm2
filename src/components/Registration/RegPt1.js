@@ -48,7 +48,7 @@ class RegPt1 extends React.Component {
           <Container>      
           <ProgressBar variant="success" animated now={33} label={`${33}%`}/>
           <br/>
-          <h1>Register</h1>
+          <h1>Register Here</h1>
             <Col > 
               <Row >
               <Form className="reg">
