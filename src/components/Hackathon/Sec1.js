@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
+import UserCard from './UserCard'
 class Sec1 extends React.Component {
 
     render() {
@@ -62,26 +63,7 @@ class Sec1 extends React.Component {
                     </Row>
                     <Row>
                         <Col>
-                            <div className="umatch1">
-                            <Container>
-                                <Row>
-                                    <Col className="profilepic text-right">
-                                    <img
-                                        alt="propic"
-                                        src={require("../Account/assets/favicon.jpg")}
-                                        className="avatar"
-                                    />
-                                    </Col>
-                                    <Col>
-                                        <h3>Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                             Proin vulputate diam egestas mi posuere viverra. 
-                                             Pellentesque justo erat, ullamcorper sit amet varius et,
-                                            aliquam elementum ligula.
-                                        </h3>
-                                    </Col>
-                                </Row>
-                            </Container>
-                            </div>
+                            <UserCard/>
                         </Col>
                     </Row>
 
