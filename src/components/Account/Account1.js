@@ -556,14 +556,18 @@ class Account1 extends React.Component {
                     <Card.Header><strong>Social Media</strong></Card.Header>
                         <Card.Body>
                             <Card.Text>
-                                
+                                  
                                     {
                                     this.state.url.map((url, index)=> {
                                         return (
+                                        
                                         <div key={index}>
+                                            
                                             <Form.Group className="form-inline">
+                                            
                                             <Form.Label>{index+1}.</Form.Label>
                                             <Form.Control
+                                            style={{width: "75%"}}
                                             type="text"
                                             placeholder="Linkedin, Github, etc."
                                             onChange= {(e) => this.handleURLChange(e, index)}
@@ -572,12 +576,16 @@ class Account1 extends React.Component {
                                             className="name"
                                             />
                                             
+                                            
                                             <Button variant="danger" onClick={() => this.handleRemoveURLForm(index)}>-</Button>
+                                           
                                             </Form.Group>
+                                            
                                         </div>
                                         )
                                     })
                                     }
+                                   
 
 
                                 <br></br>
