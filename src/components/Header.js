@@ -17,11 +17,20 @@ class Header extends React.Component {
             />
             Hacker Matcher
               </Navbar.Brand>
-              
+
               <Navbar.Toggle aria-controls="basic-navbar-nav" />
               <Navbar.Collapse id="basic-navbar-nav">
                 <Nav className="mr-auto">
                 </Nav>
+                
+                <Nav.Link href="/add">
+                Add to Team
+                  </Nav.Link>
+
+              <Nav.Link href="/create">
+                Create Team
+                  </Nav.Link>
+
                 <NavDropdown title="usernameHere">
                   <NavDropdown.Item href="/account">Account</NavDropdown.Item>
                   <NavDropdown.Divider />

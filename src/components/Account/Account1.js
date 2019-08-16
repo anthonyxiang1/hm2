@@ -396,6 +396,7 @@ class Account1 extends React.Component {
                     />
                     <h1 >{this.state.username}</h1>
                     <SocialMedia vals={this.state.url}/>
+                    <br></br>
                     <Button variant="primary" onClick = {this.handleClick}>Edit Profile</Button>
                     
                 </Col>

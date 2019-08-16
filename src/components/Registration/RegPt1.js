@@ -32,7 +32,7 @@ class RegPt1 extends React.Component {
     this.goBack = this.goBack.bind(this);
     this.state = {
       page: 1,
-      errMsg: "",
+      errMsg: false,
       progress: 67,
       gender: "",
       school: "",
@@ -773,7 +773,7 @@ class RegPt1 extends React.Component {
     event.preventDefault();
     if (this.state.similarField !== "" && this.state.similarInt !== "" && this.state.similarLang !== "" && this.state.similarTech !== "" && this.state.goal !== 0){
     this.setState({
-      progress: 100
+      progress: 100,
     });
     console.log(this.state)
     } 
@@ -788,7 +788,7 @@ class RegPt1 extends React.Component {
         && this.state.major !== "" && this.state.year !== "" && this.state.education !== "" && this.state.hackCount !== "") {
     this.setState({
       page: this.state.page+1,
-      errMsg: ""
+      errMsg: true
     });
   }
     else {

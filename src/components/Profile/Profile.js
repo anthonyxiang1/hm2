@@ -74,7 +74,7 @@ class Profile1 extends React.Component {
 
         return (
             
-        <div className="account">
+        <div className="profile">
               {console.log(this.state) } 
         <Container className="boxes">      
             <Row >
