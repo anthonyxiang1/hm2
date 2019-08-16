@@ -18,7 +18,7 @@ class Sec1 extends React.Component {
 
                 <Container className="flexbox" >
                     
-                    <Row >
+                    <Row>
                          <Col xs={{span:12}} sm={{span:12}} md={{span:4, order:2}} lg={{span:4, order:2}} xl={{span:4, order:2}}>
                             <img id="hackathonImg"
                                 src={require("./stuyhacks.png")}
@@ -60,103 +60,81 @@ class Sec1 extends React.Component {
                     </Row>
                 </Container>
                 <ButtonToolbar className="btn-duo justify-content-center">
-                    <Button type="button" id="matchme" className="matchme" variant="secondary" style={{ display: "none" }} onClick={this.showAvailable}>Match Me!</Button>
-                    <Button type="button" id="alreadymatched" className="alreadymatched" variant="success" style={{ display: "none" }}onClick={this.showAvailable}>I Already Have A Team!</Button>
+                    <Button type="button" id="matchme" className="matchme" variant="secondary"  onClick={this.showAvailable}>Match Me!</Button>
+                    <Button type="button" id="alreadymatched" className="alreadymatched" variant="success" onClick={this.showAvailable}>I Already Have A Team!</Button>
                 </ButtonToolbar>
 
 
-                <center className="addedtxt" id="addedtxt" style={{ display: "none" }}>
+                <center className="addedtxt" id="addedtxt" >
                     <h1>You Have Been Added!</h1>
                 </center>
                 
-                <Container fluid={true} id="matchedUsers" className="matchedUsers" style={{ display: "none" }}>
+                <Container id="matchedUsers" className="matchedUsers">
                     <Row>
-                        <Col>
-                            <h2>Top Matched Users</h2>
-                        </Col>
-                        <Col >
-                            <h2>Available Teams</h2>
-                        </Col>
-                    </Row>
-                    <Row>
-                        <Col>
-                            <UserCard/>
-                        </Col>
-                        
-                        <Col>
-                            <TeamCard/>
-                        </Col>
-                        
-                    </Row>
+                    <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
+                        <Row>
+                            <h2><strong>Top Matched Users</strong></h2>
+                        </Row>
 
-                    <Row >
-                        <Col>
-                         <UserCard/>
-                        </Col>
-                        
-                        <Col>
-                            <TeamCard/>
-                        </Col>
-                    
-                    </Row>
-                    <Row>
-                        <Col>
+                        <Row>
                             <UserCard/>
-                        </Col>
-                        
-                        <Col>
+                        </Row>
+
+                        <Row>
+                         <UserCard/>
+                        </Row>
+
+                        <Row>
+                         <UserCard/>
+                        </Row>
+                    </Col>
+
+                    <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
+                        <Row>
+                            <h2><strong>Available Teams</strong></h2>
+                        </Row>
+
+                        <Row>
                             <TeamCard/>
-                        </Col>
+                        </Row>
+
+                        <Row>
+                         <TeamCard/>
+                        </Row>
+
+                        <Row>
+                         <TeamCard/>
+                        </Row>
+                    </Col>
+
+                    </Row>
+                   
                     
-                    </Row>
-                    <Row>
-                        {/* This is here to show how to move cards to a side */}
-                        <Col>
-                            <HackathonCard/>
-                        </Col>
-                        <Col>
-                            <TeamCard/>
-                        </Col>
                         
-                        
-                    </Row>
+                
                 
                     
                 </Container>
-                <div className="pgbottom">
-                </div>
+                
             </div>
             
         );
         
     }
     myFunction() {
-        $("#downarr").fadeOut("slow")
-        $("#addme").fadeOut("slow")
+        /*
         setTimeout(function(){
         $("#addedtxt").fadeIn()
-        //document.getElementById("matchme").style.visibility = "visible";
-        //document.getElementById("alreadymatched").style.visibility = "visible";
-        },1250);
+        },500);
         $("#matchme").fadeIn("slow")
         $("#alreadymatched").fadeIn("slow")
         $('html, body').animate({
-            scrollTop: $("#matchme").offset().top
-        }, 3000);
+            scrollTop: $("#alreadymatched").offset().top
+        }, 2000);
+        */
     }
     showAvailable(){
-        $("#addyourself").fadeOut("slow")
         
-        $("#alreadymatched").fadeOut("slow")
-        $("#matchme").fadeOut("slow")
-        setTimeout(function(){
-        $("#matchedUsers").fadeIn("slow")
-        setTimeout(function(){
-            $('html, body').animate({
-                scrollTop: $("#matchedUsers").offset().top
-            }, 2000);
-        },1250)
-        },2500);
     }
 }
 

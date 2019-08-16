@@ -6,7 +6,7 @@ class HackathonCard extends React.Component {
         return (
             <div className="hackathoncard" id="hackathoncard">
                 <Container>
-                    <Row>
+                    <Row >
                         <Col>
                             <div className="card shadow">
                                 <div className="card-body">

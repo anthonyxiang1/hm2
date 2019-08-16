@@ -65,6 +65,7 @@ img.hackathonImg{
 .addbtn{ 
     position:relative;
     top:350px;  
+    
 }
 
 .addbtn img{
@@ -75,9 +76,9 @@ img.hackathonImg{
     animation: move 1s infinite alternate;
 }
 
-
 .addbtn img Button{
     width:10px;
+    cursor: pointer;
 }
 
 .btn-block {
@@ -94,12 +95,13 @@ img.hackathonImg{
     position: relative;
     top:500px;
     width:100%;
+    cursor: pointer;
 }
 
 
-.matchedUsers{
+.matchedUsers, .availableTeams{
     position: relative;
-    top:1300px;
+    top:700px;
     margin-bottom:500px;
 }
 
@@ -115,7 +117,7 @@ img.hackathonImg{
     position:relative;
     top:300px;
 }
-.pgbottom{
+.sec1{
     margin-bottom:500px;
 }
 @keyframes move{
@@ -173,7 +175,11 @@ img.hackathonImg{
     position: relative;
     top:500px;
     width:initial;
-}
+    }
+    .addedtxt{
+        position:relative;
+        top:340px;
+    }
 
 }
 /*lg*/
