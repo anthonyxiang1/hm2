@@ -10,16 +10,28 @@ class UserCard extends React.Component {
                     <Col>
                         <div className="card shadow">
                             <div className="card-body">
-                                <Row className="align-items-center">
-                                    <Col className="text-nowrap text-center">
-                                        <a href="">
+                                <Row>
+                                    <Col className="text-center">
+                                        <Row>
                                             <img className="d-block mx-auto rounded-circle img-fluid" src="http://api.randomuser.me/portraits/women/73.jpg"></img>
-                                        </a>
+                                        
+                                        </Row>
+                                        <Row >
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                        </Row>
                                     </Col>
-                                    <Col className="text-center text-lg-left">
+                                    <Col>
+                                        <Row>
                                         <h3 className="font-weight-light d-inline"><a className="text-dark" href="">Mary Chesnut</a></h3>
                                         <h6>School School School School </h6>
                                         <h6>Major Major Major</h6>
+                                        </Row>
+                                        <Row>
                                         <ul className="list-inline mt-3 tag-list">
                                             <li className="list-inline-item">
                                                 <button className="btn btn-light">
@@ -38,19 +50,9 @@ class UserCard extends React.Component {
                                             </li>
                                             
                                         </ul>
-                                    </Col>
-                                    <div className="col-lg-auto col-sm-8 mx-auto">
-                                        <Row className="text-left">
-                                            <Col>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. 
-                                            Donec varius sem vel metus pharetra, a finibus nisl accumsan. 
-                                            Vivamus eu elit diam. Phasellus quam lorem, malesuada sed auctor ut, 
-                                            condimentum ac nisl. Ut consequat ultrices sem, sed lacinia massa egestas porttitor.
-                                             Aenean sodales posuere congue. Curabitur tempus sem at ligula fermentum suscipit.
-                                            </Col>
                                         </Row>
-                                    </div>
-                                </Row>
+                                    </Col>
+                                    </Row>  
                             </div>
                         </div>
                     </Col>
