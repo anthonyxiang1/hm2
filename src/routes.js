@@ -6,6 +6,7 @@ import Account from './pages/Account';
 import Home from './pages/Home';
 import Registration from './pages/Registration';
 import Hackathon from './pages/Hackathon'
+import Profile from './pages/Profile';
 import NotFound from './pages/NotFound';
 
 const routes = (
@@ -16,6 +17,7 @@ const routes = (
       <Route path="/register" exact component={Registration} />
       <Route path="/home" exact component={Home} />
       <Route path="/hackathon" exact component={Hackathon}/>
+      <Route path="/profile" exact component={Profile}/>
       <Route component={NotFound} />
     </Switch>
   </App>
