@@ -572,6 +572,7 @@ class Account1 extends React.Component {
                                             <Form.Label>{index+1}.</Form.Label>
                                             <Form.Control
                                             type="text"
+                                            style={{width: "75%"}}
                                             placeholder="Linkedin, Github, etc."
                                             onChange= {(e) => this.handleURLChange(e, index)}
                                             id={url}

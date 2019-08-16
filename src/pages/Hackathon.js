@@ -2,6 +2,7 @@ import React, {Component} from 'react';
 import Header from '../components/Header.js';
 import Sec1 from '../components/Hackathon/Sec1'
 import "./Hackathon.css";
+
 class Hackathon extends Component{
     render(){
         return(
@@ -11,7 +12,7 @@ class Hackathon extends Component{
             </div>
         )
     }
-    
+
 }
 
-export default Hackathon;
+export default Hackathon; 

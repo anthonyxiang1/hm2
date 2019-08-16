@@ -22,6 +22,7 @@ const routes = (
       <Route path="/profile" exact component={Profile}/>
       <Route path="/create" exact component={Create}/>
       <Route path="/add" exact component={Add}/>
+      <Route path="/hackathon" exact component={Hackathon}/>
       <Route component={NotFound} />
     </Switch>
   </App>

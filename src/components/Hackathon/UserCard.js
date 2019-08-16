@@ -1,40 +1,67 @@
 import React from 'react';
 import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
 class UserCard extends React.Component {
-  
+
     render() {
-        return(
-        <div className="usercard">
+        return (
+            <div className="usercard" id="usercard">
             <Container>
                 <Row>
-                    <Col className="profilepic text-right">
-                        <img
-                            alt="propic"
-                            src={require("../Account/assets/favicon.jpg")}
-                            className="avatar"
-                        />
-                    </Col>
                     <Col>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                        Proin vulputate diam egestas mi posuere viverra.
-                        Pellentesque justo erat, ullamcorper sit amet varius et,
-                        aliquam elementum ligula.
-                     
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        Goals Goals Goals Goals Goals Goals Goals Goals Goals Goals
-                    </Col>
-                    <Col>
-                        TAG1 TAG2 TAG3 TAG4
+                        <div className="card shadow">
+                            <div className="card-body">
+                                <Row>
+                                    <Col className="text-center">
+                                        <Row>
+                                            <img className="d-block mx-auto rounded-circle img-fluid" src="http://api.randomuser.me/portraits/women/73.jpg"></img>
+
+                                        </Row>
+                                        <Row >
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                            Goals Goals Goals
+                                        </Row>
+                                    </Col>
+                                    <Col>
+                                        <Row>
+                                        <h3 className="font-weight-light d-inline"><a className="text-dark" href="">Mary Chesnut</a></h3>
+                                        <h6>School School School School </h6>
+                                        <h6>Major Major Major</h6>
+                                        </Row>
+                                        <Row>
+                                        <ul className="list-inline mt-3 tag-list">
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-light">
+                                                    Artificial Intelligence
+                                                </button>
+                                            </li>
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-light">
+                                                    Computer Vision
+                                                </button>
+                                            </li>
+                                            <li className="list-inline-item">
+                                                <button className="btn btn-light">
+                                                    Full-Stack Engineering
+                                                </button>
+                                            </li>
+
+                                        </ul>
+                                        </Row>
+                                    </Col>
+                                    </Row>  
+                            </div>
+                        </div>
                     </Col>
                 </Row>
             </Container>
-        </div>
-        )
+            </div>
+                    )
     }
-    
+
 }
 
-export default UserCard
+export default UserCard 
