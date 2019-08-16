@@ -1,4 +1,114 @@
-@media only screen and (max-device-width: 900px){
+@media only screen and (max-device-width: 400px){
+    /*small devices*/
+  .pt1 {
+      position: absolute;
+      top: 23%;
+      left: 0%;
+    }
+    
+    .pt1 h1{
+    color:black;
+      text-align: center;
+      font-size: 4rem;
+      font-weight: 500;
+    }
+    
+    .pt1 h2{
+      color:black;
+      font-size:1.5rem;
+    }
+    
+    .pt1 button{
+      width: 50%;
+    }
+    
+    .pt1 img {
+      position: relative;
+      top: -20%;
+      left: 0%;
+      width: 70%;
+      height: 180%;
+      padding-bottom: 10%;
+    }
+  
+    small {
+      color: red;
+    }
+    
+    .pt2 {
+      background-color: #8dbedfe1;
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      height: 45%;
+    }
+
+    .pt2 h1 {
+      font-size: 30%;
+    }
+    
+    .pt2 h2 {
+      padding: 4% 0;
+    }
+    
+    .pt3 {
+      position: absolute;
+      top: 150%;
+      left: 0;
+      right: 0;
+      height: 100%;
+    }
+    
+    .col-md-2 {
+      flex: 0 0 33.33333%;
+      max-width: 70%;
+      position: absolute;
+      top: 5%;
+      left: 13%;
+      }
+    
+    .col-md-3 {
+      flex: 0 0 33.33333%;
+      max-width: 70%;
+      position: absolute;
+      top: 75%;
+      left: 13%;
+    }
+    
+    .pt3 img {
+      width: 90%;
+      height: 50%;
+      margin-top: 10%;
+      margin-left: 10%;
+    }
+    
+    .register-box {
+      position: absolute;
+      top:25%;
+      left: 15%;
+      width: 70%;
+      height: 70%;
+      display: inline-block;
+      background: white;
+      border-radius: 2%;
+      opacity: 0.9;
+      margin: 0 auto;
+      padding: 2%;
+    }
+
+    .pt4 {
+      background-size: 300%;
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 300%;
+      height: 100%;
+    }
+    
+  }
+
+@media only screen and (min-device-width: 400px){
     
   .pt1 {
       position: absolute;
@@ -107,118 +217,6 @@
     }
     
   }
-
-/*
-@media only screen and (max-device-width: 900px){
-    
-  .pt1 {
-      position: absolute;
-      top: 23%;
-      left: 0%;
-    }
-    
-    .pt1 h1{
-    color:black;
-      text-align: center;
-      font-size: 4rem;
-      font-weight: 500;
-    }
-    
-    .pt1 h2{
-      color:black;
-      font-size:1.5rem;
-    }
-    
-    .pt1 button{
-      width: 50%;
-    }
-    
-    .pt1 img {
-      position: relative;
-      top: -20%;
-      left: 0%;
-      width: 70%;
-      height: 180%;
-      padding-bottom: 10%;
-    }
-  
-    small {
-      color: red;
-    }
-    
-    .pt2 {
-      background-color: #8dbedfe1;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      height: 32%;
-    }
-
-    .pt2 h1 {
-      font-size: 50%;
-    }
-    
-    .pt2 h2 {
-      padding: 4% 0;
-    }
-    
-    .pt3 {
-      position: absolute;
-      top: 140%;
-      left: 0;
-      right: 0;
-      height: 100%;
-    }
-    
-    .col-md-2 {
-      flex: 0 0 33.33333%;
-      max-width: 70%;
-      position: absolute;
-      top: 5%;
-      left: 13%;
-      }
-    
-    .col-md-3 {
-      flex: 0 0 33.33333%;
-      max-width: 70%;
-      position: absolute;
-      top: 50%;
-      left: 13%;
-    }
-    
-    .pt3 img {
-      width: 90%;
-      height: 50%;
-      margin-top: 10%;
-      margin-left: 10%;
-    }
-    
-    .register-box {
-      position: absolute;
-      top:25%;
-      left: 15%;
-      width: 70%;
-      height: 50%;
-      display: inline-block;
-      background: white;
-      border-radius: 2%;
-      opacity: 0.9;
-      margin: 0 auto;
-      padding: 2%;
-    }
-
-    .pt4 {
-      background-size: 300%;
-      position: absolute;
-      left: 0;
-      right: 0;
-      top: 240%;
-      height: 100%;
-    }
-    
-  }
-  */
 
 @media only screen and (min-device-width: 900px){
   /* desktop */ 

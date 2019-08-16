@@ -671,7 +671,7 @@ class RegPt1 extends React.Component {
               <Form.Label><br></br></Form.Label>
                   <Form.Row>
                   <Form.Group as={Col} controlId="formGridState">
-                      <Form.Label>Similar Interests*</Form.Label>
+                      <Form.Label>Similar Interests</Form.Label>
                       <Form.Control as="select" name="similarInt" value={this.state.similarInt} onChange={this.handleRegChange}>
                         <option>Choose...</option>
                         <option>Not important</option>
@@ -683,7 +683,7 @@ class RegPt1 extends React.Component {
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="formGridState">
-                      <Form.Label>Similar Languages*</Form.Label>
+                      <Form.Label>Similar Languages</Form.Label>
                       <Form.Control as="select" name="similarLang" value={this.state.similarLang} onChange={this.handleRegChange}>
                         <option>Choose...</option>
                         <option>Not important</option>
@@ -697,7 +697,7 @@ class RegPt1 extends React.Component {
 
                   <Form.Row>
                   <Form.Group as={Col} controlId="formGridState">
-                      <Form.Label>Similar Technologies*</Form.Label>
+                      <Form.Label>Similar Technologies</Form.Label>
                       <Form.Control as="select" name="similarTech" value={this.state.similarTech} onChange={this.handleRegChange}>
                         <option>Choose...</option>
                         <option>Not important</option>
@@ -709,7 +709,7 @@ class RegPt1 extends React.Component {
                   </Form.Group>
 
                   <Form.Group as={Col} controlId="formGridState">
-                      <Form.Label>Similar Fields*</Form.Label>
+                      <Form.Label>Similar Fields</Form.Label>
                       <Form.Control as="select" name="similarField" value={this.state.similarField} onChange={this.handleRegChange}>
                         <option>Choose...</option>
                         <option>Not important</option>
@@ -722,7 +722,7 @@ class RegPt1 extends React.Component {
                   </Form.Row>
 
                   <Form.Group as={Col} controlId="formGridState">
-                      <Form.Label>How much do you care about winning?*</Form.Label>
+                      <Form.Label>How much do you care about winning?</Form.Label>
                       <Form.Control as="select" name="goal" value={this.state.goal} onChange={this.handleRegChange}>
                         <option>Choose...</option>
                         <option>1</option>
@@ -783,7 +783,7 @@ class RegPt1 extends React.Component {
   };
 
   handleNextSubmit(event){
-    event.preventDefault();
+    event.preventDefault(); 
     if (this.state.school !== "" && this.state.gender !== "" 
         && this.state.major !== "" && this.state.year !== "" && this.state.education !== "" && this.state.hackCount !== "") {
     this.setState({

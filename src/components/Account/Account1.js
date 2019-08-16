@@ -34,6 +34,7 @@ class Account1 extends React.Component {
         
         this.state = {
           page: true,
+          propic: "",
           username: "Anthony Xiang",
           educationLvl: "college",
           year: "2022",
@@ -485,12 +486,17 @@ class Account1 extends React.Component {
                                     </span>
                                 </div>
                                 <div className="custom-file">
-                                    <form>
-                                    <div class="form-group">
-                                        <label for="exampleFormControlFile1"></label>
-                                        <input type="file" class="form-control-file" id="exampleFormControlFile1"></input>
-                                    </div>
-                                    </form>
+                                     <form value={this.state.propic} onChange={this.handleProfileChange}>
+                                        <div class="form-group">
+                                            <label for="exampleFormControlFile1"></label>
+                                            <Form.Control
+                                                id="fileUpload"
+                                                type="file"
+                                                name="propic"
+                                                onChange={this.handleProfileChange}
+                                            />
+                                        </div>
+                                        </form>
                                 </div>
                             </div>
                         </Col>
@@ -608,8 +614,21 @@ class Account1 extends React.Component {
                                             className="name"
                                             >
                                                 <option>{languages.name}</option>
-                                                <option>other</option>
-                                                <option>another</option>
+                                                <option>Javascript</option>
+                                                <option>Java</option>
+                                                <option>PHP</option>
+                                                <option>Android</option>
+                                                <option>Python</option>
+                                                <option>HTML</option>
+                                                <option>CSS</option>
+                                                <option>iOS</option>
+                                                <option>Swift</option>
+                                                <option>Ruby on Rails</option>
+                                                <option>SQL</option>
+                                                <option>C</option>
+                                                <option>C++</option>
+                                                <option>C#</option>
+                                                <option>Go</option>
                                             </Form.Control>
                                             <Form.Control
                                             as="select"
@@ -620,8 +639,16 @@ class Account1 extends React.Component {
                                             className="name"
                                             >
                                                 <option>{languages.skill}</option>
+                                                <option>1</option>
                                                 <option>2</option>
                                                 <option>3</option>
+                                                <option>4</option>
+                                                <option>5</option>
+                                                <option>6</option>
+                                                <option>7</option>
+                                                <option>8</option>
+                                                <option>9</option>
+                                                <option>10</option>
                                             </Form.Control>
                                             
                                             <Button variant="danger" onClick={() => this.handleRemoveLANGForm(index)}>-</Button>
@@ -655,8 +682,22 @@ class Account1 extends React.Component {
                                         className="name"
                                         >
                                             <option>{tech.name}</option>
-                                            <option>other</option>
-                                            <option>another</option>
+                                            <option>ReactJS</option>
+                                            <option>RESTful API</option>
+                                            <option>D3</option>
+                                            <option>Flask</option>
+                                            <option>Django</option>
+                                            <option>MongoDB</option>
+                                            <option>Node.js</option>
+                                            <option>ASP.net</option>
+                                            <option>Angular.js</option>
+                                            <option>Json</option>
+                                            <option>Pandas</option>
+                                            <option>Bootstrap</option>
+                                            <option>Azure</option>
+                                            <option>Google Cloud</option>
+                                            <option>Firebase</option>
+                                            <option>Heroku</option>
                                         </Form.Control>
                                         <Form.Control
                                         as="select"
@@ -667,8 +708,16 @@ class Account1 extends React.Component {
                                         className="name"
                                         >
                                             <option>{tech.skill}</option>
+                                            <option>1</option>
                                             <option>2</option>
                                             <option>3</option>
+                                            <option>4</option>
+                                            <option>5</option>
+                                            <option>6</option>
+                                            <option>7</option>
+                                            <option>8</option>
+                                            <option>9</option>
+                                            <option>10</option>
                                         </Form.Control>
                                         
                                         <Button variant="danger" onClick={() => this.handleRemoveTECHForm(index)}>-</Button>
@@ -692,8 +741,15 @@ class Account1 extends React.Component {
                                     <Form.Control as="select" name="hackathons" value={this.state.hackathons} onChange={this.handleProfileChange}>
                                         <option>{this.state.hackathons}</option>
                                         <option>1</option>
+                                        <option>2</option>
                                         <option>3</option>
+                                        <option>4</option>
                                         <option>5</option>
+                                        <option>6</option>
+                                        <option>7</option>
+                                        <option>8</option>
+                                        <option>9</option>
+                                        <option>10</option>
                                     </Form.Control>
                                     </Form.Group>
                             <br></br>
@@ -720,8 +776,25 @@ class Account1 extends React.Component {
                                 className="name"
                                 >
                                     <option>{interests}</option>
-                                    <option>other</option>
-                                    <option>another</option>
+                                    <option>Artificial Intelligence</option>
+                                    <option>Computer Vision</option>
+                                    <option>Machine Learning</option>
+                                    <option>Medical Imaging</option>
+                                    <option>Theory</option>
+                                    <option>Hardware</option>
+                                    <option>Networks</option>
+                                    <option>Graphics</option>
+                                    <option>Human-Computer Interaction</option>
+                                    <option>Game Development</option>
+                                    <option>Data Visualization</option>
+                                    <option>AR/VR</option>
+                                    <option>UI/UX Design</option>
+                                    <option>Data Science</option>
+                                    <option>iOS Development</option>
+                                    <option>Android Development</option>
+                                    <option>Frontend Development</option>
+                                    <option>Backend Development</option>
+                                    <option>Fullstack Development</option>
                                 </Form.Control>
                                 
                                 <Button variant="danger" onClick={() => this.handleRemoveINTERESTForm(index)}>-</Button>
@@ -752,8 +825,24 @@ class Account1 extends React.Component {
                                 className="name"
                                 >
                                     <option>{fields}</option>
-                                    <option>other</option>
-                                    <option>another</option>
+                                    <option>Finance</option>
+                                    <option>Health</option>
+                                    <option>Education</option>
+                                    <option>Environment</option>
+                                    <option>Biology</option>
+                                    <option>Chemistry</option>
+                                    <option>Physics</option>
+                                    <option>Mathematics</option>
+                                    <option>Social Networking</option>
+                                    <option>Astronomy</option>
+                                    <option>Human Assistance</option>
+                                    <option>Music</option>
+                                    <option>Art</option>
+                                    <option>Helping Developing Countries</option>
+                                    <option>Cars</option>
+                                    <option>Sports</option>
+                                    <option>Social conflicts</option>
+                                    <option>Disaster Relief</option>
                                 </Form.Control>
                                 
                                 <Button variant="danger" onClick={() => this.handleRemoveFIELDForm(index)}>-</Button>
