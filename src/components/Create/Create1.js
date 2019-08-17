@@ -1,21 +1,40 @@
 import React from "react";
-import {Form, Button, Col, Row, Container} from 'react-bootstrap';
+import {Form, Button, Col, Row, Container, Modal} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import ReactSearchBox from 'react-search-box'
+import { throws } from "assert";
 
 class Create1 extends React.Component {
   constructor(props) {
     super(props);
     this.handleCreateSubmit = this.handleCreateSubmit.bind(this);
     this.handleCreateChange = this.handleCreateChange.bind(this);
+    this.deleteName = this.deleteName.bind(this);
 
     this.state = {
-      errMsg: "",
+      modalPop: false,
       hack: "",
       idea: "",
       goal: "",
       name: "",
-      available: ["ant", "bob", "cat", "dog"],
-      memberList: ["george"]
+      members: [],
+      available: [
+        {
+          value: 'John Doe',
+        },
+        {
+          value: 'Jane Doe',
+        },
+        {
+          value: 'Mary Phillips',
+        },
+        {
+          value: 'Robert',
+        },
+        {
+          value: 'Karius',
+        },
+      ]
     };
   }
 
@@ -31,7 +50,18 @@ class Create1 extends React.Component {
   }
 
   render() {
-    const {errMsg} = this.state;
+    const {errMsg, modalPop} = this.state;
+    const {available} = this.state;  // write the query here, make a constant of available hackers
+
+    const MemberTags = ({vals}) => (
+            <div>
+            {
+            vals.map((item, index) => ( 
+                <Button key={index} variant="info" size="sm" disabled>{item.value}</Button>
+                ))
+            }
+            </div>
+      )
 
         return (
         <div className="create">
@@ -53,7 +83,24 @@ class Create1 extends React.Component {
                         </Form.Control>
                     </Form.Group>
 
-                    <h1>search goes here</h1>
+                    <Form.Group as={Col} controlId="formGridState">
+                    <Form.Label>Choose Teammates (max 3) </Form.Label>
+                    <br></br>
+                    <small>(Note: they must select that they are attending this hackathon)</small>
+                    <br></br>
+                    <ReactSearchBox
+                      placeholder="Teammate name"
+                      data={available}
+                      dropDownBorderColor="blue"
+                      onFocus={() =>  event.target.value = null}
+                      onSelect={(record) => {
+                                    if (this.state.members.length < 3 && this.state.members.indexOf(record) === -1)
+                                    this.setState({ members: this.state.members.concat(record) })}}
+                    />
+                    <MemberTags vals={this.state.members}/>
+                    <br></br>
+                    <Button variant="outline-danger" size="sm" onClick={() => this.deleteName()}>Remove Last Added</Button>
+                    </Form.Group>
 
                 <Form.Group controlId="formGridAddress1">
                   <Form.Label>Project Idea</Form.Label>
@@ -68,7 +115,7 @@ class Create1 extends React.Component {
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridState">
-                    <Form.Label>How much do your team want to win?</Form.Label>
+                    <Form.Label>How important is winning the competition to your team?</Form.Label>
                     <Form.Control as="select" name="goal" value={this.state.goal} onChange={this.handleCreateChange}>
                         <option>Choose...</option>
                         <option>Not that important</option>
@@ -108,8 +155,17 @@ class Create1 extends React.Component {
 
   handleCreateSubmit(event){
     event.preventDefault();
-    console.log(this.state)
+        if (this.state.hack !== "" && this.state.idea !== "" && this.state.goal !== "" && this.state.name !== ""){
+        console.log(this.state)
+        }
+  }
+
+  deleteName(event){
+    let members = this.state.members.slice();  
+      members.splice(members.length-1, 1);
+      this.setState({members}); 
   };
+
 }
 
 export default withRouter(Create1);
