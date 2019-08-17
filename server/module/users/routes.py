@@ -1,5 +1,6 @@
 import datetime
 import json
+import re
 from module.models import User, BlacklistToken
 from module import bcrypt, db, mail, app # todo: remove app on production
 from module.users.utils import save_picture, send_reset_email
@@ -24,9 +25,11 @@ def testconnection():
 @users.route("/auth/login", methods=['POST'])
 def login():
 	post_data = json.loads(request.data)
+	app.logger.info(post_data['email'])
 	try:
 		user = None
 		for query in User.objects(email=post_data['email']): user = query
+		app.logger.info(user)
 		if user and bcrypt.check_password_hash(user['password'], post_data['password']):
 			auth_token = user.encode_auth_token(str(user.id))
 			if auth_token:
@@ -43,7 +46,7 @@ def login():
 			}
 			return make_response(jsonify(responseObject)), 404
 	except Exception as e:
-		# app.logger.error(e)
+		app.logger.error(e)
 		responseObject = {
 			'status': 'fail',
 			'message': 'Try again'
@@ -109,20 +112,21 @@ def modify_user(json, id):
 		'fields': json['preferences']['fields'] or user['preferences']['fields'],
 		'goals': json['preferences']['goals'] or user['preferences']['goals']
 	}
-	modify_social = {
-		'profile_pic': user['social']['profile_pic'],
-		'website': json['social']['website'] or user['social']['website'],
-		'devpost': json['social']['devpost'] or user['social']['devpost'],
-		'linkedin': json['social']['linkedin'] or user['social']['linkedin'],
-		'github': json['social']['github'] or user['social']['github'],
-		'slack': json['social']['slack'] or user['social']['slack'],
-		'facebook': json['social']['facebook'] or user['social']['facebook'],
-		'instagram': json['social']['instagram'] or user['social']['instagram']
-	}
+	# modify_social = {
+	# 	'profile_pic': user['social']['profile_pic'],
+	# 	'website': json['social']['website'] or user['social']['website'],
+	# 	'devpost': json['social']['devpost'] or user['social']['devpost'],
+	# 	'linkedin': json['social']['linkedin'] or user['social']['linkedin'],
+	# 	'github': json['social']['github'] or user['social']['github'],
+	# 	'slack': json['social']['slack'] or user['social']['slack'],
+	# 	'facebook': json['social']['facebook'] or user['social']['facebook'],
+	# 	'instagram': json['social']['instagram'] or user['social']['instagram']
+	# }
 	User.objects(id=id).update_one(
 		profile=modify_profile,
 		preferences=modify_preferences,
-		social=modify_social
+		profile_pic=json['profile_pic']
+		# social=modify_social
 	)
 '''
 TODO: 
@@ -233,6 +237,7 @@ def account():
 		auth_token = ''
 	if auth_token:
 		resp = User.decode_auth_token(auth_token)
+		app.logger.info(resp)
 		if request.method == 'GET':
 			try:
 				user = None
@@ -240,9 +245,7 @@ def account():
 				if user:
 					responseObject = {
 						'status': 'success',
-						'data': {
-							'email': user.email
-						}
+						'user': user.to_json()
 					}
 					return make_response(jsonify(responseObject)), 200
 			except Exception as e:
@@ -282,13 +285,36 @@ def profile(user_id):
 	if request.method == 'GET':
 		user = None
 		for query in User.objects(id=user_id): user = query
-		data = jsonify(user)
-		responseObject = {
-			'staus:' 'success'
-			'data': data
-		}
-		#image_file = url_for('static', filename="profile_pics/"+user.image_file)
-		return make_response(jsonify(responseObject))
+		if user:
+			responseObject = {
+				'status': 'success',
+				'user': user.to_json()
+			}
+			return make_response(jsonify(responseObject)), 200
+		else:
+			responseObject = {
+				'staus:' 'failure'
+				'message': 'The URL you provided is invalid'
+			}
+			return make_response(jsonify(responseObject)), 404
+
+
+
+
+
+@users.route('/search', methods=['GET'])
+def search():
+	query = request.args.get('hackathon')
+	regex = re.compile('.*'+query+'.*')
+	query_result = User.objects(name=regex)
+	queries = []
+	for query in query_result:
+		queries.append(query.get_card())
+	responseObject = {
+		'status': 'success',
+		'query': queries
+	}
+	return make_response(jsonify(responseObject)), 200
 
 '''
 =====================don't worry========================

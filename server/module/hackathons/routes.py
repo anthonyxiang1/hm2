@@ -4,6 +4,7 @@ from module import app # todo: remove app on production
 from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session, make_response, jsonify
 from flask.views import MethodView
+from module.hackathons.utils import get_hackathon
 
 hackathons = Blueprint('hackathons', __name__)
 
@@ -13,11 +14,7 @@ TODO:
 2) Accurate handle exceptions
      For instance, how do you print out the exception messages in the bigger method that calls it? also need to wrap that message in a response object
 '''
-def get_hackathon(name):
-	hackathon = None
-	for query in Hackathon.objects(name=name): hackathon = query
-	if hackathon == None: raise Exception('the url is invalid')
-	else: return hackathon
+
 
 
 '''
@@ -68,21 +65,7 @@ def get_minified_user(user):
 	}
 	return hacker
 
-'''
-	gets all users in hackathon
-	@param: hackathon.hackers (array of user ids registered for this hackathon)
-	@return: list of minified users corresponding to user_ids
-'''
-def get_hackathon_users(hackers_ids):
-	if len(hackers_ids) == 0:
-		return None
-	hackers = []
-	for hacker_id in hackers_ids:
-		hacker = None
-		for query in User.objects(id=str(hacker_id)): hacker = query
-		if hacker == None: continue
-		else: hackers.append(get_minified_user(hacker))
-	return hackers
+
 
 
 '''
@@ -95,21 +78,72 @@ def get_matches(user, hackers):
 	add current user to hackathon in url
 	returns
 '''
-@hackathons.route('/hackathons/<string:hackathon_name>/add', methods=['POST'])
-def add_hacker(hackathon_name):
+@hackathons.route('/hackathons/<string:hackathon_name>/addmatch', methods=['POST'])
+def add_hacker_match(hackathon_name):
 	try:
 		hackathon = get_hackathon(hackathon_name)
 		auth_header = str(request.headers.get('Authorization'))
 		user = get_user(auth_header)
-		if user.id in hackathon.hackers:
+		if user.id in hackathon.match_hackers:
 			responseObject = {
 				'status': 'fail',
 				'message': 'You are already registered!'
 			}
 			return make_response(jsonify(responseObject)), 400
-		updated_hackers = hackathon.hackers
+		
+		if user.id in hackathon.unmatch_hackers:
+			updated_unmatch = hackathon.unmatch_hackers
+			updated_unmatch.remove(user.id)
+			hackathon.update(unmatch_hackers=updated_unmatch)
+
+		updated_hackers = hackathon.match_hackers
 		updated_hackers.append(user.id)
-		hackathon.update(hackers=updated_hackers)
+		hackathon.update(match_hackers=updated_hackers)
+		responseObject = {
+			'status': 'success',
+			'message': 'You have been added to the hackathon!'
+		}
+		return make_response(jsonify(responseObject)), 200
+	except IndexError:
+		# current user is not authenticated, cannot match users
+		responseObject = {
+			'status': 'invalid user',
+			'message': 'please log in to view matched hackers'
+		}
+		return make_response(jsonify(responseObject)), 401
+	except Exception as error:
+		app.logger.error(error.message)
+		responseObject = {
+			'status': 'fail',
+			'message': error.message
+		}
+		return make_response(jsonify(responseObject)), 402
+
+'''
+	add current user to hackathon in url
+	returns
+'''
+@hackathons.route('/hackathons/<string:hackathon_name>/addunmatch', methods=['POST'])
+def add_hacker_match(hackathon_name):
+	try:
+		hackathon = get_hackathon(hackathon_name)
+		auth_header = str(request.headers.get('Authorization'))
+		user = get_user(auth_header)
+		if user.id in hackathon.match_hackers:
+			responseObject = {
+				'status': 'fail',
+				'message': 'You are already registered!'
+			}
+			return make_response(jsonify(responseObject)), 400
+		
+		if user.id in hackathon.match_hackers:
+			updated_match = hackathon.match_hackers
+			updated_match.remove(user.id)
+			hackathon.update(match_hackers=updated_match)
+
+		updated_hackers = hackathon.unmatch_hackers
+		updated_hackers.append(user.id)
+		hackathon.update(unmatch_hackers=updated_hackers)
 		responseObject = {
 			'status': 'success',
 			'message': 'You have been added to the hackathon!'
@@ -185,3 +219,16 @@ def hackathon(hackathon_name):
 			'message': error.message
 		}
 		return make_response(jsonify(responseObject)), 401
+
+
+@hackathons.route('/hackathons')
+def get_all_hackathons():
+	hackathons = Hackathon.objects()
+	results = []
+	for hackathon in hackathons:
+		results.append(hackathon.get_card())
+	responseObject = {
+		'status': 'success',
+		'hackathons': results 
+	}
+	return make_response(jsonify(responseObject)), 200

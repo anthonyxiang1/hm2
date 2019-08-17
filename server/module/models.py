@@ -1,5 +1,6 @@
 import jwt
 import datetime
+import json
 from mongoengine import *
 from module import login_manager, app, bcrypt
 from flask_login import UserMixin
@@ -18,38 +19,32 @@ class User(Document, UserMixin):
     lastname = StringField(max_length=60, required=True)
     email = EmailField(required=True,unique=True)
     password = StringField(max_length=70)
+    profile_pic = StringField()
     profile = DictField(default={
-        "gender": None,
-        "school": None,
-        "major": None,
-        "gradYear": None,
-        "numOfHackathons": None
+        "gender": "",
+        "school": "",
+        "major": "",
+        "gradYear": "",
+        "numOfHackathons": ""
     })
     preferences = DictField(default={
-        'interests': None,
-        'language': None,
-        'technologies': None,
-        'fields': None,
-        "goals": None
+        'interests': [],
+        'languages': [],
+        'technologies': [],
+        'fields': [],
+        "goals": 0
     })
-    social = DictField(default={
-        "profile_pic": '',
-        "website": '',
-        'devpost': '',
-        'linkedin': '',
-        'github': '',
-        'slack': '',
-        'facebook': '',
-        'instagram': ''
-    })
-    teams = ListField(default=[])
-    hackathons = ListField(default=[])
-
-    # def __init__(self, email, password, username):
-    #     self.password = bcrypt.generate_password_hash(password, app.config.get('BCRYPT_LOG_ROUNDS')).decode()
-    #     self.email = email
-    #     self.username = username
-    #     # self.registered_on = datetime.datetime.now()
+    # social = DictField(default={
+    #     "website": '',
+    #     'devpost': '',
+    #     'linkedin': '',
+    #     'github': '',
+    #     'slack': '',
+    #     'facebook': '',
+    #     'instagram': ''
+    # })
+    teams = ListField(default=[])           #list of teamIds
+    hackathons = ListField(default=[])      #list of hackathonIDs
 
     def encode_auth_token(self, user_id):
         """
@@ -61,7 +56,7 @@ class User(Document, UserMixin):
         """
         try:
             payload = {
-                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=0, seconds=5),  # expiration time of token
+                'exp': datetime.datetime.utcnow() + datetime.timedelta(days=1, seconds=0),  # expiration time of token
                 'iat': datetime.datetime.utcnow(),                                          # time the token is generated
                 'sub': user_id                                                              # subject of the token (user whom it identifies)
             }
@@ -88,6 +83,7 @@ class User(Document, UserMixin):
         """
         try:
             payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
+            print(payload)
             return payload['sub']   # subject of the token
         except jwt.ExpiredSignatureError as err:
             err.message='Signature expired. Please log in again.'
@@ -115,11 +111,35 @@ class User(Document, UserMixin):
         for query in User.objects(id=user_id):
             return query
 
-    def get_minified_user(self):
+    def get_card(self):
         user = {
-            'username': self.username,
-            'email' : self.email
+            'id': str(self.id),
+            'firstname': self.firstname,
+            'lastname' : self.lastname,
+            'email': self.email,
+            'profile_pic': self.profile_pic
         }
+        return json.dumps(user)
+
+    def get_profile(self):
+        profile = DictField(default={
+            "gender":  self.gender,
+            "school": self.school,
+            "major": self.major,
+            "gradYear": self.gradYear,
+            "numOfHackathons":  self.numOfHackathons,
+        })
+        return json.dumps(profile)
+
+    def get_preferences(self):
+        preferences = DictField(default={
+            'interests': self.interests,
+            'languages': self.languages,
+            'technologies': self.technologies,
+            'fields': self.fields,
+            'goals': 0
+        })
+        return json.dumps(preferences)
 
     def __str__(self):
         return f"User('{self.firstname}','{self.email}')"
@@ -146,7 +166,8 @@ class Hackathon(Document):
     about = StringField(default='')
     logo = StringField()
     school = StringField()
-    hackers = ListField()   #todo: remove
+    match_hackers = ListField()   #todo: remove
+    unmatch_hackers = ListField()
     teams = ListField()     #todo: remove
 
     def __str__(self):
@@ -155,10 +176,37 @@ class Hackathon(Document):
 
     def contain_hacker(self, user):
         if user.id:
-            if user.id in self.hackers: return True
+            if user.id in self.match_hackers or user.id in self.unmatch_hackers: return True
             else: return False
         else:
             raise ValueError('invalid user')
+
+    def get_info(self):
+        hackathon = {
+            name: self.name,
+            start_date: self.start_date.strftime('%m-%d-%Y'),
+            end_date : self.end_date.strftime('%m-%d-%Y'),
+            state: self.state,
+            city: self.city,
+            address: self.address,
+            url: self.url,
+            about: self.about,
+            logo: self.logo,
+            school: self.school
+        }
+        return json.dumps(hackathon)
+
+    def get_card(self):
+        card = {
+            'id': str(self.id),
+            'name': self.name,
+            'start_date': self.start_date.strftime('%m-%d-%Y'),
+            'end_date' : self.end_date.strftime('%m-%d-%Y'),
+            'state': self.state,
+            'city': self.city
+        }
+        return json.dumps(card)
+
 
 '''
     # todo: get hackathon season based on start_date: f2017
@@ -179,18 +227,27 @@ class Team(Document):
     members = ListField(required=True)
     capacity = IntField(default=4)
     idea = StringField()
+    hackathon = StringField(required=True)           #hackathonID that team is assigned to
     details = DictField(default={
-        'interests': None,
-        'technologies': None,
-        'fields': None,
-        'languages': None,
-        'goals': None
+        'interests': ListField(default=[]),
+        'language': ListField(default=[]),
+        'technologies': ListField(default=[]),
+        'fields': ListField(default=[]),
+        'goals': 0
     })
 
     def is_empty(self):
         return len(members) == 0
     def is_full(self):
         return len(members) == capacity
+    def get_card(self):
+        card = {
+            'id': str(self.id),
+            'name': self.name,
+            'idea': self.idea
+        }
+        return json.dumps(card)
+
 
 class Conversation(Document):
     participants = ListField(StringField())

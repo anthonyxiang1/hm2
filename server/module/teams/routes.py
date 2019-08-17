@@ -1,45 +1,14 @@
 import json
 from module.models import Hackathon, Team
 from module import app # todo: remove app on production
-from module.users.utils import get_userid_from_auth
+from module.users.utils import get_userid_from_auth, get_user_from_id
 from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session, make_response, jsonify
 from flask.views import MethodView
+from module.teams.utils import get_team_by_id, verify_user_in_team, modify_team, verify_user_in_hackathon
+from module.hackathons.utils import get_hackathon_by_id
 
 teams = Blueprint('teams', __name__)
-
-
-def get_team_by_id(team_id):
-	team = None
-	for query in Team.objects(id=str(team_id)): team = query
-	if team == None:
-		raise ValueError('Team is not found')
-	return team
-
-def verify_user(user_id, team_id):
-	team = get_team_by_id(team_id)
-	if str(user_id) in team.members:
-		return True
-	else:
-		return False
-
-def modify_team(data, team_id):
-	team = get_team_by_id(team_id)
-	json_data = json.loads(data)
-	modify_details = {
-		'interests': json_data['details']['interests'] or team['details']['interests'],
-		'technologies': json_data['details']['technologies'] or team['details']['technologies'],
-		'fields': json_data['details']['fields'] or team['details']['fields'],
-		'languages': json_data['details']['languages'] or team['details']['languages'],
-		'goals': json_data['details']['goals'] or team['details']['goals']
-	}
-	modify_name = json_data['name'] or team['name'] 
-	modify_idea = json_data['idea'] or team['idea']
-	team.name = modify_name
-	team.idea = modify_idea
-	team.details = modify_details
-	app.logger.info(team)
-	team.save()
 
 
 '''
@@ -56,7 +25,7 @@ def get_team(team_id):
 			team = get_team_by_id(team_id)
 			responseObject = {
 				'status': 'success',
-				'data': jsonify(team)
+				'data': team.to_json()
 			}
 			return make_response(jsonify(responseObject)), 200
 		except ValueError:
@@ -100,17 +69,42 @@ def get_team(team_id):
 
 '''
 	create a new team
-	@param: array of user ids
+	@param: array of user ids & corresponding hackathon; name, idea, details object
 	@return: a team is created in db
+	1. verify all members are in hackathon
+	2. verify all members are not registered for another team in this hackathon
+	3. verify team members does not exceed capacity
+	4. create team
+
 '''
 @teams.route('/teams/new', methods=['POST'])
 def create_team():
-	pass
+	post_data = json.loads(request.data)
+	hackathon_id = post_data['hackathon']
+	hackathon = get_hackathon_by_id(hackathon_id)
+	members_id = post_data['members']
+	if len(members) > post_data['capacity']:
+		responseObject = {
+			'status': 'failure',
+			'message': 'members exceeded capactiy'
+		}
+		return make_response(jsonify(responseObject)), 401
+	for member_id in members_id:
+		user = get_user_from_id(member_id)
+		if not verify_user_in_hackathon(user, hackathon):
+			responseObject = {
+				'status': 'failure',
+				'message': 'one or more users are not registered for this hackathon or is in another team in this hackathon'
+			}
+			return make_response(jsonify(responseObject)), 401
+	# create team
+	new_team = Team(members=members_id, hackathon=hackathon_id).save()
+	modify_team(post_data, str(new_team.id))
 
 
 '''
-	add a member to a team that current user is in
-	@param: auth_header, user_id to add to team
+	add a member to a team that current user is in, team_id
+	@param: auth_header, members_id to add to team
 		1. check that user of auth_header is in team_id
 		2. check that capacity is not reached
 		3. check user_id is not registered for team in same hackathon
@@ -118,7 +112,45 @@ def create_team():
 '''
 @teams.route('/teams/<string:team_id>/add', methods=['POST'])
 def add_to_team(team_id):
-	pass
+	auth_header = str(request.headers.get('Authorization'))
+	user_id = get_userid_from_auth(auth_header)
+	post_data = json.loads(request.data)
+	if verify_user_in_team(user_id, post_data['team']):
+		team = get_team_by_id(post_data['team'])
+		members_id = post_data['members']
+		if (len(members_id)+len(team.members)) > team.capacity:
+			responseObject = {
+				'status': 'failure',
+				'message': 'team capactiy reached'
+			}
+			return make_response(jsonify(responseObject)), 401
+
+		hackathon = get_hackathon_by_id(team.hackathon)
+		for member_id in members_id:
+			member = get_user_from_id(members_id)
+			if not verify_user_in_hackathon(member, hackathon):
+				responseObject = {
+					'status': 'failure',
+					'message': 'one or more users are not registered for this hackathon or is in another team in this hackathon'
+				}
+				return make_response(jsonify(responseObject)), 401
+		# verification done
+		updated_members = team.members
+		for member_id in members_id:
+			updated_members.append(member_id)
+		team.update(members=updated_members)
+		responseObject = {
+			'status': 'success',
+			'message': 'New members have been added!'
+		}
+		return make_response(jsonify(responseObject)), 200
+	else:
+		responseObject = {
+			'status': 'failure',
+			'message': 'unauthorized request'
+		}
+		return make_response(jsonify(responseObject)), 402
+
 
 
 '''
@@ -131,4 +163,24 @@ def add_to_team(team_id):
 '''
 @teams.route('/teams/<string:team_id>/remove', methods=['POST'])
 def remove_from_team(team_id):
-	pass
+	auth_header = str(request.headers.get('Authorization'))
+	user_id = get_userid_from_auth(auth_header)
+	post_data = json.loads(request.data)
+	if verify_user_in_team(user_id, post_data['team']):
+		member_id = post_data['member']
+		team = get_team_by_id(post_data['team'])
+		updated_members = team.members
+		updated_members.remove(member_id)
+		team.update(members=updated_members)
+		responseObject = {
+			'status': 'success',
+			'message': 'Member has been removed'
+		}
+		return make_response(jsonify(responseObject)), 200
+	else:
+		responseObject = {
+			'status': 'failure',
+			'message': 'unauthorized request'
+		}
+		return make_response(jsonify(responseObject)), 402
+
