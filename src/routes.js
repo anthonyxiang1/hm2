@@ -10,7 +10,7 @@ import Profile from './pages/Profile';
 import Create from './pages/Create';
 import Add from './pages/Add';
 import NotFound from './pages/NotFound';
-
+import TeamPage from './pages/TeamPage'
 const routes = (
   <App>
     <Switch>
@@ -23,6 +23,7 @@ const routes = (
       <Route path="/create" exact component={Create}/>
       <Route path="/add" exact component={Add}/>
       <Route path="/hackathon" exact component={Hackathon}/>
+      <Route path="/teampage" exact component={TeamPage}/>
       <Route component={NotFound} />
     </Switch>
   </App>
