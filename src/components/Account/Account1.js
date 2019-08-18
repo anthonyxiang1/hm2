@@ -54,7 +54,6 @@ class Account1 extends React.Component {
           langNot: [],
           selectedTeam: ""
         };
-        this.baseState = this.state;
       }
 
       componentDidMount() {
@@ -194,6 +193,7 @@ class Account1 extends React.Component {
         this.setState({
             page: !this.state.page
           });
+        this.state = this.baseState
         console.log(this.baseState)
     }
     
