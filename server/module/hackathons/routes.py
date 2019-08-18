@@ -5,6 +5,7 @@ from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session, make_response, jsonify
 from flask.views import MethodView
 from module.hackathons.utils import get_hackathon
+from module.users.utils import get_userid_from_auth, get_user_from_id
 
 hackathons = Blueprint('hackathons', __name__)
 
@@ -185,38 +186,32 @@ def hackathon(hackathon_name):
 		hackathon = get_hackathon(hackathon_name)
 		auth_header = str(request.headers.get('Authorization'))
 		user = get_user(auth_header)
-		hackers = get_hackathon_users(hackathon.hackers)
-		matches = get_matches(user, hackathon.hackers)
 		responseObject = {
 			'status': 'success',
-			'hackathon': {
-				'name': hackathon.name,
-				'start_date': hackathon.start_date,
-				'end_date': hackathon.end_date,
-				'state': hackathon.state,
-			    'city': hackathon.city,
-			    'address': hackathon.address,
-			    'url': hackathon.url,
-			    'about': hackathon.about,
-			    'logo': hackathon.logo,
-			    'school': hackathon.school
-			},
-			'matches': matches,
-			'teams': hackathon.teams
-		}
-		return make_response(jsonify(responseObject)), 200
-	except IndexError:
-		# current user is not authenticated, cannot match users
-		responseObject = {
-			'status': 'invalid user',
-			'message': 'please log in to view matched hackers'
+			'hackathon': hackathon.get_info()
 		}
 		return make_response(jsonify(responseObject)), 200
 	except Exception as error:
-		# raise
 		responseObject = {
 			'status': 'fail',
-			'message': error.message
+			'message': 'please login to view matches'
+		}
+		return make_response(jsonify(responseObject)), 401
+
+@hackathons.route('/hackathons/<string:hackathon_name>', methods=["GET"])
+def get_matches(hackathon_name):
+	try:
+		auth_header = str(request.headers.get('Authorization'))
+		user = get_user(auth_header)
+		hackers_id = get_hackathon_match_hackers(hackathon_name)
+		for hacker_id in hackers_id:
+			other_hacker = get_user
+
+	except Exception as e:
+		app.logger.erorr(e)
+		responseObject = {
+			'status': 'fail',
+			'message': e
 		}
 		return make_response(jsonify(responseObject)), 401
 

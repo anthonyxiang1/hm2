@@ -15,7 +15,14 @@ def get_hackathon_by_id(hackathon_id):
 	if hackathon == None: raise ValueError('the url is invalid')
 	else: return hackathon
 
-def get_hackathon_users(hackathon_id):
-	if isinstance(hackathon_id, basestring):
-		if ObjectId.is_valid(hackathon_id):
-			hackathon = get_hackathon_by_id(hackathon_id)
+def get_hackathon_match_hackers(query):
+	hackathon = None
+	if isinstance(query, basestring):
+		if ObjectId.is_valid(query):
+			hackathon = get_hackathon_by_id(query)
+	else:
+		hackathon = get_hackathon(query)
+
+	# logic for finding hackers in matching pool
+	hackers = hackathon.match_hackers
+	return hackers

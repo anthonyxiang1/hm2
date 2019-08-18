@@ -43,6 +43,12 @@ class User(Document, UserMixin):
     #     'facebook': '',
     #     'instagram': ''
     # })
+    carescores = DictField(default={
+        'interests': 5,
+        'languages': 5
+        'technologies': 5
+        'fields': 5
+    })
     teams = ListField(default=[])           #list of teamIds
     hackathons = ListField(default=[])      #list of hackathonIDs
 
