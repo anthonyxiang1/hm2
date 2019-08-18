@@ -1,0 +1,60 @@
+.topCont{
+    position: relative;
+    color:white;
+    top:-425px;
+}
+
+.rectangle{
+    position:relative;
+    background-image: linear-gradient(to bottom right, rgb(63, 63, 223), rgb(66, 7, 66));
+    top:-25px;
+}
+
+.memberslabel{
+    position: relative;
+    top:-300px;
+}
+
+.tmembers{
+    position:relative;
+    top:-250px;
+}
+
+/*Small*/
+@media (min-width: 576px) { 
+    .rectangle{
+        top:-175px;
+    }
+}
+/*MD*/
+@media (min-width: 768px) { 
+    .rectangle{
+        top:0px;
+    }
+    .topCont{
+        top:-185px;
+    }
+    .memberslabel{
+        text-align: center;
+        top:-150px;
+    }
+
+    .tmembers{
+        position:relative;
+        top:-125px;
+    }
+}
+/*lg*/
+@media (min-width: 992px) { 
+    .memberslabel{
+        margin-left:75px;
+        text-align: left;
+        top:-150px;
+    }
+}
+
+
+/*xl*/
+@media (min-width: 1200px) { 
+
+}

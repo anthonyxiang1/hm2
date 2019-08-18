@@ -104,36 +104,36 @@ class SignupForm extends React.Component {
        //   alert('hi');
       };
   
-    handleSubmit(event){
-      event.preventDefault();
-
-      if (this.state.password !== this.state.confirmPassword)
-        this.setState({
-        errMsg: "password and confirm password do not match."
-      });
-
-      if (this.state.password.length < 6)
-        this.setState({
-        errMsg: "password needs to be at least 6 characters long."
-      });
-
-      axios.post(`http://127.0.0.1:5000/auth/signup`, 
-      {
-        "username":this.state.firstName,
-        "email":this.state.email,
-        "password":this.state.password
-      }).then(res => {
-        console.log(res);
-        console.log(res.data);
-        console.log(res.data['auth_token']);
-        localStorage.setItem('auth_token', res.data['auth_token']);
-        this.props.history.push("/register");
-      })
-
-      // var url = config.endpoint + 'register';
-      // var data = JSON.stringify({"name": "kenny GOng", "email":"abc@gmail.com", "password": "qwer"});
-      // store.dispatch(fetchItems(url, data, "POST"));
-    };
+      handleSubmit(event){
+        event.preventDefault();
+  
+        if (this.state.password !== this.state.confirmPassword)
+          this.setState({
+          errMsg: "password and confirm password do not match."
+        });
+  
+        if (this.state.password.length < 6)
+          this.setState({
+          errMsg: "password needs to be at least 6 characters long."
+        });
+  
+        axios.post(`http://127.0.0.1:5000/auth/signup`, 
+        {
+          "firstname":this.state.firstName,
+          "lastname": this.state.lastName,
+          "email":this.state.email,
+          "password":this.state.password
+        }).then(res => {
+          console.log(res);
+          console.log(res.data);
+          console.log(res.data['auth_token']);
+          localStorage.setItem('auth_token', res.data['auth_token']);
+        }).then(res => {this.props.history.push("/register");})
+  
+        // var url = config.endpoint + 'register';
+        // var data = JSON.stringify({"name": "kenny GOng", "email":"abc@gmail.com", "password": "qwer"});
+        // store.dispatch(fetchItems(url, data, "POST"));
+      };
 
 
 }

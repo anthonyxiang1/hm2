@@ -26,8 +26,28 @@ class Profile1 extends React.Component {
       }
 
       componentDidMount() {
-          console.log("here")
-      } 
+        var userId = this.props.match.params.id;
+        axios.get(`http://127.0.0.1:5000/profile/`+userId)
+          .then(res => {
+            console.log(res);
+            console.log(res.data);
+            var data = JSON.parse(res.data.user);
+            console.log(data)
+            this.setState({
+                gender: data['profile']['gender'],
+                username: data['firstname']+ ' '+data['lastname'],
+                year: data['profile']['gradYear'],
+                major: data['profile']['major'],
+                school: data['profile']['school'],
+                languages: data['preferences']['languages'] || [],
+                 tech: data['preferences']['technologies'] || [],
+                 fields: data['preferences']['fields'] || [],
+                 interests: data['preferences']['interests'] || [],
+                 hackathons: data['profile']['numOfHackathons'] || 0,
+                 goals: data['preferences']['goals'] || 0
+            });
+          })
+    } 
     
   render() {
 

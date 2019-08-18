@@ -1,9 +1,30 @@
 from flask import url_for
 from flask_mail import Message
-#from flaskblog import mail, app
+from module.models import User
 from PIL import Image
 import secrets
 import os
+
+
+def get_userid_from_auth(auth_header):
+    if auth_header:
+        try:
+            auth_token = auth_header.split(" ")[1]
+        except IndexError as e:
+            raise IndexError('Bearer token malformed.')
+    else:
+        auth_token = ''
+    if auth_token:
+        resp = User.decode_auth_token(auth_token)
+        return resp
+    else:
+        return None
+
+def get_user_from_id(user_id):
+    user = None
+    for query in User.objects(id=str(user_id)): user = query
+    return user
+
 
 def save_picture(form_picture):
     random_hex = secrets.token_hex(8)

@@ -78,7 +78,7 @@ img.hackathonImg{
 
 .addbtn img Button{
     width:10px;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 .btn-block {
@@ -95,7 +95,7 @@ img.hackathonImg{
     position: relative;
     top:500px;
     width:100%;
-    cursor: pointer;
+    /* cursor: pointer; */
 }
 
 

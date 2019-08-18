@@ -65,10 +65,29 @@ class Account1 extends React.Component {
             .then(res => {
               console.log(res);
               console.log(res.data);
+              var data = JSON.parse(res.data.user);
+              console.log(data['preferences']['languages'])
+              console.log(data['preferences']['technologies'])
+              console.log(data['preferences']['interests'])
+              console.log(data['preferences']['fields'])
+              console.log(data['preferences']['languages'][0])
+              this.setState({
+                  gender: data['profile']['gender'],
+                  username: data['firstname']+ ' '+data['lastname'],
+                  year: data['profile']['gradYear'],
+                  major: data['profile']['major'],
+                  school: data['profile']['school'],
+                  languages: data['preferences']['languages'] || [],
+                   tech: data['preferences']['technologies'] || [],
+                   fields: data['preferences']['fields'] || [],
+                   interests: data['preferences']['interests'] || [],
+                   hackathons: data['profile']['numOfHackathons'] || 0,
+                   goals: data['preferences']['goals'] || 0
+              });
             })
         }
 
-      } 
+      }  
       
       handleClick(event){
         this.setState({
@@ -185,6 +204,34 @@ class Account1 extends React.Component {
 
     handleProfileSubmit(event){
         event.preventDefault();
+        console.log(this.state);
+        var profile = {
+          'gender': this.state.gender,
+          'school': this.state.school,
+          'major': this.state.major,
+          'gradYear': this.state.year,
+          'numOfHackathons': this.state.hackathons
+        }
+        var preferences = {
+          'interests': this.state.interests,
+          'fields': this.state.fields,
+          'technologies': this.state.tech,
+          'languages': this.state.languages,
+          'goals': this.state.goals
+        }
+        var postData = {
+          'profile_pic': '',
+          'profile': profile,
+          'preferences': preferences
+        }
+        console.log(preferences);
+        var config = {
+          headers: {'Authorization': 'Bearer ' + localStorage.auth_token.toString()}
+        };
+        axios.post('http://127.0.0.1:5000/auth/account', postData, config).then(res => {
+            console.log(res);
+            console.log(res.data);
+        }).then(res => {this.props.history.push("/account");})
         console.log(this.state)
     }
 
@@ -603,12 +650,13 @@ class Account1 extends React.Component {
                                 {
                                     this.state.languages.map((languages, index)=> {
                                         return (
-                                        <div key={index}>
+                                        <div key={index} >
                                             <Form.Group className="form-inline">
                                             <Form.Label>{index+1}.</Form.Label>
                                             <Form.Control
                                             as="select"
                                             type="text"
+                                            style={{width: "50%"}}
                                             onChange= {(e) => this.handleLANGChange(e, index)}
                                             id={languages.name}
                                             value={languages.name} 
@@ -634,6 +682,7 @@ class Account1 extends React.Component {
                                             <Form.Control
                                             as="select"
                                             type="text"
+                                            style={{width: "28%"}}
                                             onChange= {(e) => this.handleLANG2Change(e, index)}
                                             id={languages.skill}
                                             value={languages.skill} 
@@ -677,6 +726,7 @@ class Account1 extends React.Component {
                                         <Form.Control
                                         as="select"
                                         type="text"
+                                        style={{width: "50%"}}
                                         onChange= {(e) => this.handleTECHChange(e, index)}
                                         id={tech.name}
                                         value={tech.name} 
@@ -703,6 +753,7 @@ class Account1 extends React.Component {
                                         <Form.Control
                                         as="select"
                                         type="text"
+                                        style={{width: "28%"}}
                                         onChange= {(e) => this.handleTECH2Change(e, index)}
                                         id={tech.skill}
                                         value={tech.skill} 
@@ -771,6 +822,7 @@ class Account1 extends React.Component {
                                 <Form.Control
                                 as="select"
                                 type="text"
+                                style={{width: "75%"}}
                                 onChange= {(e) => this.handleINTChange(e, index)}
                                 id={interests}
                                 value={interests} 
@@ -820,6 +872,7 @@ class Account1 extends React.Component {
                                 <Form.Control
                                 as="select"
                                 type="text"
+                                style={{width: "75%"}}
                                 onChange= {(e) => this.handleFIELDChange(e, index)}
                                 id={fields}
                                 value={fields} 

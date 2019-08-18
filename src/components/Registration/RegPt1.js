@@ -2,6 +2,11 @@ import React from "react";
 import {Form, Button, Col, Row, Container, ProgressBar} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
 
+import { store } from '../../store.js'
+import config from '../../config/client';
+import { fetchItems } from '../../actions/items';
+import decode from 'jwt-decode';
+import axios from 'axios';
 
 class RegPt1 extends React.Component {
   constructor(props) {
@@ -776,6 +781,33 @@ class RegPt1 extends React.Component {
       progress: 100,
     });
     console.log(this.state)
+    var profile = {
+      'gender': this.state.gender,
+      'school': this.state.school,
+      'major': this.state.major,
+      'gradYear': this.state.year,
+      'numOfHackathons': this.state.hackCount
+    }
+    var preferences = {
+      'interests': this.state.interests || [],
+      'fields': this.state.fields || [],
+      'technologies': this.state.tech || [],
+      'languages': this.state.languages || [],
+      'goals': this.state.goal
+    }
+    var postData = {
+      'profile_pic': '',
+      'profile': profile,
+      'preferences': preferences
+    }
+    console.log(preferences);
+    var config = {
+      headers: {'Authorization': 'Bearer ' + localStorage.auth_token.toString()}
+    };
+    axios.post('http://127.0.0.1:5000/auth/register', postData, config).then(res => {
+        console.log(res);
+        console.log(res.data);
+    }).then(res => {this.props.history.push("/home");})
     } 
   else {
     alert("fill in all required fields")

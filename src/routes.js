@@ -9,6 +9,7 @@ import Hackathon from './pages/Hackathon'
 import Profile from './pages/Profile';
 import Create from './pages/Create';
 import Add from './pages/Add';
+import TeamPage from './pages/TeamPage';
 import NotFound from './pages/NotFound';
 
 const routes = (
@@ -23,6 +24,7 @@ const routes = (
       <Route path="/create" exact component={Create}/>
       <Route path="/add" exact component={Add}/>
       <Route path="/hackathon" exact component={Hackathon}/>
+      <Route path="/teampage" exact component={TeamPage}/>
       <Route component={NotFound} />
     </Switch>
   </App>
