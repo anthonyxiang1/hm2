@@ -54,20 +54,38 @@ class Sec1 extends React.Component {
                     <Row className="justify-content-center">
                         <Col>
                             <center>
-                                <Button type="button" id="addme" className="addme" variant="primary" size="lg" onClick={this.myFunction}>I'm Going!</Button>
+                                <Button type="button" id="addme" className="addme" variant="primary" size="lg" onClick={this.myFunction.bind(this)}>I'm Going!</Button>
                             </center>
                         </Col>
                     </Row>
                 </Container>
                 <ButtonToolbar className="btn-duo justify-content-center">
-                    <Button type="button" id="matchme" className="matchme" variant="secondary"  onClick={this.showAvailable}>Match Me!</Button>
-                    <Button type="button" id="alreadymatched" className="alreadymatched" variant="success" onClick={this.showAvailable}>I Already Have A Team!</Button>
+                    <Button type="button" id="matchme" 
+                            className="matchme" variant="secondary" 
+                            
+                            disabled={true} style={{opacity:0}}
+                            
+                            >Match Me!
+                    </Button>
+
+                    <Button type="button" id="alreadymatched" 
+                        className="alreadymatched" variant="success"
+                        onClick={this.showAvailable.bind(this)} 
+                         disabled={true}
+                        style={{opacity:0}}
+                        
+                        >I Already Have A Team!</Button>
+
+                      
+                      
+                      
+    
                 </ButtonToolbar>
-                <center className="addedtxt" id="addedtxt" >
+                <center className="addedtxt" id="addedtxt" style={{opacity:0}} >
                     <h1>You Have Been Added!</h1>
                 </center>
                 
-                <Container id="matchedUsers" className="matchedUsers">
+                <Container id="matchedUsers" className="matchedUsers" style={{display:"None"}}  >
                     <Row>
                     <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
                         <Row>
@@ -112,19 +130,32 @@ class Sec1 extends React.Component {
         
     }
     myFunction() {
-        /*
+        //onClick={this.showAvailable} 
+        //var event_click =  document.getElementById('alreadymatched')
+        $('#alreadymatched').each(function() {
+        	$.each(this.attributes,function(i,a){
+            	console.log(i,a.name,a.value)
+            })
+        })
+        
+        $("#addedtxt").fadeTo(1000, 1);
+        
         setTimeout(function(){
-        $("#addedtxt").fadeIn()
-        },500);
-        $("#matchme").fadeIn("slow")
-        $("#alreadymatched").fadeIn("slow")
-        $('html, body').animate({
-            scrollTop: $("#alreadymatched").offset().top
-        }, 2000);
-        */
+            $("#matchme").fadeTo(1000, 1);
+            $("#alreadymatched").fadeTo(1000, 1);
+            $('#matchme').prop('disabled', false);
+            $('#alreadymatched').prop('disabled',false);
+            $('#alreadymatched').attr('onclick',"this.showAvailable");
+        },1500);
+
+        
     }
     showAvailable(){
-        
+        console.log("called")
+        $("#matchme").fadeTo(1000, 0);
+        $("#alreadymatched").fadeTo(1000, 0);
+        $('#matchme').prop('disabled', true);
+         $('#alreadymatched').prop('disabled',true);
     }
 }
 export default Sec1

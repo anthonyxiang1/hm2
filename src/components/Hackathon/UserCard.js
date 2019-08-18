@@ -11,7 +11,7 @@ class UserCard extends React.Component {
                         <div className="card shadow">
                             <div className="card-body">
                                 <Row>
-                                    <Col className="text-center">
+                                    <Col className="text-left">
                                         <Row>
                                             <img className="d-block mx-auto rounded-circle img-fluid" src="http://api.randomuser.me/portraits/women/73.jpg"></img>
 
@@ -25,9 +25,9 @@ class UserCard extends React.Component {
                                             Goals Goals Goals
                                         </Row>
                                     </Col>
-                                    <Col>
+                                    <Col className="text-left">
                                         <Row>
-                                        <h3 className="font-weight-light d-inline"><a className="text-dark" href="">Mary Chesnut</a></h3>
+                                        <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href="" >Mary Chesnut</a></h3>
                                         <h6>School School School School </h6>
                                         <h6>Major Major Major</h6>
                                         </Row>
