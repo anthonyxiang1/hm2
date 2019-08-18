@@ -124,7 +124,7 @@ def add_hacker_match(hackathon_name):
 	returns
 '''
 @hackathons.route('/hackathons/<string:hackathon_name>/addunmatch', methods=['POST'])
-def add_hacker_match(hackathon_name):
+def add_hacker_unmatch(hackathon_name):
 	try:
 		hackathon = get_hackathon(hackathon_name)
 		auth_header = str(request.headers.get('Authorization'))

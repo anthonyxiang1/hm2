@@ -1,0 +1,25 @@
+AI
+CV
+ML
+Theory
+Bioinformatics
+Data science
+Data Visualization
+Big Data
+Cloud Computing
+Block Chain
+AR/VR
+Robotics
+Hardware
+Mechanical Design
+Electrical Engineering
+UI/UX Design
+Web Dev
+iOS Dev
+Android Dev
+HCI
+Graphics
+Gaming
+Networks
+Database management
+NoSQL
