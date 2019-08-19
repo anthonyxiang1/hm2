@@ -1,0 +1,30 @@
+language: python
+
+python:
+  - "3.7"
+  - "3.6"
+  - "3.5"
+  - "3.4"
+  - "2.7"
+
+service:
+  - pymongo
+
+before_install:
+  - export APP_SETTINGS="module.config.TestingConfig"
+  - export SECRET_KEY="justatest"
+
+install:
+  - pip install -r requirements.txt
+  - pip install coveralls
+
+before_script:
+  - python manage.py db init
+  - python manage.py db migrate
+  - python manage.py db upgrade
+
+script:
+  - python manage.py cov
+
+after_success:
+  coveralls

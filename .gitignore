@@ -1,0 +1,11 @@
+*.swp
+*.pem
+*.pyc
+*.DS_Store
+.cache
+node_modules
+build
+__pycache__
+server/module/config.py
+tests
+server/module/__init__.py

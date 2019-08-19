@@ -1,0 +1,13 @@
+body {
+  font-family: montserrat, Times, sans-serif;
+  line-height: 1.4;
+}
+
+.center {
+  text-align: center;
+}
+
+/*image can't be found from pages - Landing.css (maybe move assets into pages?)*/
+.pt4 {
+  background: url('./Landing/assets/landing_bg.jpg') no-repeat center center fixed;
+}

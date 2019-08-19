@@ -1,0 +1,102 @@
+.account {
+    padding-top: 50px;
+    text-align: center;
+    background: rgb(227, 235, 245);
+  }
+
+.center {
+    margin: auto;
+}
+
+.info {
+    padding: 40px;
+    min-height: 330px;
+    margin-top: 30px;
+}
+
+.avatar { 
+    margin: 0 auto;
+    height: 200px;
+    width: 200px;
+    border-radius: 50%;
+}
+
+.right{
+    text-align:right;
+}
+
+.left{
+    float:left;
+}
+
+.about {
+    background: #f7f7ff;
+    color: #332c2c;
+    
+    margin: auto;
+    min-height: 330px;
+    margin-top: 40px;
+    margin-right: 10px;
+    margin-bottom: 10px;
+}
+
+.preferences {
+    background: #f7f7ff;
+    color: #332c2c;
+
+    
+    padding: 40px;
+    min-height: 330px;
+    max-height: 700px;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+.texts {
+    text-align: left;
+    margin-top: 30px;
+    margin-bottom: 30px;
+
+}
+
+.form-group {
+    text-align: center;
+}
+
+.custom-file-label {
+    text-align: left;
+}
+
+.cards {
+    color: #332c2c;
+    border-radius: 20px;
+    padding: 40px;
+    min-height: 330px;
+    margin-top: 30px;
+    margin-right: 10px;
+}
+
+input::-webkit-input-placeholder, textarea::-webkit-input-placeholder{
+    color: rgba(148, 148, 148, 1) !important;
+    }
+
+
+.accent {
+    line-height: 14px;
+    font-size: 30px;
+    color: rgb(43, 119, 196);
+    padding-bottom: 50px;
+    
+}
+
+.progress {
+    width: 100%;
+
+}
+
+.bottom {
+    height: 100px;
+}
+
+
+

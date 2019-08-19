@@ -1,0 +1,17 @@
+body {
+  text-align: center;
+}
+
+.registration {
+padding-top: 100px;
+
+}
+
+.reg {
+  margin: 0 auto;
+  background: rgb(245, 246, 255);
+  border: 1px solid rgb(150, 150, 150);
+  width: 60%;
+  min-height: 330px;
+  padding: 10px;
+}

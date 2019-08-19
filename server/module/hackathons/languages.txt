@@ -1,0 +1,16 @@
+Javascript
+Jquery
+Java
+C#
+PHP
+Android
+Python
+HTML
+CS
+Swift
+Ruby On Rails
+SQL
+C
+C++
+Go
+Objective-C
