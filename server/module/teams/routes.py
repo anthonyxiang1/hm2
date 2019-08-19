@@ -6,7 +6,7 @@ from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session, make_response, jsonify
 from flask.views import MethodView
 from module.teams.utils import get_team_by_id, verify_user_in_team, modify_team, verify_user_in_hackathon
-from module.hackathons.utils import get_hackathon_by_id
+from module.hackathons.utils import get_hackathon_by_id, get_hackathon
 
 teams = Blueprint('teams', __name__)
 
@@ -79,11 +79,15 @@ def get_team(team_id):
 '''
 @teams.route('/teams/new', methods=['POST'])
 def create_team():
+	auth_header = str(request.headers.get('Authorization'))
+	user_id = get_userid_from_auth(auth_header)
+
 	post_data = json.loads(request.data)
 	hackathon_id = post_data['hackathon']
-	hackathon = get_hackathon_by_id(hackathon_id)
+	hackathon = get_hackathon(hackathon_id)
 	members_id = post_data['members']
-	if len(members) > post_data['capacity']:
+	members_id.append(str(user_id))
+	if len(members_id) > post_data['capacity']:
 		responseObject = {
 			'status': 'failure',
 			'message': 'members exceeded capactiy'
@@ -96,11 +100,24 @@ def create_team():
 				'status': 'failure',
 				'message': 'one or more users are not registered for this hackathon or is in another team in this hackathon'
 			}
-			return make_response(jsonify(responseObject)), 401
-	# create team
-	new_team = Team(members=members_id, hackathon=hackathon_id).save()
-	modify_team(post_data, str(new_team.id))
+			return make_response(jsonify(responseObject)), 402
 
+	# create team
+	new_team = Team(members=members_id, hackathon=str(hackathon.id)).save()
+	#modify_team(post_data, str(new_team.id))
+
+	#modify users
+	for member_id in members_id:
+		user = get_user_from_id(member_id)
+		updated_teams = user.teams
+		updated_teams.append(str(new_team.id))
+		user.update(teams=updated_teams)
+
+	responseObject = {
+		'status': 'success',
+		'team_id': str(new_team.id)
+	}
+	return make_response(jsonify(responseObject)), 200
 
 '''
 	add a member to a team that current user is in, team_id
@@ -138,6 +155,11 @@ def add_to_team(team_id):
 		updated_members = team.members
 		for member_id in members_id:
 			updated_members.append(member_id)
+			user = get_user_from_id(member_id)
+			updated_teams = user.teams
+			updated_teams.append(str(new_team.id))
+			user.update(teams=updated_teams)
+
 		team.update(members=updated_members)
 		responseObject = {
 			'status': 'success',

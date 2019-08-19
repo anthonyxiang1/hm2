@@ -109,9 +109,17 @@ def get_hackathon_match_users(hackathon_name):
 	try:
 		hackathon = get_hackathon(hackathon_name)
 		hackers = hackathon.match_hackers
+		results = []
+		for hacker_id in hackathon.match_hackers:
+			hacker = get_user_from_id(hacker_id)
+			result = {
+				'value': hacker.firstname+' '+hacker.lastname,
+				'id': str(hacker.id)
+			}
+			results.append(result)
 		responseObject = {
 			'status': 'success',
-			'hackers': hackers
+			'hackers': results
 		}
 		return make_response(jsonify(responseObject)), 200
 	except IndexError:
@@ -153,9 +161,14 @@ def add_hacker_match(hackathon_name):
 			updated_unmatch.remove(user.id)
 			hackathon.update(unmatch_hackers=updated_unmatch)
 
+		
 		updated_hackers = hackathon.match_hackers
 		updated_hackers.append(user.id)
 		hackathon.update(match_hackers=updated_hackers)
+
+		updated_hackathons = user.hackathons
+		updated_hackathons.append(str(hackathon.id))
+		user.update(hackathons=updated_hackathons)
 		responseObject = {
 			'status': 'success',
 			'message': 'You have been added to the hackathon!'
@@ -201,6 +214,9 @@ def add_hacker_unmatch(hackathon_name):
 		updated_hackers = hackathon.unmatch_hackers
 		updated_hackers.append(user.id)
 		hackathon.update(unmatch_hackers=updated_hackers)
+		updated_hackathons = user.hackathons
+		updated_hackathons.append(str(hackathon.id))
+		user.update(hackathons=updated_hackathons)
 		responseObject = {
 			'status': 'success',
 			'message': 'You have been added to the hackathon!'
@@ -268,12 +284,13 @@ def get_matches(hackathon_name):
 			other_hacker = get_user_from_id(hacker_id)
 			preferences_o = json.loads(other_hacker.get_preferences())
 			score = match(preferences, preferences_o, care_scores)
-			if score > 0:
-				result = {
-					'hacker': other_hacker.get_card(),
-					'score': score
-				}
-				match_hackers.append(result)
+			result = {
+				'hacker': other_hacker.get_card(),
+				'score': score
+			}
+			match_hackers.append(result)
+		if len(match_hackers) > 10:
+			match_hackers = match_hackers[:10]
 		responseObject = {
 			'status': 'success',
 			'hackers': match_hackers
