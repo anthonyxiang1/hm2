@@ -35,7 +35,7 @@ class Sec1 extends React.Component {
                     <Row className="justify-content-center addtxt">
                         <Col>
                             <center>
-                                <h1 id="addyourself">Add Yourself To This Matching Pool!</h1>
+                                <h1 className="addyourself">Add Yourself To This Matching Pool!</h1>
                             </center>
                         </Col>
                     </Row>
@@ -63,7 +63,7 @@ class Sec1 extends React.Component {
                     <Button type="button" id="matchme" 
                             className="matchme" variant="secondary" 
                             onClick={this.showAvailable.bind(this)} 
-                            /*style={{display:"None"}} */
+                            style={{display:"None"}} 
                             
                             >Match Me!
                     </Button>
@@ -72,7 +72,7 @@ class Sec1 extends React.Component {
                         className="alreadymatched" variant="success"
                         onClick={this.showAvailable.bind(this)} 
                          
-                        /*style={{display:"None"}} */
+                        style={{display:"None"}} 
                         
                         >I Already Have A Team!</Button>
 
@@ -81,11 +81,11 @@ class Sec1 extends React.Component {
                       
     
                 </ButtonToolbar>
-                <center className="addedtxt" id="addedtxt" /*style={{opacity:0}}*/ >
+                <center className="addedtxt" id="addedtxt" style={{display:"None"}} >
                     <h1>You Have Been Added!</h1>
                 </center>
                 
-                <Container id="matchedUsers" className="matchedUsers" /*style={{display:"None"}} */ >
+                <Container id="matchedUsers" className="matchedUsers" style={{display:"None"}}  >
                     <Row>
                     <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
                         <Row>
@@ -134,17 +134,11 @@ class Sec1 extends React.Component {
         console.log("called")
         $("#addme").fadeOut("fast");
         $("#downarr").fadeOut("fast");
-        $("#addedtxt").fadeTo(1000, 1);
-        
         setTimeout(function(){
-            $("#matchme").fadeTo(1000, 1);
-            $("#alreadymatched").fadeTo(1000, 1);
-            //$('#matchme').prop('disabled', false);
-            //$('#alreadymatched').prop('disabled',false);
-            //$('#alreadymatched').attr('onclick',"this.showAvailable");
             $("#matchme").fadeIn("slow");
             $("#alreadymatched").fadeIn("slow");
-        },1500);
+            $("#addedtxt").fadeIn("fast");
+        },1000);
 
         
     }
