@@ -19,11 +19,10 @@ const routes = (
       <Route path="/account" exact component={Account} />
       <Route path="/register" exact component={Registration} />
       <Route path="/home" exact component={Home} />
-      <Route path="/hackathon" exact component={Hackathon}/>
-      <Route path="/profile" exact component={Profile}/>
+      <Route path="/hackathon/:name" exact component={Hackathon}/>
+      <Route path="/profile/:id" exact component={Profile}/>
       <Route path="/create" exact component={Create}/>
       <Route path="/add" exact component={Add}/>
-      <Route path="/hackathon" exact component={Hackathon}/>
       <Route path="/teampage" exact component={TeamPage}/>
       <Route component={NotFound} />
     </Switch>

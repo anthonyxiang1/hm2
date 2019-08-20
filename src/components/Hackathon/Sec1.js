@@ -1,9 +1,12 @@
 
 import React from 'react';
+import { withRouter } from 'react-router-dom';
 import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
 import UserCard from './UserCard'
 import TeamCard from './TeamCard'
-import HackathonCard from '../Home/HackathonCard'
+
+import axios from 'axios';
+
 class Sec1 extends React.Component {
     constructor(props) {
         super(props);
@@ -24,17 +27,23 @@ class Sec1 extends React.Component {
         };
       }
 
+      componentDidMount(){
+          
+           var hackathonName = this.props.match.params.name;
+           console.log(hackathonName);
+           var url = 'http://127.0.0.1:5000/hackathons/'+hackathonName;
+          axios.get(url)
+          .then((res) =>{
+              console.log(res);
+          })
+        }
 
     render() {
         return (
             <div className="sec1">
                 <div className="rectangle" ></div>
 
-                <Container>
-                    <Row>
-                        <Col id="namebox " className="namebox col-12" >{this.state.hackName}</Col>
-                    </Row>
-                </Container> 
+                
 
                 <Container className="flexbox" >
 
@@ -45,10 +54,17 @@ class Sec1 extends React.Component {
                                 className="hackathonImg">
                             </img>
                         </Col>
-                        <Col id="date" xs={{span:12}} sm={{span:12}} md={{span:4, order:1}} lg={{span:4, order:1}} xl={{span:4, order:1}} className="date">{this.state.hackDate}</Col>
-                        <Col id="location" xs={{span:12}} sm={{span:12}} md={{span:4, order:3}} lg={{span:4, order:3}} xl={{span:4, order:3}} className="location">{this.state.hackLoc}</Col>
+                        <Col id="date" xs={{span:12}} sm={{span:12}} md={{span:4, order:1}} lg={{span:4, order:1}} xl={{span:4, order:1}} className="date"></Col>
+                        <Col id="location" xs={{span:12}} sm={{span:12}} md={{span:4, order:3}} lg={{span:4, order:3}} xl={{span:4, order:3}} className="location"></Col>
                     </Row>
                 </Container>
+                <br></br>
+                <Container>
+                    <Row>
+                        <Col id="namebox " className="namebox col-12" ><strong>{this.state.hackName}</strong></Col>
+                        <Col id="namebox " className="namebox col-12" >{this.state.hackLoc}, {this.state.hackDate}</Col>
+                    </Row>
+                </Container> 
 
 
                 <Container className="addbtn" >
@@ -151,7 +167,6 @@ class Sec1 extends React.Component {
             </div>
             
         );
-        
     }
    
     myFunction() {
@@ -162,12 +177,12 @@ class Sec1 extends React.Component {
             $("#matchme").fadeIn("slow");
             $("#alreadymatched").fadeIn("slow");
             $("#addedtxt").fadeIn("fast");
+            $('html,body').animate({
+                scrollTop: $("#addedtxt").offset().top
+             });
         },1000);
-        $('html,body').animate({
-            scrollTop: $("#matchme").offset().top
-         });
-        
     }
+
     showAvailable(){
         $("#matchedUsers").fadeIn("slow");
         $('html,body').animate({
@@ -175,4 +190,4 @@ class Sec1 extends React.Component {
          });
     }
 }
-export default Sec1
+export default withRouter(Sec1);

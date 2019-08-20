@@ -43,6 +43,5 @@ def match(user, other_user, care_score):
 	technology_score = score_arr_to_scalar(compute_preference_score(user['technologies'], other_user['technologies'], technologies))
 	field_score = score_arr_to_scalar(compute_preference_score(user['fields'], other_user['fields'], fields))
 
-	similiarity_score = care_score['interests'] * interest_score / 10.0 + care_score['languages'] * language_score +
-						care_score['technologies'] * technologies_score / 10.0 + care_score['fields'] * field_score
+	similiarity_score = care_score['interests'] * interest_score / 10.0 + care_score['languages'] * language_score + care_score['technologies'] * technologies_score / 10.0 + care_score['fields'] * field_score
 	return similiarity_score
