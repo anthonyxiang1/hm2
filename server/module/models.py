@@ -8,6 +8,7 @@ from bson.json_util import loads, dumps
 from bson import ObjectId
 from mongoengine import StringField, IntField, EmailField, DateTimeField, ListField, ObjectIdField, URLField, DictField
 
+from randomuser import RandomUser
 # @login_manager.user_loader
 # def load_user(user_id):
 #     for query in User.objects(id=user_id):
@@ -20,7 +21,7 @@ class User(Document, UserMixin):
     lastname = StringField(max_length=60, required=True)
     email = EmailField(required=True,unique=True)
     password = StringField(max_length=70)
-    profile_pic = StringField()
+    profile_pic = StringField(default='default.jpg')
     profile = DictField(default={
         "gender": "",
         "school": "",
@@ -229,7 +230,8 @@ class Hackathon(Document):
         season, year = get_season(self)
         return self.name+season+year
 '''
-    
+   
+ 
 class Team(Document):
     name = StringField()
     members = ListField(required=True)
@@ -249,10 +251,15 @@ class Team(Document):
     def is_full(self):
         return len(members) == capacity
     def get_card(self):
+        members_pics = []
+        for member in self.members:
+            random_user = RandomUser()
+            members_pics.append(random_user.get_picture())
         card = {
             'id': str(self.id),
             'name': self.name,
-            'idea': self.idea
+            'idea': self.idea,
+            'members': members_pics
         }
         return json.dumps(card)
 

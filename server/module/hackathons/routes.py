@@ -4,8 +4,9 @@ from module import app # todo: remove app on production
 from flask import Blueprint
 from flask import render_template, url_for, flash, redirect, request, session, make_response, jsonify
 from flask.views import MethodView
-from module.hackathons.utils import get_hackathon, get_hackathon_by_id, get_hackathon_match_hackers
-from module.users.utils import get_userid_from_auth, get_user_from_id
+from module.teams.utils import get_team_by_id
+from module.hackathons.utils import *
+from module.users.utils import *
 from module.hackathons.match import match
 
 hackathons = Blueprint('hackathons', __name__)
@@ -289,11 +290,20 @@ def get_matches(hackathon_name):
 				'score': score
 			}
 			match_hackers.append(result)
-		if len(match_hackers) > 10:
-			match_hackers = match_hackers[:10]
+		if len(match_hackers) > 5:
+			match_hackers = match_hackers[:5]
+
+		# get teams
+		team_ids = get_hackathon_teams(hackathon_name)
+		hackathon_teams = []
+		for team_id in team_ids:
+			team = get_team_by_id(team_id)
+			team_card = team.get_card()
+			hackathon_teams.append(team_card)
 		responseObject = {
 			'status': 'success',
-			'hackers': match_hackers
+			'hackers': match_hackers,
+			'teams':hackathon_teams
 		}
 		return make_response(jsonify(responseObject)), 200
 	except Exception as e:

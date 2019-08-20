@@ -807,7 +807,7 @@ class RegPt1 extends React.Component {
     axios.post('http://127.0.0.1:5000/auth/register', postData, config).then(res => {
         console.log(res);
         console.log(res.data);
-    }).then(res => {this.props.history.push("/home");})
+    })//.then(res => {this.props.history.push("/home");})
     } 
   else {
     alert("fill in all required fields")

@@ -26,7 +26,7 @@ class Sec1 extends React.Component {
               {name: "scotty", school: "sbu", major: "business", goals: "hello hello this is it hello lhewrqer!", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/men/71.jpg"}
           ],
           teams: [
-              {name: "Found 405", goals: "i want to win winwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]},
+              {name: "Found 405", goals: "i want to win wiqwrqwenwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]},
               {name: "ANOTHER TEAM", goals: "i want tolo hello this is it hello lhewrqer!lo hello this is it hello lhewrqer!lo hello this is it hello lhewrqer! win winwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", 
               "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]}
             ]
@@ -188,7 +188,7 @@ class Sec1 extends React.Component {
             
         );
     }
-   
+
     myFunction() {
         console.log("called")
         $("#addme").fadeOut("fast");
