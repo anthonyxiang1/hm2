@@ -36,10 +36,10 @@ def score_arr_to_scalar(score_arr):
     return total
 
 def match(user, other_user, care_score):
-	interests = load_constants('interests.txt')
-	languages = load_constants('languages.txt')
-	fields = load_constants('fields.txt')
-	technologies = load_constants('technologies.txt')
+	interests = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/interests.txt')
+	languages = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/languages.txt')
+	fields = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/fields.txt')
+	technologies = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/technologies.txt')
 
 	interest_score = score_arr_to_scalar(compute_preference_score(user['interests'], other_user['interests'], interests))
 	language_score = score_arr_to_scalar(compute_preference_score(user['languages'], other_user['languages'], languages))

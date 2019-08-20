@@ -1,6 +1,6 @@
 import React, {Component} from 'react';
 import Header from '../components/Header.js';
-import Sec1 from '../components/Hackathon/Sec1'
+import Hackathon1 from '../components/Hackathon/Hackathon1'
 import "./Hackathon.css";
 
 class Hackathon extends Component{
@@ -8,7 +8,7 @@ class Hackathon extends Component{
         return(
             <div className="Hackathon">
                 <Header/>
-                <Sec1/>
+                <Hackathon1/>
             </div>
         )
     }

@@ -19,6 +19,7 @@ class Create1 extends React.Component {
       goal: "",
       name: "",
       members: [],
+      hackathons: ["hackcewit","sbuhacks","another name found"],
       available: [
         {
           value: 'John Doe',
@@ -78,10 +79,9 @@ class Create1 extends React.Component {
                   <Form.Group as={Col} controlId="formGridState">
                         <Form.Label>Which Hackathon?</Form.Label>
                         <Form.Control as="select" name="hack" value={this.state.hack} onChange={this.handleCreateChange}>
-                          <option>Choose...</option>
-                          <option>SBUHacks</option>
-                          <option>HackCEWIT</option>
-                          <option>PennApps</option>
+                            {this.state.hackathons.map((item, index) => ( 
+                              <option>{item}</option>
+                          ))}
                         </Form.Control>
                     </Form.Group>
 

@@ -21,12 +21,11 @@ class Sec1 extends React.Component {
             endDate: "Jan 28",
             hackLoc: "Stony Brook, NY",
             school: "Stony Brook University",
-          members: [
-              {name: "mary", school: "sbu", major: "business", goals: "to win the competition a lot a lot", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/women/71.jpg"},
-              {name: "scotty", school: "sbu", major: "business", goals: "hello hello this is it hello lhewrqer!", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/men/71.jpg"}
-          ],
+          members: [],
           teams: [
-              {name: "Found 405", goals: "i want to win winwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]},
+              {name: "Found 405", 
+              goals: "i want to win winwin", 
+              propic: ["http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]},
               {name: "ANOTHER TEAM", goals: "i want tolo hello this is it hello lhewrqer!lo hello this is it hello lhewrqer!lo hello this is it hello lhewrqer! win winwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", 
               "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]}
             ]
@@ -56,6 +55,9 @@ class Sec1 extends React.Component {
 
 
     render() {
+
+        const {members} = this.state;
+
         return (
             <div className="sec1">
                 <div className="rectangle" ></div>
@@ -145,35 +147,29 @@ class Sec1 extends React.Component {
                         <Row>
                             <h2><strong>Top Matched Users</strong></h2>
                         </Row>
-                        <Row>
-                        <UserCard name={this.state.members[1].name} school={this.state.members[1].school} major={this.state.members[1].major}
-                                goals={this.state.members[1].goals}  tags={this.state.members[1].tags} propic={this.state.members[1].propic}
-                                />
-                        </Row>
-                        <Row>
-                        <UserCard name={this.state.members[0].name} school={this.state.members[0].school} major={this.state.members[0].major}
-                            goals={this.state.members[0].goals}  tags={this.state.members[0].tags} propic={this.state.members[0].propic}
+
+                        {members.map((item, index) => ( 
+
+                          <Row>
+                            <UserCard name={item.name} school={item.school} major={item.major}
+                            goals={item.goals}  tags={item.tags} propic={item.propic}
                             />
                         </Row>
-                        <Row>
-                        <UserCard name={this.state.members[1].name} school={this.state.members[1].school} major={this.state.members[1].major}
-                                goals={this.state.members[1].goals}  tags={this.state.members[1].tags} propic={this.state.members[1].propic}
-                                />
-                        </Row>
+                      ))}
+
+                        
                     </Col>
                     <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
                         <Row>
                             <h2><strong>Available Teams</strong></h2>
                         </Row>
+                        {this.state.teams.map((item, index) => ( 
                         <Row>
-                            <TeamCard name={this.state.teams[0].name} goals={this.state.teams[0].goals} propic={this.state.teams[0].propic}/>
+                        <TeamCard name={item.name} goals={item.goals}  tags={item.tags} propic={item.propic}
+                        />
                         </Row>
-                        <Row>
-                            <TeamCard name={this.state.teams[1].name} goals={this.state.teams[1].goals} propic={this.state.teams[1].propic}/>
-                        </Row>
-                        <Row>
-                            <TeamCard name={this.state.teams[0].name} goals={this.state.teams[0].goals} propic={this.state.teams[0].propic}/>
-                        </Row>
+                        ))}
+ 
                     </Col>
                     </Row>
                    
@@ -221,9 +217,13 @@ class Sec1 extends React.Component {
                   .then(res => {
                     console.log(res);
                     console.log(res.data);
-                    var hackers = res.data['hackers']
-                    console.log(hackers)
-                    console.log(hackers[0])
+                    var hackers = res.data['hackers'];
+                  
+                    for (var i=0;i<hackers.length;i++) {
+                        this.setState({ members: this.state.members.concat([{name: JSON.parse(hackers[i]['hacker'])['firstname'],
+                                                                    email: JSON.parse(hackers[i]['hacker'])['email'],
+                                                                    propic: JSON.parse(hackers[i]['hacker'])['profile_pic']}]) });  
+                    }
 
                   });
             }).catch((err) =>{      //todo: handle error

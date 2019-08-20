@@ -6,9 +6,9 @@ class TeamCard extends React.Component {
         super(props);
 
         this.state = {
-            name: props.name, 
-            goals: props.goals, 
-            propic: props.propic
+            name: (props.name != null) ? props.name: '------', 
+            goals: (props.goals != null) ? props.goals: '------', 
+            propic: (props.propic != null) ? props.propic: require("./downarrow.png")
         };
       }
 
@@ -23,13 +23,12 @@ class TeamCard extends React.Component {
                                     <Row>
                                             <Col className="text-center">
                                                 <Row>
-                                                    <img className="d-block mx-auto rounded-circle" src="http://api.randomuser.me/portraits/women/73.jpg"></img>
-                                                    <img className="d-block mx-auto rounded-circle" src="http://api.randomuser.me/portraits/women/73.jpg"></img>
-
+                                                    <img className="d-block mx-auto rounded-circle" src={this.state.propic[0]}></img>
+                                                    <img className="d-block mx-auto rounded-circle" src={this.state.propic.length>1 ? this.state.propic[1]: require("./graysquare.png")}></img>
                                                 </Row>
                                                 <Row >
-                                                    <img className="d-block mx-auto rounded-circle " src="http://api.randomuser.me/portraits/women/73.jpg"></img>
-                                                    <img className="d-block mx-auto rounded-circle " src="http://api.randomuser.me/portraits/women/73.jpg"></img>
+                                                    <img className="d-block mx-auto rounded-circle " src={this.state.propic.length>2 ? this.state.propic[2]: require("./graysquare.png")}></img>
+                                                    <img className="d-block mx-auto rounded-circle " src={this.state.propic.length>3 ? this.state.propic[3]: require("./graysquare.png")}></img>
                                                 </Row>
                                             </Col>
 
