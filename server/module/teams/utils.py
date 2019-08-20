@@ -1,4 +1,3 @@
-
 from module.models import Hackathon, Team
 
 

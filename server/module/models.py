@@ -5,6 +5,7 @@ from mongoengine import *
 from module import login_manager, app, bcrypt
 from flask_login import UserMixin
 from bson.json_util import loads, dumps
+from bson import ObjectId
 from mongoengine import StringField, IntField, EmailField, DateTimeField, ListField, ObjectIdField, URLField, DictField
 
 # @login_manager.user_loader
@@ -89,7 +90,6 @@ class User(Document, UserMixin):
         """
         try:
             payload = jwt.decode(auth_token, app.config.get('SECRET_KEY'))
-            print(payload)
             return payload['sub']   # subject of the token
         except jwt.ExpiredSignatureError as err:
             err.message='Signature expired. Please log in again.'
@@ -138,13 +138,13 @@ class User(Document, UserMixin):
         return json.dumps(profile)
 
     def get_preferences(self):
-        preferences = DictField(default={
-            'interests': self.interests,
-            'languages': self.languages,
-            'technologies': self.technologies,
-            'fields': self.fields,
+        preferences = {
+            'interests': self.preferences['interests'],
+            'languages': self.preferences['languages'],
+            'technologies': self.preferences['technologies'],
+            'fields': self.preferences['fields'],
             'goals': 0
-        })
+        }
         return json.dumps(preferences)
 
     def __str__(self):
@@ -180,25 +180,27 @@ class Hackathon(Document):
         return f"Hackathon('{self.name}','{self.start_date}')"
 
 
-    def contain_hacker(self, user):
-        if user.id:
-            if user.id in self.match_hackers or user.id in self.unmatch_hackers: return True
-            else: return False
+    def contain_hacker(self, user_id):
+        if isinstance(user_id, str):
+            if ObjectId.is_valid(user_id):
+                oid = ObjectId(user_id)
+                if oid in self.match_hackers or oid in self.unmatch_hackers: return True
+                else: return False
         else:
-            raise ValueError('invalid user')
+            raise ValueError('invalid parameter or user')
 
     def get_info(self):
         hackathon = {
-            name: self.name,
-            start_date: self.start_date.strftime('%m-%d-%Y'),
-            end_date : self.end_date.strftime('%m-%d-%Y'),
-            state: self.state,
-            city: self.city,
-            address: self.address,
-            url: self.url,
-            about: self.about,
-            logo: self.logo,
-            school: self.school
+            'name': self.name,
+            'start_date': self.start_date.strftime('%m/%d'),
+            'end_date' : self.end_date.strftime('%m/%d'),
+            'state': self.state,
+            'city': self.city,
+            'address': self.address,
+            'url': self.url,
+            'about': self.about,
+            'logo': self.logo,
+            'school': self.school
         }
         return json.dumps(hackathon)
 

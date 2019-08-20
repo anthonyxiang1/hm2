@@ -10,11 +10,17 @@ import axios from 'axios';
 class Sec1 extends React.Component {
     constructor(props) {
         super(props);
+        this.showAvailable = this.showAvailable.bind(this);
+        this.myFunction = this.myFunction.bind(this);
 
         this.state = {
             hackName: "stuyhacks",
-            hackDate: "Jan 27",
+            about: "hellohello",
+            address: "100 Nichols Road",
+            startDate: "Sept 20",
+            endDate: "Jan 28",
             hackLoc: "Stony Brook, NY",
+            school: "Stony Brook University",
           members: [
               {name: "mary", school: "sbu", major: "business", goals: "to win the competition a lot a lot", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/women/71.jpg"},
               {name: "scotty", school: "sbu", major: "business", goals: "hello hello this is it hello lhewrqer!", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/men/71.jpg"}
@@ -35,8 +41,19 @@ class Sec1 extends React.Component {
           axios.get(url)
           .then((res) =>{
               console.log(res);
+              var hackathon = JSON.parse(res.data['hackathon']);
+              this.setState({
+                hackName: hackathon['name'],
+                about: hackathon['about'],
+                address:hackathon['address'],
+                startDate:hackathon['start_date'],
+                endDate:hackathon['end_date'],
+                hackLoc: hackathon['city']+', '+hackathon['state'],
+                school:hackathon['school']
+            });
           })
         }
+
 
     render() {
         return (
@@ -62,7 +79,10 @@ class Sec1 extends React.Component {
                 <Container>
                     <Row>
                         <Col id="namebox " className="namebox col-12" ><strong>{this.state.hackName}</strong></Col>
-                        <Col id="namebox " className="namebox col-12" >{this.state.hackLoc}, {this.state.hackDate}</Col>
+                        <Col id="namebox " className="namebox col-12" >{this.state.startDate}-{this.state.endDate}</Col>
+                        <Col id="namebox " className="namebox col-12" >{this.state.address}, {this.state.hackLoc} - {this.state.school}</Col>
+                        
+                        <Col id="namebox " className="namebox col-12" >{this.state.about}</Col>
                     </Row>
                 </Container> 
 
@@ -184,6 +204,34 @@ class Sec1 extends React.Component {
     }
 
     showAvailable(){
+        if(localStorage.auth_token){
+            var hackathonName = this.props.match.params.name;
+            var config = {
+                headers: {'Authorization': 'Bearer ' + localStorage.auth_token.toString()}
+            };
+            axios.get('http://127.0.0.1:5000/hackathons/'+hackathonName+'/addmatch', config)
+            .then(res => {
+                console.log(res)
+                if(res.status == 200){
+                    // add to pool success!
+                }else if(res.status == 201){
+                    // already in pool
+                }
+                axios.get('http://127.0.0.1:5000/hackathons/'+hackathonName+'/findmymatches', config)
+                  .then(res => {
+                    console.log(res);
+                    console.log(res.data);
+                    var hackers = res.data['hackers']
+                    console.log(hackers)
+                    console.log(hackers[0])
+
+                  });
+            }).catch((err) =>{      //todo: handle error
+                console.log(err);
+            });
+        }
+
+
         $("#matchedUsers").fadeIn("slow");
         $('html,body').animate({
             scrollTop: $("#matchedUsers").offset().top - 100

@@ -25,11 +25,9 @@ def testconnection():
 @users.route("/auth/login", methods=['POST'])
 def login():
 	post_data = json.loads(request.data)
-	app.logger.info(post_data['email'])
 	try:
 		user = None
 		for query in User.objects(email=post_data['email']): user = query
-		app.logger.info(user)
 		if user and bcrypt.check_password_hash(user['password'], post_data['password']):
 			auth_token = user.encode_auth_token(str(user.id))
 			if auth_token:
@@ -77,7 +75,7 @@ def signup():
 					'message': 'Successfully registered.',
 					'auth_token': auth_token.decode()
 				}
-				return make_response(jsonify(responseObject)), 201
+				return make_response(jsonify(responseObject)), 200
 			except Exception as e:
 				# app.logger.error(e)
 				responseObject = {

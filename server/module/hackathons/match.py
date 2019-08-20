@@ -13,9 +13,12 @@ def one_hot_encode(user_preferences, constants_arr):
     one_hot_encode = [0] * len(constants_arr)
     for preference in user_preferences:
         if isinstance(preference, str):
+            #preference = preference.replace('\n', '')
             idx = constants_arr.index(preference)
             one_hot_encode[idx] = 1
         else:
+            #print(preference)
+            #preference['name'] = preference['name'].replace('\n', '')
             idx = constants_arr.index(preference['name'])
             one_hot_encode[idx] = float(preference['skill']) / 10.0
     return one_hot_encode
@@ -33,15 +36,15 @@ def score_arr_to_scalar(score_arr):
     return total
 
 def match(user, other_user, care_score):
-	interests = load_constants('/Users/admin/Desktop/Projects/hm/server/tests/interests.txt')
-	languages = load_constants('/Users/admin/Desktop/Projects/hm/server/tests/languages.txt')
-	fields = load_constants('/Users/admin/Desktop/Projects/hm/server/tests/fields.txt')
-	technologies = load_constants('/Users/admin/Desktop/Projects/hm/server/tests/technologies.txt')
+	interests = load_constants('interests.txt')
+	languages = load_constants('languages.txt')
+	fields = load_constants('fields.txt')
+	technologies = load_constants('technologies.txt')
 
 	interest_score = score_arr_to_scalar(compute_preference_score(user['interests'], other_user['interests'], interests))
 	language_score = score_arr_to_scalar(compute_preference_score(user['languages'], other_user['languages'], languages))
 	technology_score = score_arr_to_scalar(compute_preference_score(user['technologies'], other_user['technologies'], technologies))
 	field_score = score_arr_to_scalar(compute_preference_score(user['fields'], other_user['fields'], fields))
 
-	similiarity_score = care_score['interests'] * interest_score / 10.0 + care_score['languages'] * language_score + care_score['technologies'] * technologies_score / 10.0 + care_score['fields'] * field_score
+	similiarity_score = care_score['interests'] * interest_score / 10.0 + care_score['languages'] * language_score + care_score['technologies'] * technology_score / 10.0 + care_score['fields'] * field_score
 	return similiarity_score

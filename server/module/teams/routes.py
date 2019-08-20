@@ -1,4 +1,3 @@
-
 import json
 from module.models import Hackathon, Team
 from module import app # todo: remove app on production
@@ -17,6 +16,7 @@ teams = Blueprint('teams', __name__)
 	POST:
 		1) verifies requester is in team
 		2) modify team
+
 '''
 @teams.route('/teams/<string:team_id>', methods=['GET', 'POST'])
 def get_team(team_id):
@@ -75,6 +75,7 @@ def get_team(team_id):
 	2. verify all members are not registered for another team in this hackathon
 	3. verify team members does not exceed capacity
 	4. create team
+
 '''
 @teams.route('/teams/new', methods=['POST'])
 def create_team():
@@ -204,3 +205,4 @@ def remove_from_team(team_id):
 			'message': 'unauthorized request'
 		}
 		return make_response(jsonify(responseObject)), 402
+

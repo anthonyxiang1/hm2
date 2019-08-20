@@ -37,6 +37,16 @@ def test():
 	return 1
 
 @manager.command
+def test(file_name):
+	"""Runs the unit tests without test coverage."""
+	tests = unittest.TestLoader().discover('tests', pattern=file_name)
+	result = unittest.TextTestRunner(verbosity=2).run(tests)
+	if result.wasSuccessful():
+		return 0
+	return 1
+
+
+@manager.command
 def cov():
 	"""Runs the unit tests with coverage."""
 	tests = unittest.TestLoader().discover('tests')
