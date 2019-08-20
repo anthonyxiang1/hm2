@@ -73,7 +73,7 @@ class Add1 extends React.Component {
           <br></br>
             <Col > 
               <Row >
-              <Form className="reg" onSubmit={this.handleAddSubmit}>
+              <Form className="crea" onSubmit={this.handleAddSubmit}>
                 <Form.Group as={Col} controlId="formGridState">
                   <Form.Label>Which Team?</Form.Label>
                   <Form.Control as="select" name="hackathonchoice" value={this.state.hackathonchoice} onChange={this.handleAddChange}>

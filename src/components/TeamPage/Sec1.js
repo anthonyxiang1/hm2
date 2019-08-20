@@ -60,7 +60,7 @@ class Sec1 extends React.Component {
                     </Col>
                     <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
                         <Row>
-                           
+                           <UserCard/>
                         </Row>
                         <Row>
                            

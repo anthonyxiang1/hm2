@@ -74,7 +74,7 @@ class Create1 extends React.Component {
           <br></br>
             <Col > 
               <Row >
-              <Form className="reg" onSubmit={this.handleCreateSubmit}>
+              <Form className="crea" onSubmit={this.handleCreateSubmit}>
                   <Form.Group as={Col} controlId="formGridState">
                         <Form.Label>Which Hackathon?</Form.Label>
                         <Form.Control as="select" name="hack" value={this.state.hack} onChange={this.handleCreateChange}>

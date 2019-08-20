@@ -1,3 +1,4 @@
+
 import React from 'react';
 import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
 import UserCard from './UserCard'
@@ -162,6 +163,9 @@ class Sec1 extends React.Component {
             $("#alreadymatched").fadeIn("slow");
             $("#addedtxt").fadeIn("fast");
         },1000);
+        $('html,body').animate({
+            scrollTop: $("#matchme").offset().top
+         });
         
     }
     showAvailable(){

@@ -5,12 +5,12 @@ class UserCard extends React.Component {
         super(props);
 
         this.state = {
-            name: props.name, 
-            school: props.school, 
-            major: props.major, 
-            goals: props.goals, 
-            tags: props.tags,
-            propic: props.propic
+            name: (props.name != null) ? props.name: null, 
+            school: (props.school != null) ? props.school: '------',
+            major: (props.major != null) ? props.major: '------',
+            goals: (props.goals != null) ? props.goals: '------',
+            tags: (props.tags != null) ? props.tags: ['------'],
+            propic: (props.propic != null) ? props.propic: require("./stuyhacks.png")
         };
       }
 
