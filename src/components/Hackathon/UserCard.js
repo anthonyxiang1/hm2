@@ -1,5 +1,6 @@
 import React from 'react';
 import { Container, Col, Row} from 'react-bootstrap';
+import "./UserCard.css";
 class UserCard extends React.Component {
     constructor(props) {
         super(props);

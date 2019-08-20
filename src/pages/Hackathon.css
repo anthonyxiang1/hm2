@@ -9,9 +9,10 @@
 .teamcard{
     width: 100vw;
 }
+/*
 .usercard{
     width: 100vw;
-}
+}*/
 .teamcard .rounded-circle {
     width: 60px;
 }
@@ -225,9 +226,10 @@ img.hackathonImg{
     
         width: 6.1rem;
     }
+    /*
     .usercard{
         width: 28rem;
-    }
+    }*/
 }
 @media (min-width: 1200px) { 
     .namebox{
@@ -236,9 +238,11 @@ img.hackathonImg{
     .date, .location{
         font-size:30px;
     }
+    /*
     .usercard{
         width: 32rem;
     }
+    */
 }
 
 /*
