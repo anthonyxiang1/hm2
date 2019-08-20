@@ -54,6 +54,7 @@ class Account1 extends React.Component {
           langNot: [],
           selectedTeam: ""
         };
+        this.baseState = this.state;
       }
 
       componentDidMount() {
@@ -203,7 +204,6 @@ class Account1 extends React.Component {
     };
 
     handleProfileSubmit(event){
-        event.preventDefault();
         console.log(this.state);
         var profile = {
           'gender': this.state.gender,
@@ -237,16 +237,13 @@ class Account1 extends React.Component {
 
     handleProfileCancel(event){
         event.preventDefault();
-        this.setState({
-            page: !this.state.page
-          });
-        this.state = this.baseState
+        this.setState(this.baseState)
         console.log(this.baseState)
     }
     
   render() {
     const {page} = this.state;
-
+    
 
     const ColoredLine = ({ color }) => (
         <hr
@@ -556,6 +553,8 @@ class Account1 extends React.Component {
                                     <Form.Control as="select" name="educationLvl" value={this.state.educationLvl} onChange={this.handleProfileChange}>
                                         <option>{this.state.educationLvl}</option>
                                         <option>High School</option>
+                                        <option>Undergraduate</option>
+                                        <option>Graduate</option>
                                     </Form.Control>
                                     </Form.Group>
 
@@ -563,7 +562,15 @@ class Account1 extends React.Component {
                                     <Form.Label>Graduation Year: </Form.Label>
                                     <Form.Control as="select" name="year" value={this.state.year} onChange={this.handleProfileChange}>
                                         <option>{this.state.year}</option>
-                                        <option>2012</option>
+                                        <option>2018</option>
+                                        <option>2019</option>
+                                        <option>2020</option>
+                                        <option>2021</option>
+                                        <option>2022</option>
+                                        <option>2023</option>
+                                        <option>2024</option>
+                                        <option>2025</option>
+                                        <option>2026</option>
                                     </Form.Control>
                                     </Form.Group>
                                 </Form.Row>
@@ -573,7 +580,24 @@ class Account1 extends React.Component {
                                     <Form.Label>Major: </Form.Label>
                                     <Form.Control as="select" name="major" value={this.state.major} onChange={this.handleProfileChange}>
                                         <option>{this.state.major}</option>
+                                        <option>Computer Science</option>
+                                        <option>Information Systems</option>
+                                        <option>Mathematics</option>
+                                        <option>Biology</option>
+                                        <option>Chemistry</option>
+                                        <option>Physics</option>
+                                        <option>Statistics</option>
+                                        <option>Health Sciences</option>
+                                        <option>Computer Engineering</option>
+                                        <option>Electrical Engineering</option>
+                                        <option>Mechanical Engineering</option>
+                                        <option>Civil Engineering</option>
+                                        <option>Biomedical Engineering</option>
+                                        <option>Chemical Engineering</option>
+                                        <option>Finance</option>
+                                        <option>Economics</option>
                                         <option>Business</option>
+                                        <option>Psychology</option>
                                     </Form.Control>
                                     </Form.Group>
 
@@ -616,7 +640,6 @@ class Account1 extends React.Component {
                                         return (
                                         <div key={index}>
                                             <Form.Group className="form-inline">
-                                            <Form.Label>{index+1}.</Form.Label>
                                             <Form.Control
                                             type="text"
                                             style={{width: "75%"}}
@@ -791,7 +814,7 @@ class Account1 extends React.Component {
                             <Card.Text>
                                     <Form.Group as={Col} className="form-inline">
                                     <Form.Control as="select" name="hackathons" value={this.state.hackathons} onChange={this.handleProfileChange}>
-                                        <option>{this.state.hackathons}</option>
+                                        <option value="0">This is my first!</option>
                                         <option>1</option>
                                         <option>2</option>
                                         <option>3</option>

@@ -84,13 +84,16 @@ class Add1 extends React.Component {
                   </Form.Control>
                 </Form.Group>
 
+                
 
                     <Form.Group as={Col} controlId="formGridState">
                     <Form.Label>Choose Teammates (max 3) </Form.Label>
                     <br></br>
                     <small>(Note: they must select that they are attending this hackathon)</small>
                     <br></br>
-                    <ReactSearchBox
+                    <div class="search">
+                      <span class="fa fa-search"></span>
+                      <ReactSearchBox
                       placeholder="Teammate name"
                       data={available}
                       dropDownBorderColor="blue"
@@ -99,13 +102,15 @@ class Add1 extends React.Component {
                                     if (memberList.length < 3 && memberList.indexOf(record) === -1)
                                     this.setState({ memberList: this.state.memberList.concat(record) })}}
                     />
+                    </div>
+                    
                     <MemberTags vals={memberList}/>
                     <br></br>
                     <Button variant="outline-danger" size="sm" onClick={() => this.deleteName()}>Remove Last Added</Button>
                     </Form.Group>
 
                 <Button variant="success" type="submit">
-                  Add
+                  Add Teammates
                 </Button>
               </Form> 
             </Row>
@@ -126,7 +131,10 @@ class Add1 extends React.Component {
 
   handleAddSubmit(event){
     event.preventDefault();
-    console.log(this.state)
+    if (this.baseState.memberList.length < this.state.memberList.length && this.state.hackathonchoice != "")
+      console.log(this.state)
+    else 
+      alert("fill in all fields")
   };
 
   deleteName(event){

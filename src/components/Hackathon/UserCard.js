@@ -1,6 +1,18 @@
 import React from 'react';
-import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
+import { Container, Col, Row} from 'react-bootstrap';
 class UserCard extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: props.name, 
+            school: props.school, 
+            major: props.major, 
+            goals: props.goals, 
+            tags: props.tags,
+            propic: props.propic
+        };
+      }
 
     render() {
         return (
@@ -13,42 +25,32 @@ class UserCard extends React.Component {
                                 <Row>
                                     <Col className="text-left">
                                         <Row>
-                                            <img className="d-block mx-auto rounded-circle img-fluid" src="http://api.randomuser.me/portraits/women/73.jpg"></img>
+                                            <img className="d-block mx-auto rounded-circle img-fluid" src={this.state.propic}></img>
 
                                         </Row>
                                         <Row >
-                                            Goals Goals Goals
-                                            Goals Goals Goals
-                                            Goals Goals Goals
-                                            Goals Goals Goals
-                                            Goals Goals Goals
-                                            Goals Goals Goals
+                                            {this.state.goals}
                                         </Row>
                                     </Col>
                                     <Col className="text-left">
                                         <Row>
-                                        <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href="" >Mary Chesnut</a></h3>
-                                        <h6>School School School School </h6>
-                                        <h6>Major Major Major</h6>
+                                        <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href="" >{this.state.name}</a></h3>
+                                        </Row>
+                                        <Row>
+                                        <span>{this.state.school}</span>
+                                        </Row>
+                                        <Row>
+                                        <span>{this.state.major}</span>
                                         </Row>
                                         <Row>
                                         <ul className="list-inline mt-3 tag-list">
-                                            <li className="list-inline-item">
-                                                <button className="btn btn-light">
-                                                    Artificial Intelligence
-                                                </button>
-                                            </li>
-                                            <li className="list-inline-item">
-                                                <button className="btn btn-light">
-                                                    Computer Vision
-                                                </button>
-                                            </li>
-                                            <li className="list-inline-item">
-                                                <button className="btn btn-light">
-                                                    Full-Stack Engineering
-                                                </button>
-                                            </li>
-
+                                                {this.state.tags.map((item, index) => ( 
+                                                        <li className="list-inline-item">
+                                                        <button  disabled className="btn btn-light">
+                                                            {item}
+                                                        </button>
+                                                    </li>
+                                                ))}
                                         </ul>
                                         </Row>
                                     </Col>

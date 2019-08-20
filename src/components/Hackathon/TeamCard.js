@@ -2,6 +2,16 @@ import React from 'react';
 import { Container, Col, Button, Image, Row, ButtonToolbar } from 'react-bootstrap';
 class TeamCard extends React.Component {
 
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            name: props.name, 
+            goals: props.goals, 
+            propic: props.propic
+        };
+      }
+
     render() {
         return (
             <div className="teamcard" id="teamcard">
@@ -25,17 +35,11 @@ class TeamCard extends React.Component {
 
                                         <Col className="text-left">
                                             <Row>
-                                                    <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href="">Team Name</a></h3>
+                                                    <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href="">{this.state.name}</a></h3>
 
                                                 </Row>
                                                 <Row>
-                                                    Goals Goals Goals
-                                                    Goals Goals Goals
-                                                    Goals Goals Goals
-                                                    Goals Goals Goals
-                                                    Goals Goals Goals
-                                                    Goals Goals Goals
-
+                                                    {this.state.goals}
                                                 </Row>
                                         </Col>
 

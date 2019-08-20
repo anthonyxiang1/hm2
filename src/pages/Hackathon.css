@@ -1,23 +1,18 @@
-
-
 .namebox{
     justify-content: center;
     position: relative;
-    color:white;
-    top:100px;
+    color:black;
+    top:-400px;
     font-size:45px;
 }
 
 img.hackathonImg{
-
     position: relative;
 
     border: 5px solid rgb(110, 110, 110);
     border-radius: 100%;
     height: 140px;
     width: 140px;
-    top:-50px;
-
 }
 
 .addme{
@@ -25,60 +20,57 @@ img.hackathonImg{
 }
 .addtxt{
     position: relative;
-    top:-75px;
+    top:-575px;
 }
 
 .flexbox{
     position:relative;
-    top:175px;
+    top:-375px;
 }
 
 .location{
     font-size: 30px;
-    color: white;
+    color: black;
     position: relative;
     bottom:0;
-    /*top:175px;
-    left: 50px;*/
 
     vertical-align: bottom;
 }
 
 .date{
     font-size: 30px;
-    color: white;
+    color: black;
     position: relative;
     /*top:175px;
     right: 50px;*/
-
-
 }
 
 .rectangle{
-    position:absolute;
+    position:relative;
     width:100%;
     height:500px;
     background-image: linear-gradient(to bottom right, rgb(63, 63, 223), rgb(66, 7, 66));
     /*background:rgb(172, 172, 204);*/
 }
 
-.addbtn{ 
+.addyourself{ 
     position:relative;
-    top:350px;  
-
+    top:290px;
 }
 
 .addbtn img{
     position:relative;
-    top:-35px;
+    top:-100px;
     height:100%;
     width: 5%;
     animation: move 1s infinite alternate;
 }
 
-.addbtn img Button{
-    width:10px;
-    /* cursor: pointer; */
+.addbtn Button{
+    position:relative;
+    width:100%;
+    top:-50px;
+    
 }
 
 .btn-block {
@@ -93,15 +85,15 @@ img.hackathonImg{
 }
 .btn-duo button{
     position: relative;
-    top:500px;
+    top:50px;
     width:100%;
-    /* cursor: pointer; */
+    cursor: pointer;
 }
 
 
 .matchedUsers, .availableTeams{
     position: relative;
-    top:700px;
+    top:200px;
     margin-bottom:500px;
 }
 
@@ -115,7 +107,7 @@ img.hackathonImg{
 
 .addedtxt{
     position:relative;
-    top:300px;
+    top:-300px;
 }
 .sec1{
     margin-bottom:500px;
@@ -151,11 +143,16 @@ img.hackathonImg{
 }
 /*MD*/
 @media (min-width: 768px) { 
+    .flexbox{
+        top:-125px;
+    }
     .namebox{
         font-size:30px;
+        top:-150px;
     }
     .date, .location{
         font-size:20px;
+        top:50px;
     }
     .rectangle{
         height:250px;
@@ -164,24 +161,58 @@ img.hackathonImg{
         width: initial;
     }
     .addtxt{
-       top:-150px; 
+        top:-350px; 
     }
     .matchme{
         margin-right:200px;
         width: 19%;
     }
     .btn-duo button{
-    position: relative;
-    top:500px;
+   
+    top:200px;
     width:initial;
     }
     .addedtxt{
-        position:relative;
-        top:340px;
+        
+        top:0px;
     }
+    .addbtn img{
+        
+        top:0px;
+        
+    }
+    .addbtn Button{
+        top:50px;
+        
+    }
+    
 
 }
-/*lg*/
+@media (min-width: 992px) { 
+    .namebox{
+        font-size:35px;
+        top:-150px;
+    }
+    .date, .location{
+        font-size:25px;
+        top:30px;
+    }
+    .addbtn Button{
+       
+        width:25%;
+      
+        
+    }
+}
+@media (min-width: 1200px) { 
+    .namebox{
+        font-size:40px;
+    }
+    .date, .location{
+        font-size:30px;
+    }
+}
+/*
 @media (min-width: 992px) { 
     .namebox{
         font-size:35px;
@@ -204,9 +235,7 @@ img.hackathonImg{
     top:500px;
     width:initial;
 }
-
 }
-/*xl*/
 @media (min-width: 1200px) { 
     .namebox{
         font-size:40px;
@@ -229,5 +258,4 @@ img.hackathonImg{
     top:500px;
     width:initial;
 }
-
-} 
+} */

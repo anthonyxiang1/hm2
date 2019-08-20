@@ -4,6 +4,25 @@ import UserCard from './UserCard'
 import TeamCard from './TeamCard'
 import HackathonCard from '../Home/HackathonCard'
 class Sec1 extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            hackName: "stuyhacks",
+            hackDate: "Jan 27",
+            hackLoc: "Stony Brook, NY",
+          members: [
+              {name: "mary", school: "sbu", major: "business", goals: "to win the competition a lot a lot", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/women/71.jpg"},
+              {name: "scotty", school: "sbu", major: "business", goals: "hello hello this is it hello lhewrqer!", tags: ["ai", "cv", "full stack"], propic: "http://api.randomuser.me/portraits/men/71.jpg"}
+          ],
+          teams: [
+              {name: "Found 405", goals: "i want to win winwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]},
+              {name: "ANOTHER TEAM", goals: "i want tolo hello this is it hello lhewrqer!lo hello this is it hello lhewrqer!lo hello this is it hello lhewrqer! win winwin", propic: ["http://api.randomuser.me/portraits/men/71.jpg", 
+              "http://api.randomuser.me/portraits/men/71.jpg", "http://api.randomuser.me/portraits/men/71.jpg"]}
+            ]
+        };
+      }
+
 
     render() {
         return (
@@ -12,7 +31,7 @@ class Sec1 extends React.Component {
 
                 <Container>
                     <Row>
-                        <Col id="namebox " className="namebox col-12" >StuyHacks</Col>
+                        <Col id="namebox " className="namebox col-12" >{this.state.hackName}</Col>
                     </Row>
                 </Container> 
 
@@ -25,8 +44,8 @@ class Sec1 extends React.Component {
                                 className="hackathonImg">
                             </img>
                         </Col>
-                        <Col id="date" xs={{span:12}} sm={{span:12}} md={{span:4, order:1}} lg={{span:4, order:1}} xl={{span:4, order:1}} className="date">DateDateDate</Col>
-                        <Col id="location" xs={{span:12}} sm={{span:12}} md={{span:4, order:3}} lg={{span:4, order:3}} xl={{span:4, order:3}} className="location">LocationLocationLocation</Col>
+                        <Col id="date" xs={{span:12}} sm={{span:12}} md={{span:4, order:1}} lg={{span:4, order:1}} xl={{span:4, order:1}} className="date">{this.state.hackDate}</Col>
+                        <Col id="location" xs={{span:12}} sm={{span:12}} md={{span:4, order:3}} lg={{span:4, order:3}} xl={{span:4, order:3}} className="location">{this.state.hackLoc}</Col>
                     </Row>
                 </Container>
 
@@ -35,7 +54,7 @@ class Sec1 extends React.Component {
                     <Row className="justify-content-center addtxt">
                         <Col>
                             <center>
-                                <h1 id="addyourself">Add Yourself To This Matching Pool!</h1>
+                                <h1 className="addyourself">Add Yourself To This Matching Pool!</h1>
                             </center>
                         </Col>
                     </Row>
@@ -54,28 +73,32 @@ class Sec1 extends React.Component {
                     <Row className="justify-content-center">
                         <Col>
                             <center>
-                            <Button type="button" id="addme" className="addme" variant="primary" size="lg" onClick={this.myFunction.bind(this)}>I'm Going!</Button>
+                                <Button type="button" id="addme" className="addme" variant="primary" size="lg" onClick={this.myFunction.bind(this)}>I'm Going!</Button>
                             </center>
                         </Col>
                     </Row>
                 </Container>
                 <ButtonToolbar className="btn-duo justify-content-center">
-                        <Button type="button" id="matchme" 
-                                    className="matchme" variant="secondary" 
-                                    
-                                    disabled={true} style={{opacity:0}}
-                                    
-                                    >Match Me!
-                            </Button>
-                            <Button type="button" id="alreadymatched" 
-                                className="alreadymatched" variant="success"
-                                onClick={this.showAvailable.bind(this)} 
-                                disabled={true}
-                                style={{opacity:0}}
-                                
-                                >I Already Have A Team!</Button>
+                    <Button type="button" id="matchme" 
+                            className="matchme" variant="primary"  size="lg"
+                            onClick={this.showAvailable.bind(this)} 
+                            style={{display:"None"}} 
+                            
+                            >Match Me!
+                    </Button>
+                    <Button type="button" id="alreadymatched" 
+                        className="alreadymatched" variant="secondary" size="sm"
+                        onClick={this.showAvailable.bind(this)} 
+                         
+                        style={{display:"None"}} 
+                        
+                        >I Already Have A Team!</Button>
+                      
+                      
+                      
+    
                 </ButtonToolbar>
-                <center className="addedtxt" id="addedtxt" style={{opacity:0}} >
+                <center className="addedtxt" id="addedtxt" style={{display:"None"}} >
                     <h1>You Have Been Added!</h1>
                 </center>
                 
@@ -86,13 +109,19 @@ class Sec1 extends React.Component {
                             <h2><strong>Top Matched Users</strong></h2>
                         </Row>
                         <Row>
-                            <UserCard/>
+                        <UserCard name={this.state.members[1].name} school={this.state.members[1].school} major={this.state.members[1].major}
+                                goals={this.state.members[1].goals}  tags={this.state.members[1].tags} propic={this.state.members[1].propic}
+                                />
                         </Row>
                         <Row>
-                         <UserCard/>
+                        <UserCard name={this.state.members[0].name} school={this.state.members[0].school} major={this.state.members[0].major}
+                            goals={this.state.members[0].goals}  tags={this.state.members[0].tags} propic={this.state.members[0].propic}
+                            />
                         </Row>
                         <Row>
-                         <UserCard/>
+                        <UserCard name={this.state.members[1].name} school={this.state.members[1].school} major={this.state.members[1].major}
+                                goals={this.state.members[1].goals}  tags={this.state.members[1].tags} propic={this.state.members[1].propic}
+                                />
                         </Row>
                     </Col>
                     <Col xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
@@ -100,13 +129,13 @@ class Sec1 extends React.Component {
                             <h2><strong>Available Teams</strong></h2>
                         </Row>
                         <Row>
-                            <TeamCard/>
+                            <TeamCard name={this.state.teams[0].name} goals={this.state.teams[0].goals} propic={this.state.teams[0].propic}/>
                         </Row>
                         <Row>
-                         <TeamCard/>
+                            <TeamCard name={this.state.teams[1].name} goals={this.state.teams[1].goals} propic={this.state.teams[1].propic}/>
                         </Row>
                         <Row>
-                         <TeamCard/>
+                            <TeamCard name={this.state.teams[0].name} goals={this.state.teams[0].goals} propic={this.state.teams[0].propic}/>
                         </Row>
                     </Col>
                     </Row>
@@ -123,30 +152,23 @@ class Sec1 extends React.Component {
         );
         
     }
+   
     myFunction() {
-             //onClick={this.showAvailable} 
-        //var event_click =  document.getElementById('alreadymatched')
-        $('#alreadymatched').each(function() {
-        	$.each(this.attributes,function(i,a){
-            	console.log(i,a.name,a.value)
-            })
-        })
-        
-            setTimeout(function(){
-            $("#matchme").fadeTo(1000, 1);
-            $("#alreadymatched").fadeTo(1000, 1);
-            $('#matchme').prop('disabled', false);
-            $('#alreadymatched').prop('disabled',false);
-            $('#alreadymatched').attr('onclick',"this.showAvailable");
-        },1500);
-    }
-
-    showAvailable(){
         console.log("called")
-        $("#matchme").fadeTo(1000, 0);
-        $("#alreadymatched").fadeTo(1000, 0);
-        $('#matchme').prop('disabled', true);
-         $('#alreadymatched').prop('disabled',true);
+        $("#addme").fadeOut("fast");
+        $("#downarr").fadeOut("fast");
+        setTimeout(function(){
+            $("#matchme").fadeIn("slow");
+            $("#alreadymatched").fadeIn("slow");
+            $("#addedtxt").fadeIn("fast");
+        },1000);
+        
+    }
+    showAvailable(){
+        $("#matchedUsers").fadeIn("slow");
+        $('html,body').animate({
+            scrollTop: $("#matchedUsers").offset().top - 100
+         });
     }
 }
 export default Sec1

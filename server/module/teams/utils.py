@@ -1,3 +1,4 @@
+
 from module.models import Hackathon, Team
 
 
@@ -21,7 +22,8 @@ def verify_user_in_team(user_id, team_id):
 	@returns True if user is in hackathon and not in a team assigned to this hackathon
 '''
 def verify_user_in_hackathon(user, hackathon):
-	if (str(hackathon.id) in user.hackathons) or (str(user.id) in hackathon.match_hackers): # user in hackathon
+	if (str(hackathon.id) in user.hackathons) or (hackathon.contain_hacker(str(user.id))): # user in hackathon
+		print(user.teams)
 		for team_id in user.teams:
 			team = get_team_by_id(team_id)
 			if str(team.hackathon) == str(hackathon.id):

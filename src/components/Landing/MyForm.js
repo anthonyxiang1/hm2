@@ -1,11 +1,7 @@
 import React from "react";
 import {Form, Button, FormControl} from 'react-bootstrap';
-import { withRouter, Redirect } from 'react-router-dom';
+import { withRouter } from 'react-router-dom';
 
-import { store } from '../../store.js'
-import config from '../../config/client';
-import { fetchItems } from '../../actions/items';
-import decode from 'jwt-decode';
 import axios from 'axios';
 
 
