@@ -23,7 +23,7 @@ def get_teams():
 			#user_teams.append(team.get_card())
 		responseObject = {
 			'status': 'success',
-			'data': user_teams
+			'team': user_teams
 		}
 		return make_response(jsonify(responseObject)), 200
 	except Exception as e:
@@ -46,6 +46,12 @@ def get_team(team_id):
 	if request.method == 'GET':
 		try:
 			team = get_team_by_id(team_id)
+			members = []
+			for member_id in team.members:
+				member = get_user_from_id(member_id)
+				members.append(member.get_card())
+
+			team.members = members
 			responseObject = {
 				'status': 'success',
 				'data': team.to_json()

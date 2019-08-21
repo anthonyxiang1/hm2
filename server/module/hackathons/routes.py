@@ -284,9 +284,10 @@ def get_matches(hackathon_name):
 		for hacker_id in hackers_id:
 			other_hacker = get_user_from_id(hacker_id)
 			preferences_o = json.loads(other_hacker.get_preferences())
-			score = match(preferences, preferences_o, care_scores)
+			score, commons = match(preferences, preferences_o, care_scores)
 			result = {
 				'hacker': other_hacker.get_card(),
+				'commons': commons,
 				'score': score
 			}
 			match_hackers.append(result)

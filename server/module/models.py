@@ -36,20 +36,20 @@ class User(Document, UserMixin):
         'fields': [],
         "goals": 0
     })
-    # social = DictField(default={
-    #     "website": '',
-    #     'devpost': '',
-    #     'linkedin': '',
-    #     'github': '',
-    #     'slack': '',
-    #     'facebook': '',
-    #     'instagram': ''
-    # })
+    social = DictField(default={
+        "website": '',
+        'devpost': '',
+        'linkedin': '',
+        'github': '',
+        'slack': '',
+        'facebook': '',
+        'instagram': ''
+    })
     carescores = DictField(default={
-        'interests': 5,
-        'languages': 5,
-        'technologies': 5,
-        'fields': 5
+        'interests': '5',
+        'languages': '5',
+        'technologies': '5',
+        'fields': '5'
     })
     teams = ListField(default=[])           #list of teamIds
     hackathons = ListField(default=[])      #list of hackathonIDs
@@ -124,7 +124,12 @@ class User(Document, UserMixin):
             'firstname': self.firstname,
             'lastname' : self.lastname,
             'email': self.email,
-            'profile_pic': self.profile_pic
+            'profile_pic': self.profile_pic,
+            'school': self.profile['school'],
+            'major': self.profile['major'],
+            'goals': self.preferences['goals'],
+            'preferences': self.get_preferences_list()
+            # todo: for matches, get common preferences
         }
         return json.dumps(user)
 
@@ -134,7 +139,7 @@ class User(Document, UserMixin):
             "school": self.school,
             "major": self.major,
             "gradYear": self.gradYear,
-            "numOfHackathons":  self.numOfHackathons,
+            "numOfHackathons":  self.numOfHackathons
         })
         return json.dumps(profile)
 
@@ -147,6 +152,18 @@ class User(Document, UserMixin):
             'goals': 0
         }
         return json.dumps(preferences)
+
+    def get_preferences_list(self):
+        commons = []
+        for preference in self.preferences['interests']:
+            commons.append(preference)
+        for preference in self.preferences['languages']:
+            commons.append(preference['name'])
+        for preference in self.preferences['technologies']:
+            commons.append(preference['name'])
+        for preference in self.preferences['fields']:
+            commons.append(preference)
+        return commons
 
     def __str__(self):
         return f"User('{self.firstname}','{self.email}')"
