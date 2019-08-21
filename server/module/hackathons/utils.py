@@ -23,3 +23,12 @@ def get_hackathon_match_hackers(query):
 		hackathon = get_hackathon(query)
 	hackers_id = hackathon.match_hackers
 	return hackers_id
+
+def get_hackathon_teams(query):
+	hackathon = None
+	if ObjectId.is_valid(query):
+		hackathon = get_hackathon_by_id(query)
+	else:
+		hackathon = get_hackathon(query)
+	teams_id = hackathon.teams
+	return teams_id

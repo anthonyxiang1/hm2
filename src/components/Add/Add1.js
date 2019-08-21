@@ -1,6 +1,7 @@
 import React from "react";
 import {Form, Button, Col, Row, Container} from 'react-bootstrap';
 import { withRouter } from 'react-router-dom';
+import axios from 'axios';
 
 import ReactSearchBox from 'react-search-box'
 
@@ -46,14 +47,14 @@ class Add1 extends React.Component {
   }
 
   componentDidMount() {
-    var url='http://localhost:5000/api/account';
-    fetch(url, {
-      method: 'GET',
-    }).then(response =>{
-      console.log(response);
-    }).catch(err => {
-      console.log(err);
-    });
+    var url='http://localhost:5000/teams';
+    var config = {
+      headers: {'Authorization': 'Bearer ' + localStorage.auth_token.toString()}
+    };
+    axios.get(url, config)
+      .then(res => {
+        console.log(res);
+      });
   }
 
   render() {
@@ -139,10 +140,26 @@ class Add1 extends React.Component {
 
   handleAddSubmit(event){
     event.preventDefault();
-    if (this.baseState.memberList.length < this.state.memberList.length && this.state.hackathonchoice != "")
-      console.log(this.state)
-    else 
-      alert("fill in all fields")
+    if (this.baseState.memberList.length < this.state.memberList.length && this.state.hackathonchoice != ""){
+      //console.log(this.state)
+      var hackathonSelected = "hackPrinceton";
+      var url = "http://localhost:5000/teams/"+hackathonSelected+"add";
+      var config = {
+        headers: {'Authorization': 'Bearer ' + localStorage.auth_token.toString()}
+      };
+      var members = ['5d5ace37432fa135145b2c81'];
+      var teamid = '5d5aeea6f347617e9abd48ae';
+      var data = {
+        'teamid': teamid,
+        'members': members
+      }
+      axios.post(url, data, config)
+        .then(res => {
+          console.log(res);
+        });
+    }else{
+      alert("fill in all fields");
+    } 
   };
 
   deleteName(event){

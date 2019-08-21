@@ -10,6 +10,29 @@ from module.hackathons.utils import get_hackathon_by_id, get_hackathon
 
 teams = Blueprint('teams', __name__)
 
+@teams.route('/teams', methods=['GET'])
+def get_teams():
+	try:
+		auth_header = str(request.headers.get('Authorization'))
+		user_id = get_userid_from_auth(auth_header)
+		user = get_user_from_id(user_id)
+		user_teams = []
+		for team_id in user.teams:
+			team = get_team_by_id(team_id)
+			user_teams.append(team.name)
+			#user_teams.append(team.get_card())
+		responseObject = {
+			'status': 'success',
+			'team': user_teams
+		}
+		return make_response(jsonify(responseObject)), 200
+	except Exception as e:
+		responseObject = {
+				'status': 'failure',
+				'message': 'you must be logged in to perform this action'
+			}
+		return make_response(jsonify(responseObject)), 401
+
 
 '''
 	GET: gets team profile according to team id
@@ -23,6 +46,12 @@ def get_team(team_id):
 	if request.method == 'GET':
 		try:
 			team = get_team_by_id(team_id)
+			members = []
+			for member_id in team.members:
+				member = get_user_from_id(member_id)
+				members.append(member.get_card())
+
+			team.members = members
 			responseObject = {
 				'status': 'success',
 				'data': team.to_json()

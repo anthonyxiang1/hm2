@@ -96,6 +96,7 @@ def modify_user(json, id):
 	for query in User.objects(id=id): user = query
 	if user == None:
 		raise ValueError('invalid auth_token')
+	print(json)
 	modify_profile = {
 		'gender': json['profile']['gender'] or user['profile']['gender'],
 		'school': json['profile']['school'] or user['profile']['school'],
@@ -103,6 +104,7 @@ def modify_user(json, id):
 		'gradYear': json['profile']['gradYear'] or user['profile']['gradYear'],
 		'numOfHackathons': json['profile']['numOfHackathons'] or user['profile']['numOfHackathons']
 	}
+	print(modify_profile)
 	modify_preferences = {
 		'interests': json['preferences']['interests'] or user['preferences']['interests'],
 		'languages': json['preferences']['languages'] or user['preferences']['languages'],
@@ -110,21 +112,32 @@ def modify_user(json, id):
 		'fields': json['preferences']['fields'] or user['preferences']['fields'],
 		'goals': json['preferences']['goals'] or user['preferences']['goals']
 	}
-	# modify_social = {
-	# 	'profile_pic': user['social']['profile_pic'],
-	# 	'website': json['social']['website'] or user['social']['website'],
-	# 	'devpost': json['social']['devpost'] or user['social']['devpost'],
-	# 	'linkedin': json['social']['linkedin'] or user['social']['linkedin'],
-	# 	'github': json['social']['github'] or user['social']['github'],
-	# 	'slack': json['social']['slack'] or user['social']['slack'],
-	# 	'facebook': json['social']['facebook'] or user['social']['facebook'],
-	# 	'instagram': json['social']['instagram'] or user['social']['instagram']
-	# }
+	# todo: make this dynamic!
+	print(modify_preferences)
+	modify_social = {
+		'website': json['social']['website'] or user['social']['website'],
+		'devpost': json['social']['devpost'] or user['social']['devpost'],
+		'linkedin': json['social']['linkedin'] or user['social']['linkedin'],
+		'github': json['social']['github'] or user['social']['github'],
+		#'slack': json['social']['slack'] or user['social']['slack'],
+		'facebook': json['social']['facebook'] or user['social']['facebook'],
+		'instagram': json['social']['instagram'] or user['social']['instagram']
+	}
+	print(modify_social)
+	modify_carescores = {
+		'interests': json['carescores']['interests'] or user['carescores']['interests'],
+		'languages': json['carescores']['languages'] or user['carescores']['languages'],
+		'technologies': json['carescores']['technologies'] or user['carescores']['technologies'],
+		'fields': json['carescores']['fields'] or user['carescores']['fields']
+	}
+	
+	print(modify_carescores)
 	User.objects(id=id).update_one(
 		profile=modify_profile,
 		preferences=modify_preferences,
-		profile_pic=json['profile_pic']
-		# social=modify_social
+		profile_pic=json['profile_pic'],
+		social=modify_social,
+		carescores=modify_carescores
 	)
 '''
 TODO: 
