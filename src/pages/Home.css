@@ -1,4 +1,11 @@
-.Home {
-    padding-top: 150px;
+.home {
+    padding-top: 100px;
     text-align: center;
   }
+
+  .hackcard {
+    padding-left: 30px;
+    margin-top: 10px;
+}
+
+/* for mobile m - 40px, mobile l,  */

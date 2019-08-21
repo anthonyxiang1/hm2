@@ -22,7 +22,7 @@
     position: relative;
     color:black;
     top:-400px;
-    font-size:45px;
+    font-size:30px;
 }
 
 img.hackathonImg{
@@ -30,8 +30,8 @@ img.hackathonImg{
 
     border: 5px solid rgb(110, 110, 110);
     border-radius: 100%;
-    height: 140px;
-    width: 140px;
+    height: 160px;
+    width: 160px;
 }
 
 .addme{
@@ -48,7 +48,7 @@ img.hackathonImg{
 }
 
 .location{
-    font-size: 30px;
+    font-size: 15px;
     color: black;
     position: relative;
     bottom:0;
@@ -57,24 +57,25 @@ img.hackathonImg{
 }
 
 .date{
-    font-size: 30px;
+    font-size: 15px;
     color: black;
     position: relative;
     /*top:175px;
     right: 50px;*/
 }
 
-.rectangle{
+.rectanglehack{
     position:relative;
     width:100%;
-    height:500px;
-    background-image: linear-gradient(to bottom right, rgb(63, 63, 223), rgb(66, 7, 66));
+    height:470px;
+    background: url('https://million-wallpapers.com/wallpapers/3/1/460708392402944.jpg') center center fixed;
+    opacity: 0.7;
     /*background:rgb(172, 172, 204);*/
 }
 
 .addyourself{ 
     position:relative;
-    top:290px;
+    top:330px;
 }
 
 .addbtn img{
@@ -158,6 +159,9 @@ img.hackathonImg{
     .addme{
         width: 100%;
     }
+    .rectanglehack{
+        height:250px;
+    }
 
 }
 /*MD*/
@@ -173,7 +177,7 @@ img.hackathonImg{
         font-size:20px;
         top:50px;
     }
-    .rectangle{
+    .rectanglehack{
         height:250px;
     }
     .addme{
@@ -236,7 +240,10 @@ img.hackathonImg{
         font-size:40px;
     }
     .date, .location{
-        font-size:30px;
+        font-size:20px;
+    }
+    .rectanglehack{
+        height:300px;
     }
     /*
     .usercard{

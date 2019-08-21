@@ -7,10 +7,11 @@ class UserCard extends React.Component {
         super(props);
 
         this.state = {
-            name: (props.name != null) ? props.name: null, 
+            firstname: (props.firstname != null) ? props.firstname: null, 
+            lastname: (props.lastname != null) ? props.lastname: null, 
             school: (props.school != null) ? props.school: '',
             major: (props.major != null) ? props.major: '',
-            goals: (props.goals != null) ? props.goals: "",
+            // goals: (props.goals != null) ? props.goals: [],
             id: (props.id != null) ? props.id: "",
             tags: (props.tags != null) ? props.tags: [],
             propic: (props.propic != null) ? props.propic: require("./graysquare.png")
@@ -37,7 +38,7 @@ class UserCard extends React.Component {
                                     </Col>
                                     <Col className="text-left">
                                         <Row>
-                                        <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href={`/profile/${this.state.id}`} >{this.state.name}</a></h3>
+                                        <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href={`/profile/${this.state.id}`} >{this.state.firstname} {this.state.lastname}</a></h3>
                                         </Row>
                                         <Row>
                                         <span>{this.state.school}</span>

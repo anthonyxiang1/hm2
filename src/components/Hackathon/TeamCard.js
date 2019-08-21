@@ -8,7 +8,8 @@ class TeamCard extends React.Component {
         this.state = {
             name: (props.name != null) ? props.name: '------', 
             goals: (props.goals != null) ? props.goals: '------', 
-            propic: (props.propic != null) ? props.propic: require("./downarrow.png")
+            propic: (props.propic != null) ? props.propic: require("./graysquare.png"),
+            id: (props.id != null) ? props.id: "",
         };
       }
 
@@ -34,7 +35,7 @@ class TeamCard extends React.Component {
 
                                         <Col className="text-left">
                                             <Row>
-                                                    <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href="">{this.state.name}</a></h3>
+                                                    <h3 className="font-weight-light d-inline"><a className="text-dark card-btn" id="card-btn" href={`/team/${this.state.id}`}>{this.state.name}</a></h3>
 
                                                 </Row>
                                                 <Row>

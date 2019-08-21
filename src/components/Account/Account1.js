@@ -44,7 +44,7 @@ class Account1 extends React.Component {
           school: "sbu",
           about: "about me goes here, any projects, what your goal is (looking to win)",
           goals: ['to win the competition', 'make new friends', 'visit friends'],
-          url: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
+          url: ["http://linkedin.com/in/jaketrent", 'github.com', 'facebook.com'],
           languages: [{name: "java", skill: 8}, {name: "python", skill: 3}],
           tech: [{name: "ML", skill: 8}, {name: "aws", skill: 3}],
           fields: ["health", "edu"],
@@ -55,7 +55,7 @@ class Account1 extends React.Component {
 
 
           goalsBase: ['to win the competition', 'make new friends', 'visit friends'],
-          urlBase: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
+          urlBase: ["", "http://twitter.com", '', 'www.github.com', 'www.aafacebasdfaook.com'],
           languagesBase: [{name: "java", skill: 8}, {name: "python", skill: 3}],
           techBase: [{name: "ML", skill: 8}, {name: "aws", skill: 3}],
           fieldsBase: ["health", "edu"],
@@ -261,6 +261,7 @@ class Account1 extends React.Component {
   render() {
     const {page} = this.state;
 
+
     const ColoredLine = ({ color }) => (
         <hr
             style={{
@@ -276,9 +277,10 @@ class Account1 extends React.Component {
     const SocialMedia = ({vals}) => (
         <div>
             {
-            vals.map((item) => ( 
-        <SocialIcon url={item} style={{ height: 35, width: 35}}/>
-            ))
+            vals.map(function(item) {
+                if (item !== "")
+                return <SocialIcon url={item} style={{ height: 35, width: 35}}/>
+                })
             }
         </div>
     );
@@ -428,6 +430,41 @@ class Account1 extends React.Component {
                                         </form>
                                 </div>
                             </div>
+                            <br></br>
+                            <Card className="center w-75">
+                    <Card.Header><strong>Social Media</strong></Card.Header>
+                        <Card.Body>
+                            <Card.Text>
+                                
+                                    {
+                                    this.state.url.map((url, index)=> {
+                                        return (
+                                        <div key={index}>
+                                            <Form.Group className="form-inline">
+                                            <Form.Control
+                                            type="text"
+                                            style={{width: "75%"}}
+                                            placeholder="Linkedin, Github, etc."
+                                            onChange= {(e) => this.handleURLChange(e, index)}
+                                            id={url}
+                                            value={url} 
+                                            className="name"
+                                            />
+                                            
+                                            <Button variant="danger" onClick={() => this.handleRemoveURLForm(index)}>-</Button>
+                                            </Form.Group>
+                                        </div>
+                                        )
+                                    })
+                                    }
+
+
+                                <br></br>
+                            
+                            <Button variant="outline-primary" onClick={this.handleSocial}>Add Link</Button>
+                            </Card.Text>
+                        </Card.Body>
+                    </Card>
                         </Col>
 
                             <Col className ="about">
@@ -550,41 +587,6 @@ class Account1 extends React.Component {
                 {/****************** SOCIAL MEDIA LANGUAGES FIELDS AND HACKATHONS */}
                 
                 <Col sm={4}>
-                    <Card className="center w-75">
-                    <Card.Header><strong>Social Media</strong></Card.Header>
-                        <Card.Body>
-                            <Card.Text>
-                                
-                                    {
-                                    this.state.url.map((url, index)=> {
-                                        return (
-                                        <div key={index}>
-                                            <Form.Group className="form-inline">
-                                            <Form.Control
-                                            type="text"
-                                            style={{width: "75%"}}
-                                            placeholder="Linkedin, Github, etc."
-                                            onChange= {(e) => this.handleURLChange(e, index)}
-                                            id={url}
-                                            value={url} 
-                                            className="name"
-                                            />
-                                            
-                                            <Button variant="danger" onClick={() => this.handleRemoveURLForm(index)}>-</Button>
-                                            </Form.Group>
-                                        </div>
-                                        )
-                                    })
-                                    }
-
-
-                                <br></br>
-                            
-                            <Button variant="outline-primary" onClick={this.handleSocial}>Add Link</Button>
-                            </Card.Text>
-                        </Card.Body>
-                    </Card>
-                    <br></br>
 
                     <Card className="center w-75">
                     <Card.Header><strong>Languages</strong> <span>(max 5)</span></Card.Header>

@@ -39,12 +39,11 @@ def score_arr_to_scalar(score_arr):
 	for score in score_arr:
 		if score > 0: total += score
 	return total
-
 def match(user, other_user, care_score):
-	interests = load_constants('/Users/admin/Desktop/Projects/hm2/server/module/hackathons/interests.txt')
-	languages = load_constants('/Users/admin/Desktop/Projects/hm2/server/module/hackathons/languages.txt')
-	fields = load_constants('/Users/admin/Desktop/Projects/hm2/server/module/hackathons/fields.txt')
-	technologies = load_constants('/Users/admin/Desktop/Projects/hm2/server/module/hackathons/technologies.txt')
+	interests = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/interests.txt')
+	languages = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/languages.txt')
+	fields = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/fields.txt')
+	technologies = load_constants('C:/Users/s4rme/.vscode/hackermatcherLATEST/server/module/hackathons/technologies.txt')
 
 	interests_score_arr = [] 
 	languages_score_arr = [] 
@@ -72,5 +71,5 @@ def match(user, other_user, care_score):
 	technology_score = score_arr_to_scalar(technology_score_arr)
 	field_score = score_arr_to_scalar(field_score_arr)
 
-	similiarity_score = care_score['interests'] * interest_score / 10.0 + care_score['languages'] * language_score + care_score['technologies'] * technology_score / 10.0 + care_score['fields'] * field_score
+	similiarity_score = int(care_score['interests']) * interest_score / 10.0 + int(care_score['languages']) * language_score + int(care_score['technologies']) * technology_score / 10.0 + int(care_score['fields']) * field_score
 	return similiarity_score, commons

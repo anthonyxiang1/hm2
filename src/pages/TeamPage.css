@@ -17,6 +17,7 @@
 */
 .rectangle{
     position:relative;
+    height: 500px;
     /* background-image: linear-gradient(to bottom right, rgb(63, 63, 223), rgb(66, 7, 66)); */
     background:  rgb(235, 235, 255);
 }
@@ -43,10 +44,10 @@
 /*MD*/
 @media (min-width: 768px) { 
     .rectangle{
-        top:0px;
+        top:-100px;
     }
     .topCont{
-        top:-185px;
+        top:-400px;
     }
     .memberslabel{
         text-align: center;
@@ -64,6 +65,9 @@
         margin-left:75px;
         text-align: left;
         top:-150px;
+    }
+    .rectangle{
+        top:-200px;
     }
     /*.usercard{
         width: 28rem;

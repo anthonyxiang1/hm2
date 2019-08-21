@@ -314,7 +314,7 @@ class RegPt1 extends React.Component {
             <Form className="reg" onSubmit={this.handleNextSubmit}>
             
             <Form.Group as={Col} controlId="formGridState">
-               <Form.Label><h4>Show hackers what you know</h4><small>(you can fill this in later)</small></Form.Label>
+               <Form.Label><h4>Show hackers what you know</h4></Form.Label>
                <br></br>
                     <Form.Label><strong>Languages</strong></Form.Label>
                     {
@@ -576,7 +576,7 @@ class RegPt1 extends React.Component {
             <Form className="reg" onSubmit={this.handleRegSubmit}>
               
 
-              <Form.Label><h3>Help hackers connect with you</h3><small>(you can fill this in later)</small></Form.Label>
+              <Form.Label><h3>Help hackers connect with you</h3></Form.Label>
               <br></br>
 
                   <Form.Group controlId="formGridAddress1">

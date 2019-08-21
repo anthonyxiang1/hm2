@@ -48,7 +48,8 @@ class Sec1 extends React.Component {
                 startDate:hackathon['start_date'],
                 endDate:hackathon['end_date'],
                 hackLoc: hackathon['city']+', '+hackathon['state'],
-                school:hackathon['school']
+                school:hackathon['school'],
+                propic:hackathon['propic']
             });
           })
         }
@@ -60,10 +61,13 @@ class Sec1 extends React.Component {
 
         return (
             <div className="sec1">
-                <div className="rectangle" ></div>
+                <div className="rectanglehack" ></div>
 
-                
-
+                <Container>
+                    <Row>
+                        <Col id="namebox " className="namebox col-12" ><strong>{this.state.hackName} @ {this.state.school}</strong></Col>
+                    </Row>
+                </Container> 
                 <Container className="flexbox" >
 
                     <Row>
@@ -73,21 +77,16 @@ class Sec1 extends React.Component {
                                 className="hackathonImg">
                             </img>
                         </Col>
-                        <Col id="date" xs={{span:12}} sm={{span:12}} md={{span:4, order:1}} lg={{span:4, order:1}} xl={{span:4, order:1}} className="date"></Col>
-                        <Col id="location" xs={{span:12}} sm={{span:12}} md={{span:4, order:3}} lg={{span:4, order:3}} xl={{span:4, order:3}} className="location"></Col>
+                        <Col id="date" xs={{span:12}} sm={{span:12}} md={{span:4, order:1}} lg={{span:4, order:1}} xl={{span:4, order:1}} className="date">{this.state.startDate}-{this.state.endDate}</Col>
+                        <Col id="location" xs={{span:12}} sm={{span:12}} md={{span:4, order:3}} lg={{span:4, order:3}} xl={{span:4, order:3}} className="location">{this.state.address}, {this.state.hackLoc}</Col>
                     </Row>
                 </Container>
-                <br></br>
-                <Container>
-                    <Row>
-                        <Col id="namebox " className="namebox col-12" ><strong>{this.state.hackName}</strong></Col>
-                        <Col id="namebox " className="namebox col-12" >{this.state.startDate}-{this.state.endDate}</Col>
-                        <Col id="namebox " className="namebox col-12" >{this.state.address}, {this.state.hackLoc} - {this.state.school}</Col>
-                        
-                        <Col id="namebox " className="namebox col-12" >{this.state.about}</Col>
-                    </Row>
-                </Container> 
 
+                <br></br>
+
+                <Container className="flexbox" >
+                    about: {this.state.about}
+                </Container>
 
                 <Container className="addbtn" >
                     <Row className="justify-content-center addtxt">
@@ -151,8 +150,8 @@ class Sec1 extends React.Component {
                         {members.map((item, index) => ( 
 
                           <Row>
-                            <UserCard name={item.name} school={item.school} major={item.major}
-                            goals={item.goals}  tags={item.tags} propic={item.propic} id={item.id}
+                            <UserCard firstname={item.firstname} lastname={item.lastname} school={item.school} major={item.major}
+                            goals={item.goals}  tags={item.preferences} propic={item.propic} id={item.id}
                             />
                         </Row>
                       ))}
@@ -165,7 +164,7 @@ class Sec1 extends React.Component {
                         </Row>
                         {this.state.teams.map((item, index) => ( 
                         <Row>
-                        <TeamCard name={item.name} goals={item.goals}  tags={item.tags} propic={item.propic}
+                        <TeamCard name={item.name} goals={item.goals}  tags={item.tags} propic={item.propic} id={item.id}
                         />
                         </Row>
                         ))}
@@ -218,13 +217,23 @@ class Sec1 extends React.Component {
                     console.log(res);
                     console.log(res.data);
                     var hackers = res.data['hackers'];
-                  
+                    console.log(JSON.parse(hackers[0]['hacker']))
                     for (var i=0;i<hackers.length;i++) {
-                        this.setState({ members: this.state.members.concat([{name: JSON.parse(hackers[i]['hacker'])['firstname'],
+                        this.setState({ members: this.state.members.concat([{firstname: JSON.parse(hackers[i]['hacker'])['firstname'],
+                                                                    lastname: JSON.parse(hackers[i]['hacker'])['lastname'],
+                                                                    goals: JSON.parse(hackers[i]['hacker'])['goals'],
                                                                     email: JSON.parse(hackers[i]['hacker'])['email'],
                                                                     id: JSON.parse(hackers[i]['hacker'])['id'],
+                                                                    major: JSON.parse(hackers[i]['hacker'])['major'],
+                                                                    school: JSON.parse(hackers[i]['hacker'])['school'],
+                                                                    preferences: JSON.parse(hackers[i]['hacker'])['preferences'],
                                                                     propic: JSON.parse(hackers[i]['hacker'])['profile_pic']}]) });  
                     }
+                    //for team
+                    // name: JSON.parse(hackers[i]['hacker'])['name'],
+                    // goals: JSON.parse(hackers[i]['hacker'])['goals'],
+                    // id: JSON.parse(hackers[i]['hacker'])['id'],
+                    // propic: JSON.parse(hackers[i]['hacker'])['profile_pic']
 
                   });
             }).catch((err) =>{      //todo: handle error
