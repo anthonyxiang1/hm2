@@ -1,10 +1,19 @@
+
 .topCont{
     position: relative;
     color:black;
     top:-425px;
     background:  rgb(235, 235, 255);
 }
-
+/*
+.img-fluid{
+    width: 8rem;
+    height: 8rem;
+}
+.usercard{
+    width: 100vw;
+}
+*/
 .rectangle{
     position:relative;
     /* background-image: linear-gradient(to bottom right, rgb(63, 63, 223), rgb(66, 7, 66)); */
@@ -55,10 +64,16 @@
         text-align: left;
         top:-150px;
     }
+    /*.usercard{
+        width: 28rem;
+    }*/
+    
 }
 
 
 /*xl*/
 @media (min-width: 1200px) { 
-
+    /*.usercard{
+        width: 32rem;
+    }*/
 }

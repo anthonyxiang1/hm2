@@ -1,0 +1,21 @@
+.img-fluid{
+    width: 8rem;
+    height: 8rem;
+}
+.usercard{
+    width: 100vw;
+}
+
+
+@media (min-width: 992px) { 
+    .usercard{
+        width: 28rem;
+    }
+
+}
+
+@media (min-width: 1200px) { 
+    .usercard{
+        width: 32rem;
+    }
+}

@@ -15,23 +15,31 @@ class Add1 extends React.Component {
       errMsg: "",
       hackathonchoice: "",
       hackathons: [{hackathon: "hackcewit", name: "404 found"}, {hackathon: "sbuhacks", name: "another name found"}],
-      memberList: [{value: "george"}],
-      available: [   
-        {
-          value: 'John Doe',
-        },
-        {
-          value: 'Jane Doe',
-        },
-        {
-          value: 'Mary Phillips',
-        },
-        {
-          value: 'Robert',
-        },
-        {
-          value: 'Karius',
-        },
+      memberList: [{value: "Ynze Beekhof"}],
+      available: [
+        {id: "5d5ace3f432fa135145b2c93", value: "Patsy Ortiz"},
+        {id: "5d5ace38432fa135145b2c82", value: "Adam Gonzalez"},
+        {id: "5d5ace37432fa135145b2c81", value: "Etienne Denys"},
+        {id: "5d5ace34432fa135145b2c7a", value: "Louis Banks"},
+        {id: "5d5ace3c432fa135145b2c8b", value: "Evelyn Carlson"},
+        {id: "5d5ace3d432fa135145b2c8f", value: "Emilie Jensen"},
+        {id: "5d5ace36432fa135145b2c7e", value: "Julian Hammes"},
+        {id: "5d5ace3f432fa135145b2c95", value: "Julie Petersen"},
+        {id: "5d5ace2c432fa135145b2c70", value: "Emile Meunier"},
+        {id: "5d5ace33432fa135145b2c77", value: "Elisabetha Gaillard"},
+        {id: "5d5ace3a432fa135145b2c87", value: "Bianca Thiem"},
+        {id: "5d5ace2c432fa135145b2c6f", value: "Elias Makela"},
+        {id: "5d5ace34432fa135145b2c79", value: "Gabe Daniels"},
+        {id: "5d5ace30432fa135145b2c71", value: "Colette Riviere"},
+        {id: "5d5ace43432fa135145b2c9a", value: "Addison Thompson"},
+        {id: "5d5ace39432fa135145b2c86", value: "Marianne Miller"},
+        {id: "5d5ace36432fa135145b2c7f", value: "Marvin Leclercq"},
+        {id: "5d5ace3f432fa135145b2c94", value: "Olivia Christiansen"},
+        {id: "5d5ace30432fa135145b2c72", value: "Ema Walstad"},
+        {id: "5d5ace31432fa135145b2c74", value: "Aapo Lahti"},
+        {id: "5d5ace38432fa135145b2c84", value: "Jen Hill"},
+        {id: "5d5ace41432fa135145b2c99", value: "Annabelle Slawa"},
+        {id: "5d5ace3d432fa135145b2c8e", value: "test test"}
       ]
     };
     this.baseState = this.state;

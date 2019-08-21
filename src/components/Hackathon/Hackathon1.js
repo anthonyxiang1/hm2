@@ -152,7 +152,7 @@ class Sec1 extends React.Component {
 
                           <Row>
                             <UserCard name={item.name} school={item.school} major={item.major}
-                            goals={item.goals}  tags={item.tags} propic={item.propic}
+                            goals={item.goals}  tags={item.tags} propic={item.propic} id={item.id}
                             />
                         </Row>
                       ))}
@@ -222,6 +222,7 @@ class Sec1 extends React.Component {
                     for (var i=0;i<hackers.length;i++) {
                         this.setState({ members: this.state.members.concat([{name: JSON.parse(hackers[i]['hacker'])['firstname'],
                                                                     email: JSON.parse(hackers[i]['hacker'])['email'],
+                                                                    id: JSON.parse(hackers[i]['hacker'])['id'],
                                                                     propic: JSON.parse(hackers[i]['hacker'])['profile_pic']}]) });  
                     }
 
