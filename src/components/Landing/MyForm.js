@@ -13,7 +13,7 @@ class MyForm extends React.Component {
     this.state = {
       email: "",
       password: "",
-      errMsg: "Email or password is incorrect."
+      errMsg: ""
     };
   }
 

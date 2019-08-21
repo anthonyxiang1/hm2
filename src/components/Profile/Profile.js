@@ -14,6 +14,7 @@ class Profile1 extends React.Component {
           year: "2022",
           major: "art",
           school: "sbu",
+          goals: ['to win the competition', 'make new friends', 'visit friends'],
           about: "about me goes here, any projects, what your goal is (looking to win)",
           url: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
           languages: [{name: "java", skill: 8}, {name: "python", skill: 3}],
@@ -123,6 +124,10 @@ class Profile1 extends React.Component {
                     <h3></h3>
                     <h4 className="left">Major:  {this.state.major}</h4><h4 className="right">School: {this.state.school}</h4>​
                     
+                    <ColoredLine color="black"/>
+                        <div className="text-center">
+                        {this.state.goals[0]}, {this.state.goals[1]}, {this.state.goals[2]}
+                        </div>
                     <ColoredLine color="black"/>
                     
                         {this.state.about}

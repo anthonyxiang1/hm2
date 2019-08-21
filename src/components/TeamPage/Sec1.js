@@ -25,11 +25,13 @@ class Sec1 extends React.Component {
                 
                 <Container className="topCont">
                     <Row>
-                        <Col className="text-left" xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}} >
+
+                        <Col className="text-center" xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}} >
                             <Form.Label><h4><u>Team Name</u></h4></Form.Label>
                             <h3 ><strong>{this.state.teamname}</strong></h3>
+                            <br></br>
                         </Col>
-                        <Col className="text-left" xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
+                        <Col className="text-center" xs={{span:12}} sm={{span:12}} md={{span:12}} lg={{span:6}} xl={{span:6}}>
                             <Form.Label><h4><u>Idea</u></h4></Form.Label>
                             <p>
                             {this.state.idea}

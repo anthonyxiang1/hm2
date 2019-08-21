@@ -24,6 +24,8 @@ class Account1 extends React.Component {
         this.handleTECH2Change = this.handleTECH2Change.bind(this);
         this.handleURLChange = this.handleURLChange.bind(this);
         this.handleFIELDChange = this.handleFIELDChange.bind(this);
+        this.handleGOALChange = this.handleGOALChange.bind(this);
+
         this.handleProfileSubmit = this.handleProfileSubmit.bind(this);
         this.handleRemoveURLForm = this.handleRemoveURLForm.bind(this);
         this.handleRemoveLANGForm = this.handleRemoveLANGForm.bind(this);
@@ -41,6 +43,7 @@ class Account1 extends React.Component {
           major: "art",
           school: "sbu",
           about: "about me goes here, any projects, what your goal is (looking to win)",
+          goals: ['to win the competition', 'make new friends', 'visit friends'],
           url: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
           languages: [{name: "java", skill: 8}, {name: "python", skill: 3}],
           tech: [{name: "ML", skill: 8}, {name: "aws", skill: 3}],
@@ -49,10 +52,14 @@ class Account1 extends React.Component {
           hackathons: 2,
           password: "",
           confirmPass: "", 
-          langList: ["a", "b", "c", "d", "java"],
-          techList: ['tech1', 'tech2'],
-          langNot: [],
-          selectedTeam: ""
+
+
+          goalsBase: ['to win the competition', 'make new friends', 'visit friends'],
+          urlBase: ["http://linkedin.com/in/jaketrent", "http://twitter.com", 'a@gmail.com', 'github.com', 'facebook.com'],
+          languagesBase: [{name: "java", skill: 8}, {name: "python", skill: 3}],
+          techBase: [{name: "ML", skill: 8}, {name: "aws", skill: 3}],
+          fieldsBase: ["health", "edu"],
+          interestsBase: ["ML", "else"]
         };
         this.baseState = this.state;
       }
@@ -197,6 +204,11 @@ class Account1 extends React.Component {
         this.setState({ fields: this.state.fields})
     }
 
+    handleGOALChange(e, index) {
+        this.state.goals[index] = e.target.value;
+        this.setState({ goals: this.state.goals})
+    }
+
     handleProfileChange(event){
     this.setState({
       [event.target.name]: event.target.value
@@ -236,14 +248,18 @@ class Account1 extends React.Component {
     }
 
     handleProfileCancel(event){
-        event.preventDefault();
+
+        this.setState({ goals: this.state.goalsBase})
+        this.setState({ fields: this.state.fieldsBase})
+        this.setState({ url: this.state.urlBase})
+        this.setState({ languages: this.state.languagesBase})
+        this.setState({ tech: this.state.techBase})
+        this.setState({ interests: this.state.interestsBase})
         this.setState(this.baseState)
-        console.log(this.baseState)
     }
     
   render() {
     const {page} = this.state;
-    
 
     const ColoredLine = ({ color }) => (
         <hr
@@ -267,22 +283,6 @@ class Account1 extends React.Component {
         </div>
     );
 
-    const MappingFormURL = ({vals}) => (
-        <div>
-        {
-            vals.map((item) => ( 
-                <div>
-                <Form.Control placeholder={item} type="text" as="input"
-                name={item}
-                value={item}
-                onChange={this.handleProfileChange} />
-                <Button variant="danger" onClick={() => this.handleRemoveURLForm(item)}>-</Button>
-                </div>           
-            ))
-        }
-        </div>
-    )
-
 
     const MappingList = ({vals}) => (
         <div>
@@ -305,131 +305,12 @@ class Account1 extends React.Component {
             </div>
     )
 
-    const MappingKeysLANG = ({vals}) => (
-        
-        <div className="right">
-        {
-            vals.map((item, index) => ( 
-            <p key={index}> 
-                <Form.Group className="form-inline">
-                <Form.Label>{index+1}. </Form.Label>
-                {/* <Form.Control as="select" name={`languages-${index}`} id={`languages-${index}`} data-id={index}
-                            value={vals[index].name} onChange={this.handleLANGChange} className="name">
-                    <option>{item.name}</option>
-                    <option>other</option>
-                    <option>another</option>
-                </Form.Control> */}
-                
-                <input type="text" name={`languages-${index}`} id={`languages-${index}`} data-id={index}
-                            value={vals[index].name} onChange={this.handleLANGChange.bind(this,index)} className="name"></input>
-                
-                <Form.Control as="select" >
-                    <option>{item.skill}</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                </Form.Control>
-                <Button variant="danger" onClick={() => this.handleRemoveLANGForm(index)}>-</Button>
-                </Form.Group>
-            </p>
-            
-            ))
-        }
-        </div>
-    )
-
-    const MappingKeysTECH = ({vals}) => (
-        
-        <div className="right">
-        {
-            vals.map((item, index) => ( 
-            <p key={index}> 
-                <Form.Group className="form-inline">
-                <Form.Label>{index+1}.</Form.Label>
-                <Form.Control as="select" >
-                    <option>{item.name}</option>
-                    <option>other</option>
-                    <option>another</option>
-                </Form.Control>
-                <Form.Control as="select" >
-                    <option>{item.skill}</option>
-                    <option>1</option>
-                    <option>2</option>
-                    <option>3</option>
-                    <option>4</option>
-                    <option>5</option>
-                    <option>6</option>
-                    <option>7</option>
-                    <option>8</option>
-                    <option>9</option>
-                    <option>10</option>
-                </Form.Control>
-                <Button variant="danger" onClick={() => this.handleRemoveTECHForm(index)}>-</Button>
-                </Form.Group>
-            </p>
-            
-            ))
-        }
-        </div>
-    )
-
-    // const MappingKeysINTEREST = ({vals}) => (
-        
-    //     <div className="right">
-    //     {
-    //                     this.state.interests.map((interests, index)=> {
-    //                         return (
-    //                         <div key={index}>
-    //                             <Form.Control
-    //                             type="text"
-    //                             onChange= {(e) => this.handleINTChange(e, index)}
-    //                             id={interests}
-    //                             value={interests} 
-    //                             className="name"
-    //                             />
-    //                         </div>
-    //                         )
-    //                     })
-    //     }
-    //     </div>
-    // )
-
-    // const MappingKeysFIELD = ({vals}) => (
-        
-    //     <div className="right">
-    //     {
-    //         vals.map((item, index) => ( 
-    //         <p key={index}> 
-    //             <Form.Group className="form-inline">
-    //             <Form.Label>{index+1}.</Form.Label>
-    //             <Form.Control as="select" >
-    //                 <option>{item}</option>
-    //                 <option>other</option>
-    //                 <option>another</option>
-    //             </Form.Control>
-    //             <Button variant="danger" onClick={() => this.handleRemoveFIELDForm(index)}>-</Button>
-    //             </Form.Group>
-    //         </p>
-            
-    //         ))
-    //     }
-    //     </div>
-    // )
-
     // This is default
     if (page === true) {
 
         return (
             
         <div className="account">
-              {console.log(this.state) } 
         <Container className="boxes">      
             <Row >
                 <Col className="info" sm={4}>
@@ -452,6 +333,10 @@ class Account1 extends React.Component {
                     <h3></h3>
                     <h4 className="left">Major:  {this.state.major}</h4><h4 className="right">School: {this.state.school}</h4>​
                     
+                    <ColoredLine color="black"/>
+                        <div className="text-center">
+                        {this.state.goals[0]}, {this.state.goals[1]}, {this.state.goals[2]}
+                        </div>
                     <ColoredLine color="black"/>
                     
                         {this.state.about}
@@ -610,6 +495,41 @@ class Account1 extends React.Component {
                                             onChange={this.handleProfileChange}/>
                                     </Form.Group>
                                 </Form.Row>
+
+                                <ColoredLine color="black"/>
+
+                                {
+                        this.state.goals.map((goals, index)=> {
+                            return (
+                            <div key={index}>
+                                <Form.Group className="form-inline">
+                                <Form.Label>{index+1}.</Form.Label>
+                                <Form.Control
+                                as="select"
+                                type="text"
+                                style={{width: "75%"}}
+                                onChange= {(e) => this.handleGOALChange(e, index)}
+                                id={goals}
+                                value={goals} 
+                                className="name"
+                                >
+                                    <option>{goals}</option>
+                                    <option>win something</option>
+                                    <option>learn new things</option>
+                                    <option>make friends</option>
+                                    <option>grow professional network</option>
+                                    <option>work on personal projects</option>
+                                    <option>relax</option>
+                                    <option>travel to a new place</option>
+                                    <option>visit friends</option>
+                                </Form.Control>
+
+                                </Form.Group>
+                            </div>
+                            )
+                        })
+                        }
+
                                 <ColoredLine color="black"/>
                                 
                                     <Form.Label >About: </Form.Label>

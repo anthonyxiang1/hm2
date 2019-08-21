@@ -28,6 +28,7 @@ class RegPt1 extends React.Component {
     this.handleTECH2Change = this.handleTECH2Change.bind(this);
     this.handleURLChange = this.handleURLChange.bind(this);
     this.handleFIELDChange = this.handleFIELDChange.bind(this);
+    this.handleGOALChange = this.handleGOALChange.bind(this);
 
     this.handleRemoveLANGForm = this.handleRemoveLANGForm.bind(this);
     this.handleRemoveFIELDForm = this.handleRemoveFIELDForm.bind(this);
@@ -45,7 +46,7 @@ class RegPt1 extends React.Component {
       year: "",
       education: "",
       hackCount: -1,
-      goal: 0,
+      goals: ["","",""],
       propic: "",
       languages: [],
       tech: [],
@@ -171,6 +172,11 @@ class RegPt1 extends React.Component {
         this.setState({ fields: this.state.fields})
     }
 
+    handleGOALChange(e, index) {
+      this.state.goals[index] = e.target.value;
+      this.setState({ goals: this.state.goals})
+  }
+
 
   render() {
     const {page, errMsg} = this.state;
@@ -201,7 +207,7 @@ class RegPt1 extends React.Component {
 
                 <Form.Group controlId="formGridAddress1">
                   <Form.Label>School*</Form.Label>
-                  <Form.Control placeholder="1234 Main St" name="school" value={this.state.school} onChange={this.handleRegChange} />
+                  <Form.Control placeholder="Stony Brook University" name="school" value={this.state.school} onChange={this.handleRegChange} />
                 </Form.Group>
 
                 <Form.Group as={Col} controlId="formGridState">
@@ -306,8 +312,10 @@ class RegPt1 extends React.Component {
           <Col > 
             <Row >
             <Form className="reg" onSubmit={this.handleNextSubmit}>
-
+            
             <Form.Group as={Col} controlId="formGridState">
+               <Form.Label><h4>Show hackers what you know</h4><small>(you can fill this in later)</small></Form.Label>
+               <br></br>
                     <Form.Label><strong>Languages</strong></Form.Label>
                     {
                       this.state.languages.map((languages, index)=> {
@@ -568,7 +576,7 @@ class RegPt1 extends React.Component {
             <Form className="reg" onSubmit={this.handleRegSubmit}>
               
 
-              <Form.Label><h3>Help hackers connect with you</h3></Form.Label>
+              <Form.Label><h3>Help hackers connect with you</h3><small>(you can fill this in later)</small></Form.Label>
               <br></br>
 
                   <Form.Group controlId="formGridAddress1">
@@ -727,21 +735,34 @@ class RegPt1 extends React.Component {
                   </Form.Row>
 
                   <Form.Group as={Col} controlId="formGridState">
-                      <Form.Label>How much do you care about winning?</Form.Label>
-                      <Form.Control as="select" name="goal" value={this.state.goal} onChange={this.handleRegChange}>
-                        <option>Choose...</option>
-                        <option>1</option>
-                        <option>2</option>
-                        <option>3</option>
-                        <option>4</option>
-                        <option>5</option>
-                        <option>6</option>
-                        <option>7</option>
-                        <option>8</option>
-                        <option>9</option>
-                        <option>10</option>
-                      </Form.Control>
-                  </Form.Group>
+                    <Form.Label>What are the top 3 things you want to get out of a hackathon?*</Form.Label>
+                    {
+                        this.state.goals.map((goals, index)=> {
+                            return (
+                                <Form.Group >
+                                <Form.Control
+                                as="select"
+                                type="text"
+                                onChange= {(e) => this.handleGOALChange(e, index)}
+                                id={goals}
+                                value={goals} 
+                                >
+                                    <option>{index+1}.</option>
+                                    <option>win something</option>
+                                    <option>learn new things</option>
+                                    <option>make friends</option>
+                                    <option>grow professional network</option>
+                                    <option>work on personal projects</option>
+                                    <option>relax</option>
+                                    <option>travel to a new place</option>
+                                    <option>visit friends</option>
+                                </Form.Control>
+
+                                </Form.Group>
+                            )
+                        })
+                        }
+                        </Form.Group>
                   
 
               <Button variant="primary" onClick={this.goBack}>
@@ -776,7 +797,7 @@ class RegPt1 extends React.Component {
 
   handleRegSubmit(event){
     event.preventDefault();
-    if (this.state.similarField !== "" && this.state.similarInt !== "" && this.state.similarLang !== "" && this.state.similarTech !== "" && this.state.goal !== 0){
+    if (this.state.similarField !== "" && this.state.similarInt !== "" && this.state.similarLang !== "" && this.state.similarTech !== "" && this.state.goals[0] !== ""){
     this.setState({
       progress: 100,
     });
