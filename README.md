@@ -1,5 +1,7 @@
 # Flask React Boilerplate
 
+## View Hacker Matcher [here](http://hackersmatcher.herokuapp.com/)
+
 [![Build Status](https://travis-ci.org/YaleDHLab/flask-react-boilerplate.svg?branch=master)](https://travis-ci.org/YaleDHLab/flask-react-boilerplate)
 
 Simple boilerplate for a Flask backend and React client including:
@@ -11,7 +13,7 @@ Simple boilerplate for a Flask backend and React client including:
 * Linting via Pylint and Eslint
 * Travis CI for automatic testing and linting
 
-View Hacker Matcher [here](https://warm-spire-34930.herokuapp.com/)
+
 
 ## Dependencies
 
