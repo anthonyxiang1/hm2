@@ -1,4 +1,4 @@
-# Hacker Matcher - Find your hackathon team without hassle [here](http://hackersmatcher.herokuapp.com/)
+# Hacker Matcher - Find your hackathon team [here](http://hackersmatcher.herokuapp.com/)
 
 ### Landing Page
 
