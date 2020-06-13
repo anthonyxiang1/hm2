@@ -1,4 +1,6 @@
-# Flask React Boilerplate
+# Hacker Matcher - Find your hackathon team without hassle
+
+
 
 ## View Hacker Matcher [here](http://hackersmatcher.herokuapp.com/)
 
